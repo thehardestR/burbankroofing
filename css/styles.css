@@ -196,7 +196,7 @@ img {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(30, 58, 95, 0.9) 0%, rgba(21, 42, 69, 0.85) 100%);
+    background: linear-gradient(135deg, rgba(232, 93, 4, 0.9) 0%, rgba(212, 80, 3, 0.85) 100%);
 }
 
 .hero .container {
@@ -625,7 +625,7 @@ img {
 .form-group select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+    box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.1);
 }
 
 .form-group textarea {
