@@ -48,8 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             // Basic validation
             const name = this.querySelector('input[name="name"]');
             const email = this.querySelector('input[name="email"]');
@@ -88,14 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 captcha.style.borderColor = '#c9302c';
                 isValid = false;
                 alert('Please answer the math question correctly.');
+                e.preventDefault();
                 return;
             }
 
-            if (isValid) {
-                // In a real application, you would submit the form here
-                alert('Thank you for your message! We will contact you within 2 hours.');
-                this.reset();
+            if (!isValid) {
+                e.preventDefault();
             }
+            // Form will submit to Formspree if valid
         });
     }
 
