@@ -135,13 +135,20 @@ img {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #ffffff;
+    background-color: #000000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 0px var(--primary-color), 4px 4px 8px rgba(0, 0, 0, 0.2);
+    transform: rotate(-1deg);
+    display: inline-block;
 }
 
 .logo:hover {
-    color: var(--secondary-color);
+    color: var(--accent-color);
+    transform: rotate(0deg) scale(1.02);
 }
 
 .nav-menu {
