@@ -6,9 +6,9 @@
     --accent-color: #ffaa00;
     --text-color: #333;
     --text-light: #666;
-    --bg-light: #faf8f5;
-    --bg-gray: #f5f2ed;
-    --white: #fffcf8;
+    --bg-light: #f5efe6;
+    --bg-gray: #ebe4d9;
+    --white: #faf6f0;
     --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
