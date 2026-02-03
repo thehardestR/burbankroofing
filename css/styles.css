@@ -186,18 +186,20 @@ img {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #000000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 0px var(--primary-color), 4px 4px 8px rgba(0, 0, 0, 0.2);
+    transform: rotate(-1deg);
+    display: inline-block;
 }
 
-.logo img {
-    height: 50px;
-    width: auto;
-    transition: transform 0.3s ease;
-}
-
-.logo:hover img {
-    transform: scale(1.05);
+.logo:hover {
+    color: var(--accent-color);
+    transform: rotate(0deg) scale(1.02);
 }
 
 .nav-menu {
