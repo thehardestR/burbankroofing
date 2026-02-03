@@ -677,28 +677,39 @@ img {
 @media (max-width: 768px) {
     .nav-toggle {
         display: flex;
+        z-index: 1001;
     }
 
     .nav-menu {
         position: fixed;
-        top: 100%;
+        top: 0;
         left: 0;
         right: 0;
+        bottom: 0;
         background-color: var(--white);
         flex-direction: column;
-        padding: 20px;
+        padding: 100px 20px 20px;
         gap: 15px;
         box-shadow: var(--shadow);
-        transform: translateY(-100%);
         opacity: 0;
         visibility: hidden;
         transition: var(--transition);
+        z-index: 1000;
     }
 
     .nav-menu.active {
-        transform: translateY(0);
         opacity: 1;
         visibility: visible;
+    }
+
+    .nav-menu a {
+        font-size: 20px;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav-menu .btn {
+        margin-top: 20px;
     }
 
     .hero h1 {
