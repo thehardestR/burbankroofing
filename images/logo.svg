@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80">
+  <!-- Red Roofline -->
+  <path d="M5 45 L45 15 L85 45" fill="none" stroke="#C41E3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M25 45 L25 65 L65 65 L65 45" fill="none" stroke="#C41E3A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Chimney -->
+  <rect x="55" y="22" width="10" height="18" fill="#C41E3A" rx="1"/>
+  
+  <!-- Text -->
+  <text x="95" y="38" font-family="Arial Black, Helvetica, sans-serif" font-size="28" font-weight="900" fill="#1a1a2e">BURBANK</text>
+  <text x="95" y="62" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#C41E3A">ROOFING</text>
+</svg>

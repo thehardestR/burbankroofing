@@ -110,19 +110,69 @@ img {
 }
 
 .header-top {
-    background-color: var(--primary-color);
-    padding: 8px 0;
-    text-align: right;
+    background: linear-gradient(90deg, #C41E3A 0%, #8B0000 100%);
+    padding: 10px 0;
+}
+
+.header-top .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.header-promo {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse-text 2s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.header-trust {
+    color: #fff;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-trust span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .phone-link {
     color: var(--white);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 18px;
+    background: #fff;
+    color: #C41E3A;
+    padding: 6px 15px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease;
 }
 
 .phone-link:hover {
-    color: var(--accent-color);
+    transform: scale(1.05);
+    color: #8B0000;
+}
+
+@media (max-width: 768px) {
+    .header-promo, .header-trust { display: none; }
+    .header-top .container { justify-content: center; }
 }
 
 .navbar {
@@ -136,20 +186,18 @@ img {
 }
 
 .logo {
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    background-color: #000000;
-    padding: 8px 16px;
-    border-radius: 4px;
-    box-shadow: 2px 2px 0px var(--primary-color), 4px 4px 8px rgba(0, 0, 0, 0.2);
-    transform: rotate(-1deg);
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
-.logo:hover {
-    color: var(--accent-color);
-    transform: rotate(0deg) scale(1.02);
+.logo img {
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+    transform: scale(1.05);
 }
 
 .nav-menu {
