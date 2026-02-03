@@ -167,6 +167,25 @@ img {
     color: var(--secondary-color);
 }
 
+.nav-menu a.nav-highlight {
+    color: var(--primary-color);
+    font-weight: 600;
+    position: relative;
+}
+
+.nav-menu a.nav-highlight::after {
+    content: 'BETA';
+    position: absolute;
+    top: -8px;
+    right: -25px;
+    font-size: 8px;
+    background: var(--secondary-color);
+    color: #000;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;

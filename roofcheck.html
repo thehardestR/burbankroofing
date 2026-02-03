@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <title>RoofCheck AI (Beta) | Free Roof Analysis | Burbank Roofing</title>
+    <meta name="description" content="Upload photos of your roof and get an instant AI-powered assessment. Find out if your roof needs repair or replacement. Free tool from Burbank Roofing.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://burbankroofing.com/roofcheck.html">
+    <link rel="stylesheet" href="css/styles.css?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .roofcheck-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .roofcheck-intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .roofcheck-intro p {
+            font-size: 18px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        .beta-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .roofcheck-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        .form-section h3 .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .photo-upload-area {
+            border: 3px dashed var(--accent-color);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-light);
+        }
+        .photo-upload-area:hover {
+            border-color: var(--primary-color);
+            background: #fff;
+        }
+        .photo-upload-area.dragover {
+            border-color: var(--primary-color);
+            background: rgba(255, 92, 52, 0.1);
+        }
+        .photo-upload-area input[type="file"] {
+            display: none;
+        }
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .upload-text {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        .upload-subtext {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .photo-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .photo-preview {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-preview .remove-photo {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+        }
+        .question-group {
+            margin-bottom: 20px;
+        }
+        .question-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .question-group select,
+        .question-group input[type="text"],
+        .question-group input[type="email"],
+        .question-group input[type="tel"],
+        .question-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .question-group select:focus,
+        .question-group input:focus,
+        .question-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 92, 52, 0.1);
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+        .radio-option input {
+            display: none;
+        }
+        .radio-option label {
+            display: block;
+            padding: 12px 20px;
+            background: var(--bg-light);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        .radio-option input:checked + label {
+            border-color: var(--primary-color);
+            background: rgba(255, 92, 52, 0.1);
+            color: var(--primary-color);
+        }
+        .radio-option label:hover {
+            border-color: var(--accent-color);
+        }
+        .submit-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-section .btn {
+            padding: 18px 50px;
+            font-size: 18px;
+        }
+        .submit-note {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .ai-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .ai-feature {
+            text-align: center;
+            padding: 25px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .ai-feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .ai-feature h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .ai-feature p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        @media (max-width: 768px) {
+            .ai-features {
+                grid-template-columns: 1fr;
+            }
+            .roofcheck-form {
+                padding: 25px;
+            }
+            .radio-option {
+                min-width: 100%;
+            }
+        }
+        
+        /* Results styles */
+        .results-container {
+            display: none;
+        }
+        .results-container.active {
+            display: block;
+        }
+        .form-container.hidden {
+            display: none;
+        }
+        .result-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+        .result-score {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .result-label {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+        .result-message {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 10px;
+        }
+        .result-cta {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .result-cta h3 {
+            margin-bottom: 15px;
+        }
+        .result-cta p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <a href="tel:8182529422" class="phone-link">818.252.9422</a>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">BurbankRoofing.com</a>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faqs.html">FAQS</a></li>
+                    <li><a href="gallery.html">Photos</a></li>
+                    <li><a href="reviews.html">Reviews</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="roofcheck.html" class="nav-highlight">RoofCheck AI</a></li>
+                    <li><a href="free-inspection.html" class="btn btn-primary">Free Inspection</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>RoofCheck AI <span class="beta-badge">Beta</span></h1>
+            <p>Upload photos of your roof for an instant AI-powered assessment</p>
+        </div>
+    </section>
+
+    <!-- RoofCheck Form -->
+    <section class="section">
+        <div class="container">
+            <div class="roofcheck-container">
+                <div class="roofcheck-intro">
+                    <p>Our AI analyzes your roof photos to identify potential issues like damaged shingles, wear patterns, and signs of aging. Answer a few questions and upload some photos to get your free roof health report.</p>
+                </div>
+
+                <div class="form-container">
+                    <form class="roofcheck-form" id="roofcheckForm">
+                        <!-- Step 1: Photos -->
+                        <div class="form-section">
+                            <h3><span class="step-number">1</span> Upload Roof Photos</h3>
+                            <div class="photo-upload-area" id="uploadArea">
+                                <div class="upload-icon">📸</div>
+                                <p class="upload-text">Tap to take photos or select from gallery</p>
+                                <p class="upload-subtext">Upload up to 5 photos • JPG, PNG accepted</p>
+                                <input type="file" id="photoInput" name="photos" accept="image/*" multiple capture="environment">
+                            </div>
+                            <div class="photo-preview-grid" id="previewGrid"></div>
+                        </div>
+
+                        <!-- Step 2: Roof Info -->
+                        <div class="form-section">
+                            <h3><span class="step-number">2</span> About Your Roof</h3>
+                            
+                            <div class="question-group">
+                                <label>How old is your roof?</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="age1" name="roof_age" value="0-5" required>
+                                        <label for="age1">0-5 years</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="age2" name="roof_age" value="5-10">
+                                        <label for="age2">5-10 years</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="age3" name="roof_age" value="10-15">
+                                        <label for="age3">10-15 years</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="age4" name="roof_age" value="15-20">
+                                        <label for="age4">15-20 years</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="age5" name="roof_age" value="20+">
+                                        <label for="age5">20+ years</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="age6" name="roof_age" value="unknown">
+                                        <label for="age6">Not sure</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-group">
+                                <label>What type of roof do you have?</label>
+                                <select name="roof_type" required>
+                                    <option value="">Select roof type...</option>
+                                    <option value="asphalt_shingle">Asphalt Shingle</option>
+                                    <option value="tile">Tile (Clay/Concrete)</option>
+                                    <option value="metal">Metal</option>
+                                    <option value="flat">Flat Roof</option>
+                                    <option value="wood_shake">Wood Shake</option>
+                                    <option value="slate">Slate</option>
+                                    <option value="other">Other</option>
+                                    <option value="unknown">Not sure</option>
+                                </select>
+                            </div>
+
+                            <div class="question-group">
+                                <label>Does your roof currently leak?</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="leak1" name="has_leak" value="yes" required>
+                                        <label for="leak1">Yes</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="leak2" name="has_leak" value="no">
+                                        <label for="leak2">No</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="leak3" name="has_leak" value="not_sure">
+                                        <label for="leak3">Not sure</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-group">
+                                <label>Have you noticed any of these issues? (Select all that apply)</label>
+                                <div class="radio-group" style="flex-wrap: wrap;">
+                                    <div class="radio-option" style="flex: 0 0 auto;">
+                                        <input type="checkbox" id="issue1" name="issues" value="missing_shingles">
+                                        <label for="issue1">Missing shingles</label>
+                                    </div>
+                                    <div class="radio-option" style="flex: 0 0 auto;">
+                                        <input type="checkbox" id="issue2" name="issues" value="curling_shingles">
+                                        <label for="issue2">Curling shingles</label>
+                                    </div>
+                                    <div class="radio-option" style="flex: 0 0 auto;">
+                                        <input type="checkbox" id="issue3" name="issues" value="granule_loss">
+                                        <label for="issue3">Granule loss</label>
+                                    </div>
+                                    <div class="radio-option" style="flex: 0 0 auto;">
+                                        <input type="checkbox" id="issue4" name="issues" value="moss_algae">
+                                        <label for="issue4">Moss/Algae</label>
+                                    </div>
+                                    <div class="radio-option" style="flex: 0 0 auto;">
+                                        <input type="checkbox" id="issue5" name="issues" value="sagging">
+                                        <label for="issue5">Sagging areas</label>
+                                    </div>
+                                    <div class="radio-option" style="flex: 0 0 auto;">
+                                        <input type="checkbox" id="issue6" name="issues" value="none">
+                                        <label for="issue6">None of these</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Contact Info -->
+                        <div class="form-section">
+                            <h3><span class="step-number">3</span> Get Your Results</h3>
+                            
+                            <div class="question-group">
+                                <label>Your Name</label>
+                                <input type="text" name="name" placeholder="John Smith" required>
+                            </div>
+
+                            <div class="question-group">
+                                <label>Email Address</label>
+                                <input type="email" name="email" placeholder="john@example.com" required>
+                            </div>
+
+                            <div class="question-group">
+                                <label>Phone Number (optional)</label>
+                                <input type="tel" name="phone" placeholder="(818) 555-1234">
+                            </div>
+
+                            <div class="question-group">
+                                <label>Property Address (optional)</label>
+                                <input type="text" name="address" placeholder="123 Main St, Burbank, CA">
+                            </div>
+                        </div>
+
+                        <div class="submit-section">
+                            <button type="submit" class="btn btn-primary btn-lg">Analyze My Roof 🔍</button>
+                            <p class="submit-note">Your information is secure and will never be shared.</p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Section (hidden by default) -->
+                <div class="results-container" id="resultsContainer">
+                    <div class="result-card">
+                        <div class="result-score" id="resultScore">--</div>
+                        <div class="result-label">Roof Health Score</div>
+                        <div class="result-message" id="resultMessage">
+                            Analyzing your roof...
+                        </div>
+                        <div class="result-cta" id="resultCTA">
+                            <h3>🏠 Schedule Your Free Professional Inspection</h3>
+                            <p>Our experts will provide a detailed assessment and answer all your questions.</p>
+                            <a href="free-inspection.html" class="btn btn-primary btn-lg">Schedule Free Inspection</a>
+                            <br><br>
+                            <a href="tel:8182529422" class="btn btn-outline">Or Call 818.252.9422</a>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn btn-outline" onclick="resetForm()">Check Another Roof</button>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">🤖</div>
+                        <h4>AI-Powered</h4>
+                        <p>Advanced image analysis identifies potential issues</p>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">⚡</div>
+                        <h4>Instant Results</h4>
+                        <p>Get your roof health score in seconds</p>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">🆓</div>
+                        <h4>100% Free</h4>
+                        <p>No cost, no obligation assessment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Burbank Roofing</h3>
+                    <p>Quality roofing built to last, one home at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="gallery.html">Photos</a></li>
+                        <li><a href="reviews.html">Reviews</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><a href="tel:8182529422">818.252.9422</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Burbank Roofing. All rights reserved. | CA License #1109337</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Photo upload functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const photoInput = document.getElementById('photoInput');
+        const previewGrid = document.getElementById('previewGrid');
+        let uploadedFiles = [];
+
+        uploadArea.addEventListener('click', () => photoInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        photoInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            const remaining = 5 - uploadedFiles.length;
+            const filesToAdd = Array.from(files).slice(0, remaining);
+            
+            filesToAdd.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    uploadedFiles.push(file);
+                    displayPreview(file);
+                }
+            });
+            
+            if (uploadedFiles.length >= 5) {
+                uploadArea.style.display = 'none';
+            }
+        }
+
+        function displayPreview(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const div = document.createElement('div');
+                div.className = 'photo-preview';
+                div.innerHTML = `
+                    <img src="${e.target.result}" alt="Roof photo">
+                    <button type="button" class="remove-photo" onclick="removePhoto(this, '${file.name}')">×</button>
+                `;
+                previewGrid.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto(btn, fileName) {
+            uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+            btn.parentElement.remove();
+            if (uploadedFiles.length < 5) {
+                uploadArea.style.display = 'block';
+            }
+        }
+
+        // Form submission
+        document.getElementById('roofcheckForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                roof_age: formData.get('roof_age'),
+                roof_type: formData.get('roof_type'),
+                has_leak: formData.get('has_leak'),
+                issues: formData.getAll('issues'),
+                photos: uploadedFiles.length
+            };
+
+            // Calculate score based on inputs
+            let score = 10;
+            let findings = [];
+            let recommendation = '';
+
+            // Age factor
+            if (data.roof_age === '20+') {
+                score -= 4;
+                findings.push('Roof is over 20 years old - approaching or past typical lifespan');
+            } else if (data.roof_age === '15-20') {
+                score -= 2;
+                findings.push('Roof is 15-20 years old - entering critical age range');
+            } else if (data.roof_age === '10-15') {
+                score -= 1;
+                findings.push('Roof is 10-15 years old - mid-life, regular inspection recommended');
+            }
+
+            // Leak factor
+            if (data.has_leak === 'yes') {
+                score -= 3;
+                findings.push('Active leak detected - immediate attention needed');
+            } else if (data.has_leak === 'not_sure') {
+                score -= 1;
+                findings.push('Potential water intrusion - inspection recommended');
+            }
+
+            // Issues factor
+            if (data.issues.includes('missing_shingles')) {
+                score -= 1;
+                findings.push('Missing shingles reported');
+            }
+            if (data.issues.includes('curling_shingles')) {
+                score -= 1;
+                findings.push('Curling shingles indicate weathering');
+            }
+            if (data.issues.includes('granule_loss')) {
+                score -= 1;
+                findings.push('Granule loss reduces protection');
+            }
+            if (data.issues.includes('sagging')) {
+                score -= 2;
+                findings.push('Sagging may indicate structural issues');
+            }
+            if (data.issues.includes('moss_algae')) {
+                score -= 0.5;
+                findings.push('Moss/algae growth present');
+            }
+
+            // Ensure score stays between 1-10
+            score = Math.max(1, Math.min(10, Math.round(score)));
+
+            // Generate recommendation
+            if (score <= 4) {
+                recommendation = `<strong style="color: #d32f2f;">⚠️ Urgent Attention Needed</strong><br><br>Based on your responses, your roof shows signs of significant wear and potential damage. We strongly recommend a professional inspection as soon as possible to prevent further damage to your home.<br><br><strong>Key findings:</strong><br>• ${findings.join('<br>• ')}`;
+            } else if (score <= 6) {
+                recommendation = `<strong style="color: #f57c00;">🔶 Professional Inspection Recommended</strong><br><br>Your roof shows moderate signs of wear that should be evaluated by a professional. Early detection of issues can save you money on repairs.<br><br><strong>Key findings:</strong><br>• ${findings.join('<br>• ')}`;
+            } else if (score <= 8) {
+                recommendation = `<strong style="color: #388e3c;">✓ Good Condition</strong><br><br>Your roof appears to be in decent condition based on your responses. We recommend annual inspections to maintain its health and catch any developing issues early.<br><br>${findings.length > 0 ? '<strong>Minor notes:</strong><br>• ' + findings.join('<br>• ') : 'No significant concerns reported.'}`;
+            } else {
+                recommendation = `<strong style="color: #2e7d32;">✓ Excellent Condition</strong><br><br>Great news! Based on your responses, your roof appears to be in excellent condition. Continue with regular maintenance and annual inspections to keep it that way.`;
+            }
+
+            // Show results
+            document.querySelector('.form-container').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.add('active');
+            document.getElementById('resultScore').textContent = score + '/10';
+            document.getElementById('resultMessage').innerHTML = recommendation;
+
+            // Scroll to results
+            document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+
+            // In a real implementation, you would send this data to your server
+            console.log('RoofCheck submission:', data);
+        });
+
+        function resetForm() {
+            document.getElementById('roofcheckForm').reset();
+            document.querySelector('.form-container').classList.remove('hidden');
+            document.getElementById('resultsContainer').classList.remove('active');
+            previewGrid.innerHTML = '';
+            uploadedFiles = [];
+            uploadArea.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
