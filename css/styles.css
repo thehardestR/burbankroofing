@@ -276,6 +276,30 @@ img {
     background-color: var(--bg-light);
 }
 
+/* Why Choose Us Section with roofing background */
+.section.why-us {
+    position: relative;
+    background-image: url('https://images.pexels.com/photos/7788269/pexels-photo-7788269.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.section.why-us::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(215, 239, 255, 0.92);
+}
+
+.section.why-us .container {
+    position: relative;
+    z-index: 1;
+}
+
 .section-title {
     text-align: center;
     font-size: 36px;
@@ -387,11 +411,11 @@ img {
 }
 
 .service-cta {
-    background-color: var(--bg-light);
+    position: relative;\n    background-image: url('https://images.pexels.com/photos/7788269/pexels-photo-7788269.jpeg?auto=compress&cs=tinysrgb&w=1920');\n    background-size: cover;\n    background-position: center;
     padding: 40px;
     border-radius: 10px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 50px;\n    overflow: hidden;\n}\n\n.service-cta::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(215, 239, 255, 0.92);\n    border-radius: 10px;\n}\n\n.service-cta > * {\n    position: relative;\n    z-index: 1;
 }
 
 .service-cta h3 {
@@ -430,9 +454,28 @@ img {
 
 /* CTA Section */
 .cta {
-    background-color: var(--primary-color);
+    position: relative;
+    background-image: url('https://images.pexels.com/photos/8853521/pexels-photo-8853521.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     text-align: center;
     color: var(--white);
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 92, 52, 0.88);
+}
+
+.cta .container {
+    position: relative;
+    z-index: 1;
 }
 
 .cta h2 {
@@ -448,9 +491,27 @@ img {
 
 /* Footer */
 .footer {
-    background-color: var(--primary-dark);
+    position: relative;
+    background-image: url('https://images.pexels.com/photos/48784/roof-plate-tiles-brick-black-48784.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
     color: var(--white);
     padding: 60px 0 20px;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(53, 30, 40, 0.92);
+}
+
+.footer .container {
+    position: relative;
+    z-index: 1;
 }
 
 .footer-content {
@@ -502,10 +563,28 @@ img {
 
 /* Page Header */
 .page-header {
-    background-color: var(--primary-color);
+    position: relative;
+    background-image: url('https://images.pexels.com/photos/7788264/pexels-photo-7788264.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
     padding: 150px 0 60px;
     text-align: center;
     color: var(--white);
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 92, 52, 0.85);
+}
+
+.page-header .container {
+    position: relative;
+    z-index: 1;
 }
 
 .page-header h1 {
@@ -703,9 +782,29 @@ img {
 
 /* Contact Form */
 .contact-form {
-    background-color: var(--bg-light);
+    position: relative;
+    background-image: url('https://images.pexels.com/photos/31763537/pexels-photo-31763537.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-size: cover;
+    background-position: center;
     padding: 40px;
     border-radius: 10px;
+    overflow: hidden;
+}
+
+.contact-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(215, 239, 255, 0.94);
+    border-radius: 10px;
+}
+
+.contact-form > * {
+    position: relative;
+    z-index: 1;
 }
 
 .contact-form h3 {
