@@ -632,6 +632,23 @@
         document.getElementById('roofcheckForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Validate required fields
+            const requiredFields = [
+                { field: this.name, label: 'Name' },
+                { field: this.email, label: 'Email' },
+                { field: this.roof_age, label: 'Roof Age' },
+                { field: this.roof_type, label: 'Roof Type' },
+                { field: this.has_leak, label: 'Leak Question' }
+            ];
+            
+            const missing = requiredFields.filter(f => !f.field.value);
+            if (missing.length > 0) {
+                alert('Please fill in: ' + missing.map(f => f.label).join(', '));
+                // Focus on first missing field
+                missing[0].field.focus();
+                return;
+            }
+            
             // Show loading state with progress
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
