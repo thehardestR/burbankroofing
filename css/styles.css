@@ -191,10 +191,9 @@ img {
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    background-image: url('https://images.pexels.com/photos/2138126/pexels-photo-2138126.jpeg?auto=compress&cs=tinysrgb&w=1920');
+    background-image: url('../images/hero-bg.png');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     padding-top: 100px;
 }
 
