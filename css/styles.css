@@ -72,11 +72,12 @@ img {
 
 .btn-primary {
     background-color: var(--secondary-color);
-    color: var(--white);
+    color: #000;
 }
 
 .btn-primary:hover {
     background-color: #a52521;
+    color: var(--white);
     transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
