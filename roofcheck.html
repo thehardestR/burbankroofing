@@ -560,6 +560,9 @@
 
     <script src="js/main.js"></script>
     <script>
+        // API Configuration
+        const API_URL = 'https://roofcheck-ai.onrender.com';
+        
         // Photo upload functionality
         const uploadArea = document.getElementById('uploadArea');
         const photoInput = document.getElementById('photoInput');
@@ -626,97 +629,156 @@
         }
 
         // Form submission
-        document.getElementById('roofcheckForm').addEventListener('submit', function(e) {
+        document.getElementById('roofcheckForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Get form data
-            const formData = new FormData(this);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                address: formData.get('address'),
-                roof_age: formData.get('roof_age'),
-                roof_type: formData.get('roof_type'),
-                has_leak: formData.get('has_leak'),
-                issues: formData.getAll('issues'),
-                photos: uploadedFiles.length
-            };
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Analyzing your roof...';
+            submitBtn.disabled = true;
 
-            // Calculate score based on inputs
+            // Build FormData with all fields and photos
+            const formData = new FormData();
+            formData.append('name', this.name.value);
+            formData.append('email', this.email.value);
+            formData.append('phone', this.phone.value);
+            formData.append('address', this.address.value);
+            formData.append('roof_age', this.roof_age.value);
+            formData.append('roof_type', this.roof_type.value);
+            formData.append('has_leak', this.has_leak.value);
+            
+            // Add issues (checkboxes)
+            const issues = this.querySelectorAll('input[name="issues"]:checked');
+            issues.forEach(issue => formData.append('issues', issue.value));
+            
+            // Add photos
+            uploadedFiles.forEach(file => formData.append('photos', file));
+
+            try {
+                // Try to send to backend API
+                const response = await fetch(`${API_URL}/analyze`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showResults(result.score, result.findings, result.recommendation, result.aiAnalyzed);
+                } else {
+                    // API error - fall back to local scoring
+                    console.warn('API error, using local scoring');
+                    fallbackLocalScoring(formData);
+                }
+            } catch (error) {
+                // Network error - fall back to local scoring
+                console.warn('Network error, using local scoring:', error);
+                fallbackLocalScoring(formData);
+            }
+
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+
+        // Fallback local scoring if API is unavailable
+        function fallbackLocalScoring(formData) {
             let score = 10;
             let findings = [];
-            let recommendation = '';
+            const roof_age = formData.get('roof_age');
+            const has_leak = formData.get('has_leak');
+            const issues = formData.getAll('issues');
 
             // Age factor
-            if (data.roof_age === '20+') {
+            if (roof_age === '20+') {
                 score -= 4;
                 findings.push('Roof is over 20 years old - approaching or past typical lifespan');
-            } else if (data.roof_age === '15-20') {
+            } else if (roof_age === '15-20') {
                 score -= 2;
                 findings.push('Roof is 15-20 years old - entering critical age range');
-            } else if (data.roof_age === '10-15') {
+            } else if (roof_age === '10-15') {
                 score -= 1;
                 findings.push('Roof is 10-15 years old - mid-life, regular inspection recommended');
             }
 
             // Leak factor
-            if (data.has_leak === 'yes') {
+            if (has_leak === 'yes') {
                 score -= 3;
                 findings.push('Active leak detected - immediate attention needed');
-            } else if (data.has_leak === 'not_sure') {
+            } else if (has_leak === 'not_sure') {
                 score -= 1;
                 findings.push('Potential water intrusion - inspection recommended');
             }
 
             // Issues factor
-            if (data.issues.includes('missing_shingles')) {
+            if (issues.includes('missing_shingles')) {
                 score -= 1;
                 findings.push('Missing shingles reported');
             }
-            if (data.issues.includes('curling_shingles')) {
+            if (issues.includes('curling_shingles')) {
                 score -= 1;
                 findings.push('Curling shingles indicate weathering');
             }
-            if (data.issues.includes('granule_loss')) {
+            if (issues.includes('granule_loss')) {
                 score -= 1;
                 findings.push('Granule loss reduces protection');
             }
-            if (data.issues.includes('sagging')) {
+            if (issues.includes('sagging')) {
                 score -= 2;
                 findings.push('Sagging may indicate structural issues');
             }
-            if (data.issues.includes('moss_algae')) {
+            if (issues.includes('moss_algae')) {
                 score -= 0.5;
                 findings.push('Moss/algae growth present');
             }
 
-            // Ensure score stays between 1-10
             score = Math.max(1, Math.min(10, Math.round(score)));
 
-            // Generate recommendation
-            if (score <= 4) {
-                recommendation = `<strong style="color: #d32f2f;">⚠️ Urgent Attention Needed</strong><br><br>Based on your responses, your roof shows signs of significant wear and potential damage. We strongly recommend a professional inspection as soon as possible to prevent further damage to your home.<br><br><strong>Key findings:</strong><br>• ${findings.join('<br>• ')}`;
-            } else if (score <= 6) {
-                recommendation = `<strong style="color: #f57c00;">🔶 Professional Inspection Recommended</strong><br><br>Your roof shows moderate signs of wear that should be evaluated by a professional. Early detection of issues can save you money on repairs.<br><br><strong>Key findings:</strong><br>• ${findings.join('<br>• ')}`;
-            } else if (score <= 8) {
-                recommendation = `<strong style="color: #388e3c;">✓ Good Condition</strong><br><br>Your roof appears to be in decent condition based on your responses. We recommend annual inspections to maintain its health and catch any developing issues early.<br><br>${findings.length > 0 ? '<strong>Minor notes:</strong><br>• ' + findings.join('<br>• ') : 'No significant concerns reported.'}`;
+            const recommendation = {
+                urgency: score <= 4 ? 'urgent' : score <= 6 ? 'recommended' : score <= 8 ? 'routine' : 'maintenance',
+                message: score <= 4 ? 'Your roof shows signs of significant wear or damage.' : 
+                         score <= 6 ? 'Your roof shows moderate signs of wear.' :
+                         score <= 8 ? 'Your roof appears to be in decent condition.' :
+                         'Your roof appears to be in excellent condition.',
+                action: score <= 6 ? 'We recommend scheduling a free professional inspection.' : 
+                        'Continue with regular maintenance and annual inspections.',
+                findings: findings
+            };
+
+            showResults(score, findings, recommendation, false);
+        }
+
+        // Display results
+        function showResults(score, findings, recommendation, aiAnalyzed) {
+            let recommendationHTML = '';
+            
+            if (score <= 4 || recommendation.urgency === 'urgent') {
+                recommendationHTML = `<strong style="color: #d32f2f;">⚠️ Urgent Attention Needed</strong><br><br>${recommendation.message} We strongly recommend a professional inspection as soon as possible to prevent further damage to your home.`;
+            } else if (score <= 6 || recommendation.urgency === 'recommended') {
+                recommendationHTML = `<strong style="color: #f57c00;">🔶 Professional Inspection Recommended</strong><br><br>${recommendation.message} Early detection of issues can save you money on repairs.`;
+            } else if (score <= 8 || recommendation.urgency === 'routine') {
+                recommendationHTML = `<strong style="color: #388e3c;">✓ Good Condition</strong><br><br>${recommendation.message} We recommend annual inspections to maintain its health.`;
             } else {
-                recommendation = `<strong style="color: #2e7d32;">✓ Excellent Condition</strong><br><br>Great news! Based on your responses, your roof appears to be in excellent condition. Continue with regular maintenance and annual inspections to keep it that way.`;
+                recommendationHTML = `<strong style="color: #2e7d32;">✓ Excellent Condition</strong><br><br>${recommendation.message}`;
+            }
+
+            if (findings && findings.length > 0) {
+                recommendationHTML += `<br><br><strong>Key findings:</strong><br>• ${findings.join('<br>• ')}`;
+            }
+
+            if (aiAnalyzed) {
+                recommendationHTML += `<br><br><em style="color: #666; font-size: 14px;">🤖 AI-powered analysis included</em>`;
             }
 
             // Show results
             document.querySelector('.form-container').classList.add('hidden');
             document.getElementById('resultsContainer').classList.add('active');
             document.getElementById('resultScore').textContent = score + '/10';
-            document.getElementById('resultMessage').innerHTML = recommendation;
+            document.getElementById('resultMessage').innerHTML = recommendationHTML;
 
             // Scroll to results
             document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
-
-            // In a real implementation, you would send this data to your server
-            console.log('RoofCheck submission:', data);
-        });
+        }
 
         function resetForm() {
             document.getElementById('roofcheckForm').reset();
