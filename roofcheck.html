@@ -632,11 +632,25 @@
         document.getElementById('roofcheckForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Show loading state
+            // Show loading state with progress
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Analyzing your roof...';
             submitBtn.disabled = true;
+            
+            // Animated loading messages
+            const loadingMessages = [
+                '🔍 Uploading photos...',
+                '🤖 AI analyzing your roof...',
+                '📊 Calculating health score...',
+                '✨ Preparing your results...'
+            ];
+            let messageIndex = 0;
+            submitBtn.innerHTML = loadingMessages[0] + '<br><small style="font-size: 12px; opacity: 0.8;">This may take 15-30 seconds</small>';
+            
+            const messageInterval = setInterval(() => {
+                messageIndex = (messageIndex + 1) % loadingMessages.length;
+                submitBtn.innerHTML = loadingMessages[messageIndex] + '<br><small style="font-size: 12px; opacity: 0.8;">Please don\'t refresh the page</small>';
+            }, 4000);
 
             // Build FormData with all fields and photos
             const formData = new FormData();
@@ -664,19 +678,23 @@
 
                 if (response.ok) {
                     const result = await response.json();
+                    clearInterval(messageInterval);
                     showResults(result.score, result.findings, result.recommendation, result.aiAnalyzed);
                 } else {
                     // API error - fall back to local scoring
                     console.warn('API error, using local scoring');
+                    clearInterval(messageInterval);
                     fallbackLocalScoring(formData);
                 }
             } catch (error) {
                 // Network error - fall back to local scoring
                 console.warn('Network error, using local scoring:', error);
+                clearInterval(messageInterval);
                 fallbackLocalScoring(formData);
             }
 
             // Reset button
+            clearInterval(messageInterval);
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         });
