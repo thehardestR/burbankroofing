@@ -315,6 +315,9 @@ img {
     text-align: center;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    text-decoration: none;
+    display: block;
+    color: inherit;
 }
 
 .service-card:hover {
@@ -335,6 +338,72 @@ img {
 
 .service-card p {
     color: var(--text-light);
+}
+
+/* Service Page Content */
+.service-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.service-content h2 {
+    font-size: 32px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.service-content h3 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.service-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.service-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.service-list li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.service-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.service-cta {
+    background-color: var(--bg-light);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.service-cta h3 {
+    margin-top: 0;
+}
+
+.service-cta p {
+    margin-bottom: 25px;
+}
+
+.service-cta .btn {
+    margin: 5px 10px;
 }
 
 /* Features Grid */
