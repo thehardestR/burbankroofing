@@ -1130,19 +1130,18 @@ img {
         left: 0;
         right: 0;
         bottom: 0;
-        background: #0f1115; /* fully opaque hex - no CSS var, no gradients, no blur */
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+        background-color: var(--primary-dark);
+        background-image: none; /* override transparent gradient */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
-        align-items: flex-start;
-        padding: 90px 30px 30px;
-        gap: 0;
-        box-shadow: none;
+        padding: 100px 20px 20px;
+        gap: 15px;
+        box-shadow: var(--shadow);
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition: var(--transition);
         z-index: 1000;
-        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -1151,180 +1150,111 @@ img {
     }
 
     .nav-menu a {
-        display: block;
-        font-size: 22px;
-        font-weight: 700;
-        color: #ffffff;
-        padding: 16px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        width: 100%;
-    }
-
-    .nav-menu a:hover {
-        color: var(--primary-color);
-        padding-left: 8px;
+        font-size: 20px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     .nav-menu .btn {
-        margin-top: 24px;
-        width: 100%;
-        text-align: center;
-        max-width: 100%;
-    }
-
-    body {
-        overflow-x: hidden;
-    }
-
-    .section {
-        padding: 50px 0;
-    }
-
-    .section-title {
-        font-size: 26px;
-        margin-bottom: 30px;
-        padding: 0 10px;
-    }
-
-    /* Hero */
-    .hero {
-        padding-top: 80px;
-        min-height: auto;
-        padding-bottom: 50px;
+        margin-top: 20px;
     }
 
     .hero-logo-slick {
-        padding: 20px;
-        margin-bottom: 24px;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
+        padding: 20px 30px;
     }
     .slick-icon {
         width: 50px;
         height: 50px;
     }
     .slick-burbank {
-        font-size: 36px;
+        font-size: 38px;
         letter-spacing: 1px;
     }
     .slick-roofing {
-        font-size: 17px;
-        letter-spacing: 8px;
-        margin-right: -8px;
+        font-size: 18px;
+        letter-spacing: 10px;
+        margin-right: -10px;
     }
 
     .hero-subtitle {
-        font-size: 20px;
-        line-height: 1.5;
-        margin-bottom: 14px;
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 20px;
     }
 
     .hero-text {
-        font-size: 15px;
-        margin-bottom: 28px;
-        padding: 0 5px;
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .hero-logo-slick {
+        padding: 20px;
+        margin-bottom: 30px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .page-header {
+        padding: 120px 0 40px;
+    }
+
+    .page-header h1 {
+        font-size: 32px;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
     }
 
     .hero-buttons {
         flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
+        align-items: center;
     }
 
     .btn-lg {
         width: 100%;
-        max-width: 100%;
+        max-width: 300px;
         text-align: center;
-        padding: 16px 20px;
-    }
-
-    /* Page headers */
-    .page-header {
-        padding: 110px 0 35px;
-    }
-
-    .page-header h1 {
-        font-size: 28px;
-        padding: 0 10px;
-    }
-
-    .page-header p {
-        font-size: 16px;
-        padding: 0 10px;
-    }
-
-    /* Grids */
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .features-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-
-    .footer-content {
-        gap: 25px;
-    }
-
-    /* Service pages */
-    .service-content {
-        padding: 0 5px;
-    }
-
-    .service-content h2 {
-        font-size: 26px;
     }
 }
 
 @media (max-width: 480px) {
     .hero-logo-slick {
-        padding: 14px;
-        margin-bottom: 20px;
+        padding: 15px;
+        margin-bottom: 25px;
     }
     .slick-icon {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
     }
     .slick-burbank {
-        font-size: 26px;
+        font-size: 28px;
         letter-spacing: 1px;
     }
     .slick-roofing {
-        font-size: 13px;
-        letter-spacing: 5px;
-        margin-right: -5px;
+        font-size: 14px;
+        letter-spacing: 6px;
+        margin-right: -6px;
     }
     .slick-est {
         font-size: 9px;
-        margin-top: 7px;
-        padding-top: 7px;
+        margin-top: 8px;
+        padding-top: 8px;
     }
-
+    
     .hero-subtitle {
-        font-size: 17px;
+        font-size: 18px;
     }
 
     .hero-text {
         font-size: 14px;
     }
 
-    .features-grid {
-        grid-template-columns: 1fr;
+    .section {
+        padding: 50px 0;
     }
 
     .contact-form {
-        padding: 20px;
-    }
-
-    .service-cta {
-        padding: 25px 20px;
-    }
-
-    .faq-question {
-        font-size: 15px;
-        padding: 16px 18px;
+        padding: 25px;
     }
 }
