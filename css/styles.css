@@ -328,7 +328,7 @@ img {
 
 .hero-content {
     max-width: 750px;
-    color: var(--white);
+    color: #ffffff;
     text-align: center;
     margin: 0 auto;
 }
@@ -408,15 +408,22 @@ img {
 /* --- End Slick Logo Box --- */
 
 .hero-subtitle {
-    font-size: 24px;
-    margin-bottom: 10px;
-    opacity: 0.9;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    opacity: 1;
+    color: #ffffff;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.5px;
 }
 
 .hero-text {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 400;
     margin-bottom: 30px;
-    opacity: 0.8;
+    opacity: 0.95;
+    color: var(--accent-color);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
 
 .hero-buttons {
