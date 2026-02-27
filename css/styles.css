@@ -1107,6 +1107,17 @@ img {
 }
 
 /* Responsive Design */
+@media (max-width: 900px) {
+    .slick-burbank {
+        font-size: 40px;
+    }
+    .slick-roofing {
+        font-size: 20px;
+        letter-spacing: 12px;
+        margin-right: -12px;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-toggle {
         display: flex;
@@ -1166,11 +1177,21 @@ img {
     }
 
     .hero-subtitle {
-        font-size: 18px;
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 20px;
     }
 
-    .section-title {
-        font-size: 28px;
+    .hero-text {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .hero-logo-slick {
+        padding: 20px;
+        margin-bottom: 30px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .page-header {
@@ -1198,14 +1219,35 @@ img {
 }
 
 @media (max-width: 480px) {
+    .hero-logo-slick {
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+    .slick-icon {
+        width: 40px;
+        height: 40px;
+    }
     .slick-burbank {
-        font-size: 32px;
+        font-size: 28px;
         letter-spacing: 1px;
     }
     .slick-roofing {
-        font-size: 15px;
-        letter-spacing: 8px;
-        margin-right: -8px;
+        font-size: 14px;
+        letter-spacing: 6px;
+        margin-right: -6px;
+    }
+    .slick-est {
+        font-size: 9px;
+        margin-top: 8px;
+        padding-top: 8px;
+    }
+    
+    .hero-subtitle {
+        font-size: 18px;
+    }
+
+    .hero-text {
+        font-size: 14px;
     }
 
     .section {
