@@ -178,9 +178,11 @@
             font-weight: 400;
         }
         .special-item input[type="number"] {
-            width: 70px;
+            width: 80px;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255,255,255,0.1);
+            background-color: rgba(0,0,0,0.3);
+            color: var(--text-color);
             border-radius: 8px;
             font-size: 16px;
             text-align: center;
@@ -285,7 +287,7 @@
             display: none;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         .breakdown-details.open {
             display: block;
@@ -338,9 +340,11 @@
         .hauling-feature {
             text-align: center;
             padding: 25px;
-            background: var(--white);
+            background: linear-gradient(135deg, rgba(35, 39, 50, 0.4), rgba(22, 25, 34, 0.6));
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             box-shadow: var(--shadow);
+            backdrop-filter: blur(5px);
         }
         .hauling-feature-icon {
             font-size: 36px;
