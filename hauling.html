@@ -159,7 +159,7 @@
         /* Special Items */
         .special-items-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
         }
         .special-item {
@@ -482,6 +482,10 @@
                         <h3><span class="step-number">3</span> Special Items <span style="font-weight: 400; font-size: 14px; color: var(--text-light);">(optional)</span></h3>
                         <div class="special-items-grid">
                             <div class="special-item">
+                                <label>⚖️ Extra Tons <span class="item-price">$80/ton</span></label>
+                                <input type="number" id="numExtraTons" min="0" max="10" value="0">
+                            </div>
+                            <div class="special-item">
                                 <label>🛏️ Mattresses <span class="item-price">$45 ea</span></label>
                                 <input type="number" id="numMattresses" min="0" max="10" value="0">
                             </div>
@@ -644,6 +648,7 @@
         const MATTRESS_FEE = 45;
         const APPLIANCE_FEE = 40;
         const TIRE_FEE = 20;
+        const EXTRA_TON_FEE = 80;
 
         // Service types (from app.py)
         const SERVICE_TYPES = {
@@ -672,10 +677,10 @@
         });
 
         // Calculate price (mirrors calculate_price_with_known_miles)
-        function calculatePrice(totalMiles, laborHours, dumpFee, numMattresses, numAppliances, numTires) {
+        function calculatePrice(totalMiles, laborHours, dumpFee, numMattresses, numAppliances, numTires, numExtraTons) {
             const mileageCost = totalMiles * MILE_RATE;
             const laborCost = laborHours * LABOR_RATE;
-            const dumpCost = dumpFee + DUMP_PROCESSING_FEE;
+            const dumpCost = dumpFee + DUMP_PROCESSING_FEE + (numExtraTons * EXTRA_TON_FEE);
             const surcharges = (numMattresses * MATTRESS_FEE) + (numAppliances * APPLIANCE_FEE) + (numTires * TIRE_FEE);
             const totalPrice = BASE_FEE + mileageCost + laborCost + dumpCost + surcharges;
 
@@ -697,6 +702,7 @@
             const serviceType = document.querySelector('input[name="serviceType"]:checked').value;
             const service = SERVICE_TYPES[serviceType];
             const totalMiles = parseFloat(milesSlider.value);
+            const numExtraTons = parseInt(document.getElementById('numExtraTons').value) || 0;
             const numMattresses = parseInt(document.getElementById('numMattresses').value) || 0;
             const numAppliances = parseInt(document.getElementById('numAppliances').value) || 0;
             const numTires = parseInt(document.getElementById('numTires').value) || 0;
@@ -707,7 +713,8 @@
                 service.dumpFee,
                 numMattresses,
                 numAppliances,
-                numTires
+                numTires,
+                numExtraTons
             );
 
             // Display results
