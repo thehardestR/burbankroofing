@@ -117,25 +117,26 @@
         <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
-                <div class="hero-logo-lockup">
-                    <svg class="hero-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 56">
-                        <!-- Roof peak -->
-                        <polyline points="30,3 57,27 3,27" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <!-- House body -->
-                        <rect x="10" y="27" width="40" height="25" rx="1" fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
-                        <!-- Door -->
-                        <rect x="24" y="37" width="12" height="15" rx="1" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.75)" stroke-width="1.5"/>
-                        <!-- Left window -->
-                        <rect x="13" y="31" width="8" height="7" rx="1" fill="rgba(255,160,0,0.45)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
-                        <!-- Right window -->
-                        <rect x="39" y="31" width="8" height="7" rx="1" fill="rgba(255,160,0,0.45)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <div class="hero-logo-slick">
+                    <svg class="slick-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 12H5V22H19V12H22L12 2Z" fill="url(#metalGrad)"/>
+                        <path d="M12 5L7 10H17L12 5Z" fill="url(#orangeGrad)"/>
+                        <defs>
+                            <linearGradient id="metalGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFFFFF"/>
+                                <stop offset="0.5" stop-color="#9CA3AF"/>
+                                <stop offset="1" stop-color="#FFFFFF"/>
+                            </linearGradient>
+                            <linearGradient id="orangeGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FF8A65"/>
+                                <stop offset="1" stop-color="#FF5C34"/>
+                            </linearGradient>
+                        </defs>
                     </svg>
-                    <div class="hero-logo-text">
-                        <h1 class="hero-logo-h1">
-                            <span class="hero-logo-burbank">BURBANK</span>
-                            <span class="hero-logo-roofing">ROOFING</span>
-                        </h1>
-                        <span class="hero-logo-est">Licensed &amp; Insured &bull; CA Lic. #1109337</span>
+                    <div class="slick-text">
+                        <h1 class="slick-burbank">BURBANK</h1>
+                        <span class="slick-roofing">ROOFING</span>
+                        <div class="slick-est">CA Lic. #1109337</div>
                     </div>
                 </div>
                 <p class="hero-subtitle">Professional Roofing Services You Can Trust</p>
