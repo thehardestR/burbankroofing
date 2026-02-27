@@ -118,20 +118,25 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-logo-slick">
-                    <svg class="slick-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 12H5V22H19V12H22L12 2Z" fill="url(#metalGrad)"/>
-                        <path d="M12 5L7 10H17L12 5Z" fill="url(#orangeGrad)"/>
+                    <svg class="slick-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="metalGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="sleekSilver" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#FFFFFF"/>
-                                <stop offset="0.5" stop-color="#9CA3AF"/>
-                                <stop offset="1" stop-color="#FFFFFF"/>
+                                <stop offset="1" stop-color="#B0B9C6"/>
                             </linearGradient>
-                            <linearGradient id="orangeGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="sleekOrange" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#FF8A65"/>
                                 <stop offset="1" stop-color="#FF5C34"/>
                             </linearGradient>
                         </defs>
+                        <!-- Back minimal roof curve -->
+                        <path d="M 35 65 L 60 40 L 85 65" stroke="url(#sleekSilver)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Vertical structural lines -->
+                        <path d="M 28 42 L 28 85" stroke="url(#sleekSilver)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <path d="M 72 42 L 72 85" stroke="url(#sleekSilver)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <path d="M 50 20 L 50 85" stroke="url(#sleekSilver)" stroke-width="2" stroke-dasharray="4 6" stroke-linecap="round" opacity="0.4"/>
+                        <!-- Dramatic sweeping front roof -->
+                        <path d="M 15 55 L 50 20 L 85 55" stroke="url(#sleekOrange)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <div class="slick-text">
                         <h1 class="slick-burbank">BURBANK</h1>
