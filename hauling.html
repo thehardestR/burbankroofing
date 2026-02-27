@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <title>Dump Trailer Hauling Quote | Burbank Roofing</title>
+    <meta name="description" content="Get an instant hauling quote from Burbank Roofing. Dump trailer rental, full service haul, and pick up only. Serving Burbank & Los Angeles area. Call 818.252.9422!">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://burbankroofing.com/hauling.html">
+    <meta property="og:title" content="Dump Trailer Hauling Quote | Burbank Roofing">
+    <meta property="og:description" content="Get an instant hauling quote. Dump trailer rental, full service haul & pick up. Serving Burbank & LA area.">
+    <meta property="og:url" content="https://burbankroofing.com/hauling.html">
+    <link rel="stylesheet" href="css/styles.css?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Hauling Calculator Styles */
+        .hauling-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .hauling-intro {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        .hauling-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .form-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* Service Type Cards */
+        .service-type-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .service-type-option {
+            position: relative;
+        }
+        .service-type-option input {
+            display: none;
+        }
+        .service-type-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 18px 12px;
+            background: var(--bg-light);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            min-height: 130px;
+            justify-content: center;
+        }
+        .service-type-option label:hover {
+            border-color: var(--accent-color);
+        }
+        .service-type-option input:checked + label {
+            border-color: var(--primary-color);
+            background: rgba(255, 92, 52, 0.1);
+            color: var(--primary-color);
+        }
+        .service-type-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .service-type-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .service-type-desc {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+        .service-type-option input:checked + label .service-type-desc {
+            color: var(--primary-color);
+        }
+
+        /* Miles Input */
+        .miles-input-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .miles-input-group input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            outline: none;
+        }
+        .miles-input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+        .miles-input-group input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: none;
+        }
+        .miles-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            min-width: 80px;
+            text-align: center;
+        }
+        .miles-hint {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* Special Items */
+        .special-items-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .special-item {
+            text-align: center;
+        }
+        .special-item label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        .special-item .item-price {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        .special-item input[type="number"] {
+            width: 70px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            font-family: inherit;
+        }
+        .special-item input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 92, 52, 0.1);
+        }
+
+        /* Quote Button */
+        .quote-btn-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .quote-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .quote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Quote Result */
+        .quote-result {
+            display: none;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        .quote-result.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .price-box {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .price-label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        .price-amount {
+            font-size: 56px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .price-subtitle {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* Breakdown */
+        .breakdown {
+            margin-top: 20px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px 25px;
+        }
+        .breakdown-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            background: none;
+            border: none;
+            width: 100%;
+            font-family: inherit;
+            font-size: 15px;
+            padding: 0;
+        }
+        .breakdown-toggle::after {
+            content: '▼';
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        .breakdown-toggle.open::after {
+            transform: rotate(180deg);
+        }
+        .breakdown-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+        }
+        .breakdown-details.open {
+            display: block;
+        }
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .breakdown-row.total {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-color);
+            border-top: 2px solid var(--text-color);
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        /* CTA after quote */
+        .quote-cta {
+            margin-top: 25px;
+            text-align: center;
+        }
+        .quote-cta p {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .cta-buttons .btn {
+            flex: 1;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        /* Service Info Cards */
+        .hauling-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .hauling-feature {
+            text-align: center;
+            padding: 25px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .hauling-feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .hauling-feature h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .hauling-feature p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .service-type-grid {
+                grid-template-columns: 1fr;
+            }
+            .special-items-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .hauling-form {
+                padding: 25px;
+            }
+            .hauling-features {
+                grid-template-columns: 1fr;
+            }
+            .price-amount {
+                font-size: 42px;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .cta-buttons .btn {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-promo">⚡ LIMITED TIME: Free Roof Inspection + Same-Day Estimates!</div>
+                <div class="header-trust">
+                    <span>⭐ 5-Star Rated</span>
+                    <span>✓ Licensed & Insured</span>
+                    <span>🏆 20+ Years Experience</span>
+                </div>
+                <a href="tel:8182529422" class="phone-link">📞 818.252.9422</a>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">BurbankRoofing.com</a>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faqs.html">FAQS</a></li>
+                    <li><a href="gallery.html">Photos</a></li>
+                    <li><a href="reviews.html">Reviews</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="hauling.html" class="nav-hauling active">Hauling</a></li>
+                    <li><a href="roofcheck.html" class="nav-highlight">RoofCheck AI</a></li>
+                    <li><a href="free-inspection.html" class="btn btn-primary">Free Inspection</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>🚛 Dump Trailer Hauling</h1>
+            <p>Instant Quote Calculator — Serving Burbank & Los Angeles Area</p>
+        </div>
+    </section>
+
+    <!-- Hauling Calculator -->
+    <section class="section">
+        <div class="container">
+            <div class="hauling-container">
+                <div class="hauling-intro">
+                    <p>Need junk hauled away? Get an instant price quote for our dump trailer hauling service. We handle everything from construction debris to yard waste — fast, affordable, and fully licensed.</p>
+                </div>
+
+                <div class="hauling-form">
+                    <!-- Step 1: Service Type -->
+                    <div class="form-section">
+                        <h3><span class="step-number">1</span> Choose Your Service</h3>
+                        <div class="service-type-grid">
+                            <div class="service-type-option">
+                                <input type="radio" name="serviceType" id="trailerRental" value="trailer_rental" checked>
+                                <label for="trailerRental">
+                                    <span class="service-type-icon">🚛</span>
+                                    <span class="service-type-name">Trailer Rental</span>
+                                    <span class="service-type-desc">We drop off a trailer, you load it, we haul it away</span>
+                                </label>
+                            </div>
+                            <div class="service-type-option">
+                                <input type="radio" name="serviceType" id="fullService" value="full_service">
+                                <label for="fullService">
+                                    <span class="service-type-icon">💪</span>
+                                    <span class="service-type-name">Full Service</span>
+                                    <span class="service-type-desc">We come, load everything, and haul it to the dump</span>
+                                </label>
+                            </div>
+                            <div class="service-type-option">
+                                <input type="radio" name="serviceType" id="pickupOnly" value="pickup_only">
+                                <label for="pickupOnly">
+                                    <span class="service-type-icon">🚚</span>
+                                    <span class="service-type-name">Pick Up Only</span>
+                                    <span class="service-type-desc">We pick up your loaded trailer &amp; haul it — you pay dump fees</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Distance -->
+                    <div class="form-section">
+                        <h3><span class="step-number">2</span> Estimated Distance</h3>
+                        <div class="miles-input-group">
+                            <input type="range" id="milesSlider" min="1" max="100" value="25" step="1">
+                            <div class="miles-value"><span id="milesDisplay">25</span> mi</div>
+                        </div>
+                        <p class="miles-hint">Estimate total round-trip miles (our base → your site → dump → back). Most Burbank/Glendale jobs are 15–30 miles.</p>
+                    </div>
+
+                    <!-- Step 3: Special Items -->
+                    <div class="form-section">
+                        <h3><span class="step-number">3</span> Special Items <span style="font-weight: 400; font-size: 14px; color: var(--text-light);">(optional)</span></h3>
+                        <div class="special-items-grid">
+                            <div class="special-item">
+                                <label>🛏️ Mattresses <span class="item-price">$45 ea</span></label>
+                                <input type="number" id="numMattresses" min="0" max="10" value="0">
+                            </div>
+                            <div class="special-item">
+                                <label>🧊 Appliances <span class="item-price">$40 ea</span></label>
+                                <input type="number" id="numAppliances" min="0" max="10" value="0">
+                            </div>
+                            <div class="special-item">
+                                <label>🛞 Tires <span class="item-price">$20 ea</span></label>
+                                <input type="number" id="numTires" min="0" max="10" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Get Quote Button -->
+                    <div class="quote-btn-section">
+                        <button class="quote-btn" id="getQuoteBtn">Get My Quote</button>
+                    </div>
+
+                    <!-- Quote Result -->
+                    <div class="quote-result" id="quoteResult">
+                        <div class="price-box">
+                            <p class="price-label">Your Estimated Quote</p>
+                            <p class="price-amount" id="totalPrice">$0</p>
+                            <p class="price-subtitle" id="priceSubtitle"></p>
+                        </div>
+                        <div class="breakdown">
+                            <button class="breakdown-toggle" id="breakdownToggle">See Price Breakdown</button>
+                            <div class="breakdown-details" id="breakdownDetails">
+                                <div class="breakdown-row">
+                                    <span>Base fee</span>
+                                    <span id="bdBase">$0</span>
+                                </div>
+                                <div class="breakdown-row">
+                                    <span id="bdMileageLabel">Mileage</span>
+                                    <span id="bdMileage">$0</span>
+                                </div>
+                                <div class="breakdown-row">
+                                    <span id="bdLaborLabel">Labor</span>
+                                    <span id="bdLabor">$0</span>
+                                </div>
+                                <div class="breakdown-row">
+                                    <span id="bdDumpLabel">Dump & gate fees</span>
+                                    <span id="bdDump">$0</span>
+                                </div>
+                                <div class="breakdown-row" id="bdSurchargesRow" style="display: none;">
+                                    <span>Special items</span>
+                                    <span id="bdSurcharges">$0</span>
+                                </div>
+                                <div class="breakdown-row total">
+                                    <span>Total</span>
+                                    <span id="bdTotal">$0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quote-cta">
+                            <p>Ready to book? Call or text us!</p>
+                            <div class="cta-buttons">
+                                <a href="tel:8182529422" class="btn btn-primary btn-lg">📞 Call Now</a>
+                                <a href="sms:8182529422" class="btn btn-outline btn-lg" style="border-color: var(--primary-color); color: var(--primary-color);">💬 Text Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Section -->
+                <div class="hauling-features">
+                    <div class="hauling-feature">
+                        <div class="hauling-feature-icon">⚡</div>
+                        <h4>Same Day Service</h4>
+                        <p>Available for quick turnaround when you need it most.</p>
+                    </div>
+                    <div class="hauling-feature">
+                        <div class="hauling-feature-icon">💰</div>
+                        <h4>Transparent Pricing</h4>
+                        <p>No hidden fees. Your quote is what you pay.</p>
+                    </div>
+                    <div class="hauling-feature">
+                        <div class="hauling-feature-icon">🛡️</div>
+                        <h4>Licensed & Insured</h4>
+                        <p>Full coverage for your peace of mind on every job.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta section">
+        <div class="container">
+            <h2>Need Something Hauled Away?</h2>
+            <p>Call us for a quick quote or use the calculator above!</p>
+            <a href="tel:8182529422" class="btn btn-primary btn-lg">Call 818.252.9422</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Burbank Roofing</h3>
+                    <p>Quality roofing built to last, one home at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="gallery.html">Photos</a></li>
+                        <li><a href="reviews.html">Reviews</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><a href="tel:8182529422">818.252.9422</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Burbank Roofing. All rights reserved. | CA License #1109337</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+    // =============================================================================
+    // HAULING PRICE CALCULATOR
+    // Mirrors the Python pricing_engine logic from Hauling Service Pricing Model
+    // =============================================================================
+
+    (function() {
+        // Pricing constants (from pricing_engine/constants.py)
+        const BASE_FEE = 150;
+        const MILE_RATE = 3.0;
+        const LABOR_RATE = 60;
+        const DUMP_PROCESSING_FEE = 25;
+        const MATTRESS_FEE = 45;
+        const APPLIANCE_FEE = 40;
+        const TIRE_FEE = 20;
+
+        // Service types (from app.py)
+        const SERVICE_TYPES = {
+            trailer_rental: { name: 'Dump Trailer Rental', laborHours: 1.0, dumpFee: 75 },
+            full_service:   { name: 'Full Service Haul',   laborHours: 2.0, dumpFee: 75 },
+            pickup_only:    { name: 'Pick Up Only',        laborHours: 0.0, dumpFee: 0 }
+        };
+
+        // DOM refs
+        const milesSlider = document.getElementById('milesSlider');
+        const milesDisplay = document.getElementById('milesDisplay');
+        const getQuoteBtn = document.getElementById('getQuoteBtn');
+        const quoteResult = document.getElementById('quoteResult');
+        const breakdownToggle = document.getElementById('breakdownToggle');
+        const breakdownDetails = document.getElementById('breakdownDetails');
+
+        // Update miles display
+        milesSlider.addEventListener('input', function() {
+            milesDisplay.textContent = this.value;
+        });
+
+        // Breakdown toggle
+        breakdownToggle.addEventListener('click', function() {
+            this.classList.toggle('open');
+            breakdownDetails.classList.toggle('open');
+        });
+
+        // Calculate price (mirrors calculate_price_with_known_miles)
+        function calculatePrice(totalMiles, laborHours, dumpFee, numMattresses, numAppliances, numTires) {
+            const mileageCost = totalMiles * MILE_RATE;
+            const laborCost = laborHours * LABOR_RATE;
+            const dumpCost = dumpFee + DUMP_PROCESSING_FEE;
+            const surcharges = (numMattresses * MATTRESS_FEE) + (numAppliances * APPLIANCE_FEE) + (numTires * TIRE_FEE);
+            const totalPrice = BASE_FEE + mileageCost + laborCost + dumpCost + surcharges;
+
+            return {
+                totalMiles,
+                baseFee: BASE_FEE,
+                mileageCost,
+                laborCost,
+                laborHours,
+                dumpCost,
+                dumpFee,
+                surcharges,
+                totalPrice
+            };
+        }
+
+        // Get Quote
+        getQuoteBtn.addEventListener('click', function() {
+            const serviceType = document.querySelector('input[name="serviceType"]:checked').value;
+            const service = SERVICE_TYPES[serviceType];
+            const totalMiles = parseFloat(milesSlider.value);
+            const numMattresses = parseInt(document.getElementById('numMattresses').value) || 0;
+            const numAppliances = parseInt(document.getElementById('numAppliances').value) || 0;
+            const numTires = parseInt(document.getElementById('numTires').value) || 0;
+
+            const result = calculatePrice(
+                totalMiles,
+                service.laborHours,
+                service.dumpFee,
+                numMattresses,
+                numAppliances,
+                numTires
+            );
+
+            // Display results
+            document.getElementById('totalPrice').textContent = '$' + Math.round(result.totalPrice).toLocaleString();
+            document.getElementById('priceSubtitle').textContent = service.name + ' • ' + totalMiles + ' miles round-trip';
+
+            // Breakdown
+            document.getElementById('bdBase').textContent = '$' + result.baseFee;
+            document.getElementById('bdMileageLabel').textContent = 'Mileage (' + totalMiles + ' mi × $' + MILE_RATE + ')';
+            document.getElementById('bdMileage').textContent = '$' + Math.round(result.mileageCost);
+            document.getElementById('bdLaborLabel').textContent = 'Labor (' + service.laborHours + ' hrs × $' + LABOR_RATE + ')';
+            document.getElementById('bdLabor').textContent = '$' + Math.round(result.laborCost);
+
+            if (serviceType === 'pickup_only') {
+                document.getElementById('bdDumpLabel').textContent = 'Gate processing fee';
+            } else {
+                document.getElementById('bdDumpLabel').textContent = 'Dump & gate fees';
+            }
+            document.getElementById('bdDump').textContent = '$' + Math.round(result.dumpCost);
+
+            const surchargesRow = document.getElementById('bdSurchargesRow');
+            if (result.surcharges > 0) {
+                surchargesRow.style.display = 'flex';
+                document.getElementById('bdSurcharges').textContent = '$' + Math.round(result.surcharges);
+            } else {
+                surchargesRow.style.display = 'none';
+            }
+
+            document.getElementById('bdTotal').textContent = '$' + Math.round(result.totalPrice).toLocaleString();
+
+            // Show result with animation
+            quoteResult.classList.add('active');
+            quoteResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    })();
+    </script>
+</body>
+</html>

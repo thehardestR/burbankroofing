@@ -236,6 +236,25 @@ img {
     font-weight: 700;
 }
 
+.nav-menu a.nav-hauling {
+    color: #2E7D32;
+    font-weight: 600;
+    position: relative;
+}
+
+.nav-menu a.nav-hauling::after {
+    content: 'NEW';
+    position: absolute;
+    top: -8px;
+    right: -22px;
+    font-size: 8px;
+    background: #2E7D32;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
