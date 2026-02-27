@@ -1131,7 +1131,7 @@ img {
         right: 0;
         bottom: 0;
         background-color: var(--primary-dark);
-        background-image: linear-gradient(135deg, rgba(35, 39, 50, 0.98), rgba(22, 25, 34, 0.98));
+        background-image: none; /* override transparent gradient */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
