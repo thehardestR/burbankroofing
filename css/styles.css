@@ -300,18 +300,62 @@ img {
 }
 
 .hero-content {
-    max-width: 700px;
+    max-width: 750px;
     color: var(--white);
     text-align: center;
     margin: 0 auto;
 }
 
-.hero h1 {
-    font-size: 56px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+/* --- Hero Logo Lockup --- */
+.hero-logo-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
+.hero-logo-icon {
+    width: 70px;
+    height: 66px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
+}
+.hero-logo-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.hero-logo-h1 {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    margin: 0;
+    text-shadow: none;
+}
+.hero-logo-burbank {
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: 7px;
+    color: #ffffff;
+    line-height: 1;
+}
+.hero-logo-roofing {
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: 13px;
+    color: #FFB300;
+    margin-top: 3px;
+    text-indent: 2px;
+}
+.hero-logo-est {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+/* --- End Hero Logo Lockup --- */
 
 .hero-subtitle {
     font-size: 24px;
@@ -991,8 +1035,22 @@ img {
         margin-top: 20px;
     }
 
-    .hero h1 {
+    .hero-logo-lockup {
+        flex-direction: column;
+        gap: 14px;
+        padding-bottom: 22px;
+    }
+    .hero-logo-text {
+        text-align: center;
+        align-items: center;
+    }
+    .hero-logo-burbank {
         font-size: 36px;
+        letter-spacing: 5px;
+    }
+    .hero-logo-roofing {
+        font-size: 17px;
+        letter-spacing: 10px;
     }
 
     .hero-subtitle {
@@ -1028,8 +1086,13 @@ img {
 }
 
 @media (max-width: 480px) {
-    .hero h1 {
+    .hero-logo-burbank {
         font-size: 28px;
+        letter-spacing: 4px;
+    }
+    .hero-logo-roofing {
+        font-size: 14px;
+        letter-spacing: 8px;
     }
 
     .section {
