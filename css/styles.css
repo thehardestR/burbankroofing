@@ -237,11 +237,13 @@ img {
 }
 
 .nav-menu a {
+    position: relative;
     color: var(--text-color);
     font-weight: 600;
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    white-space: nowrap;
 }
 
 .nav-menu a:hover {
@@ -1122,28 +1124,34 @@ img {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        position: relative;
+    }
+
     .nav-toggle {
         display: flex;
         z-index: 1001;
     }
 
     .nav-menu {
-        position: fixed;
-        top: 0;
+        position: absolute;
+        top: 100%;
         left: 0;
         right: 0;
-        bottom: 0;
         background: #0f1115;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         flex-direction: column;
-        padding: 100px 20px 20px;
-        gap: 15px;
-        box-shadow: var(--shadow);
+        padding: 0;
+        gap: 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         opacity: 0;
         visibility: hidden;
         transition: var(--transition);
         z-index: 1000;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        max-height: 80vh;
+        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -1151,14 +1159,36 @@ img {
         visibility: visible;
     }
 
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+
     .nav-menu a {
-        font-size: 20px;
-        padding: 15px 0;
+        display: block;
+        font-size: 16px;
+        padding: 15px 20px;
         border-bottom: 1px solid rgba(255,255,255,0.05);
+        white-space: normal;
+    }
+
+    .nav-menu a.nav-highlight::after,
+    .nav-menu a.nav-hauling::after {
+        position: relative;
+        top: -1px;
+        right: auto;
+        margin-left: 8px;
+        display: inline-block;
+        vertical-align: top;
     }
 
     .nav-menu .btn {
-        margin-top: 20px;
+        margin: 15px auto;
+        width: calc(100% - 40px);
+        display: inline-flex;
+        border-bottom: none;
+        padding: 12px 20px;
+        justify-content: center;
     }
 
     .hero-logo-slick {
