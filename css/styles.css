@@ -23,6 +23,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -31,6 +32,8 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--primary-dark);
+    overflow-x: hidden;
+    width: 100%;
 }
 
 a {
@@ -913,7 +916,7 @@ img {
 /* Gallery Page */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
 
@@ -951,7 +954,7 @@ img {
 /* Reviews Page */
 .reviews-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
 
@@ -1175,6 +1178,10 @@ img {
         margin-right: -10px;
     }
 
+    .logo {
+        font-size: 18px;
+    }
+
     .hero-subtitle {
         font-size: 22px;
         line-height: 1.4;
@@ -1190,6 +1197,7 @@ img {
         padding: 20px;
         margin-bottom: 30px;
         width: 100%;
+        max-width: 100%;
         box-sizing: border-box;
     }
 
@@ -1208,6 +1216,14 @@ img {
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        width: 100%;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+        margin-bottom: 10px;
     }
 
     .btn-lg {
@@ -1218,6 +1234,14 @@ img {
 }
 
 @media (max-width: 480px) {
+    .logo {
+        font-size: 15px;
+        padding: 6px 10px;
+    }
+    .logo::after {
+        display: none;
+    }
+
     .hero-logo-slick {
         padding: 15px;
         margin-bottom: 25px;
@@ -1227,11 +1251,11 @@ img {
         height: 40px;
     }
     .slick-burbank {
-        font-size: 28px;
+        font-size: 24px;
         letter-spacing: 1px;
     }
     .slick-roofing {
-        font-size: 14px;
+        font-size: 12px;
         letter-spacing: 6px;
         margin-right: -6px;
     }
@@ -1250,10 +1274,16 @@ img {
     }
 
     .section {
-        padding: 50px 0;
+        padding: 40px 0;
     }
 
     .contact-form {
-        padding: 25px;
+        padding: 20px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
     }
 }
