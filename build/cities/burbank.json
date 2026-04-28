@@ -1,0 +1,23 @@
+{
+  "cityName": "Burbank",
+  "cityNameUpper": "BURBANK",
+  "citySlug": "burbank",
+  "domain": "burbankroofing.com",
+  "phone": "818.252.9422",
+  "phoneRaw": "8182529422",
+  "region": "San Fernando Valley",
+  "designTheme": "sfv-warm",
+  "lat": 34.1808,
+  "lng": -118.3090,
+  "areaServed": ["Burbank", "Glendale", "Pasadena", "Los Angeles", "North Hollywood", "Sherman Oaks", "Studio City", "Encino", "Van Nuys", "Toluca Lake"],
+  "neighborhoods": ["Downtown Burbank", "Magnolia Park", "Rancho Adjacent", "Chandler Park", "McCambridge Park"],
+  "heroImageRegional": "hero-sfv.jpg",
+  "cityIntro": "Burbank homeowners trust us for quality roof repair and replacement. From Magnolia Park to the Media District, we serve all Burbank neighborhoods with fast, reliable roofing service backed by a 5-year workmanship warranty.",
+  "cityFAQ": {
+    "question": "Do you serve all of Burbank?",
+    "answer": "Yes — we cover all Burbank neighborhoods including Magnolia Park, Rancho Adjacent, Downtown Burbank, the Media District, McCambridge Park, and anywhere else in the 91501–91510 zip codes."
+  },
+  "formspreeId": "xeezrwvn",
+  "gscVerification": "kUCdEY-NcKh_8P1p_W25WIDbNY-3UN0LP2v4ovhH5ys",
+  "showHauling": true
+}

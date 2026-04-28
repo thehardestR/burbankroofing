@@ -1,0 +1,23 @@
+{
+  "cityName": "Glendale",
+  "cityNameUpper": "GLENDALE",
+  "citySlug": "glendale",
+  "domain": "glendaleroofingpro.com",
+  "phone": "818.252.9422",
+  "phoneRaw": "8182529422",
+  "region": "San Fernando Valley",
+  "designTheme": "sfv-warm",
+  "lat": 34.1425,
+  "lng": -118.2551,
+  "areaServed": ["Glendale", "La Crescenta", "Montrose", "Sparr Heights", "Atwater Village", "Los Feliz", "Silver Lake", "Burbank"],
+  "neighborhoods": ["Adams Hill", "Sparr Heights", "Verdugo Woodlands", "Glenoaks Canyon", "Montrose", "La Crescenta"],
+  "heroImageRegional": "hero-sfv.jpg",
+  "cityIntro": "Glendale homeowners rely on us for fast, high-quality roof repair and replacement. From Adams Hill to Sparr Heights, we know Glendale's neighborhoods and the roofing challenges that come with them — including wind uplift in the Verdugo foothills.",
+  "cityFAQ": {
+    "question": "Do you serve all of Glendale including the foothills areas?",
+    "answer": "Yes — we serve all Glendale neighborhoods including La Crescenta, Montrose, Verdugo Woodlands, Sparr Heights, Adams Hill, and Glenoaks Canyon. Free inspection and same-day estimates available."
+  },
+  "formspreeId": "xeezrwvn",
+  "gscVerification": "",
+  "showHauling": true
+}

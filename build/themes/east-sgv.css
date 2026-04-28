@@ -1,0 +1,43 @@
+/*
+ * Theme: East SGV
+ * Region: East San Gabriel Valley (El Monte, West Covina, Covina, Pomona, Baldwin Park, etc.)
+ * Identity: Traditional, dependable — deep crimson CTAs with a warm dark hero
+ */
+
+:root {
+  --primary-color:   #C62828;  /* Deep crimson red */
+  --secondary-color: #D32F2F;  /* Red */
+  --accent-color:    #FFCDD2;  /* Light rose (replaces metallic silver) */
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(198, 40, 40, 0.25);
+}
+
+/* Hero overlay — warm dark red tint */
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(22, 8, 8, 0.87) 0%,
+    rgba(32, 12, 12, 0.94) 100%
+  );
+}
+
+/* Button primary — red gradient */
+.btn-primary,
+.btn-primary:visited {
+  background: linear-gradient(
+    135deg,
+    var(--secondary-color) 0%,
+    var(--primary-color) 100%
+  );
+}
+
+.btn-primary:hover {
+  background: linear-gradient(
+    135deg,
+    #EF5350 0%,
+    #B71C1C 100%
+  );
+}
+
+.cta {
+  border-top: 2px solid var(--primary-color);
+}

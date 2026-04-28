@@ -1,0 +1,23 @@
+{
+  "cityName": "Torrance",
+  "cityNameUpper": "TORRANCE",
+  "citySlug": "torrance",
+  "domain": "torranceroofingpro.com",
+  "phone": "818.252.9422",
+  "phoneRaw": "8182529422",
+  "region": "South Bay",
+  "designTheme": "south-bay-blue",
+  "lat": 33.8358,
+  "lng": -118.3406,
+  "areaServed": ["Torrance", "Redondo Beach", "Hawthorne", "Lawndale", "Gardena", "Carson", "El Segundo", "Hermosa Beach"],
+  "neighborhoods": ["Old Torrance", "North Torrance", "West Torrance", "Southwood", "Hollywood Riviera", "Del Amo"],
+  "heroImageRegional": "hero-south-bay.jpg",
+  "cityIntro": "Torrance homeowners rely on us for roofing that handles coastal conditions — salt air, marine layer moisture, and the occasional strong onshore wind. From Hollywood Riviera to Old Torrance, we bring professional-grade roofing to every South Bay neighborhood we serve.",
+  "cityFAQ": {
+    "question": "Do you handle roofing in all Torrance neighborhoods including the Riviera area?",
+    "answer": "Yes — we serve all Torrance neighborhoods including Hollywood Riviera, Old Torrance, West Torrance, Southwood, Del Amo, and North Torrance, as well as nearby Redondo Beach, Hawthorne, and Gardena."
+  },
+  "formspreeId": "xeezrwvn",
+  "gscVerification": "",
+  "showHauling": false
+}

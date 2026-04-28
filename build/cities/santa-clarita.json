@@ -1,0 +1,23 @@
+{
+  "cityName": "Santa Clarita",
+  "cityNameUpper": "SANTA CLARITA",
+  "citySlug": "santa-clarita",
+  "domain": "santaclaritaroofingpro.com",
+  "phone": "818.252.9422",
+  "phoneRaw": "8182529422",
+  "region": "Santa Clarita Valley",
+  "designTheme": "antelope-valley",
+  "lat": 34.3917,
+  "lng": -118.5426,
+  "areaServed": ["Santa Clarita", "Valencia", "Newhall", "Saugus", "Canyon Country", "Stevenson Ranch", "Castaic", "Acton"],
+  "neighborhoods": ["Valencia", "Newhall", "Saugus", "Canyon Country", "Stevenson Ranch", "Plum Canyon"],
+  "heroImageRegional": "hero-antelope.jpg",
+  "cityIntro": "Santa Clarita homeowners face intense summer heat and Santa Ana wind conditions that shorten roof lifespans. Our team knows the Santa Clarita Valley and delivers roofing built to handle everything from Valencia summers to the wind events that roll down the canyon.",
+  "cityFAQ": {
+    "question": "Do you serve Valencia, Newhall, and Canyon Country in addition to central Santa Clarita?",
+    "answer": "Yes — we cover all of Santa Clarita including Valencia, Newhall, Saugus, Canyon Country, Stevenson Ranch, Castaic, and the surrounding unincorporated communities. Free inspection available across the entire Santa Clarita Valley."
+  },
+  "formspreeId": "xeezrwvn",
+  "gscVerification": "",
+  "showHauling": false
+}

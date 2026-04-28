@@ -1,0 +1,44 @@
+/*
+ * Theme: South Bay Blue
+ * Region: South Bay / Harbor (Torrance, Long Beach, Carson, Redondo Beach, Hawthorne, etc.)
+ * Identity: Coastal, professional — ocean-blue CTAs with a deep navy hero
+ */
+
+:root {
+  --primary-color:   #0277BD;  /* Deep ocean blue */
+  --secondary-color: #0288D1;  /* Sky blue */
+  --accent-color:    #81D4FA;  /* Light sky (replaces metallic silver in SVG) */
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(2, 119, 189, 0.25);
+}
+
+/* Hero overlay — deep blue tint instead of near-black */
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(2, 10, 30, 0.87) 0%,
+    rgba(5, 20, 55, 0.94) 100%
+  );
+}
+
+/* Button primary — blue gradient */
+.btn-primary,
+.btn-primary:visited {
+  background: linear-gradient(
+    135deg,
+    var(--secondary-color) 0%,
+    var(--primary-color) 100%
+  );
+}
+
+.btn-primary:hover {
+  background: linear-gradient(
+    135deg,
+    #039BE5 0%,
+    #01579B 100%
+  );
+}
+
+/* CTA section — blue accent bar instead of orange */
+.cta {
+  border-top: 2px solid var(--primary-color);
+}

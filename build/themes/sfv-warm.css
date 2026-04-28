@@ -1,0 +1,9 @@
+/*
+ * Theme: SFV Warm
+ * Region: San Fernando Valley (Burbank, Glendale, Van Nuys, Studio City, etc.)
+ * Identity: High-energy orange brand — matches base Burbank styling
+ * This is effectively the default theme; minimal overrides.
+ */
+
+/* Keep the base Burbank orange palette — no changes needed.
+   Include this file so all cities have a theme.css to load. */

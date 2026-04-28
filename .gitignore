@@ -1,0 +1,5 @@
+# Generated city sites — do not commit
+dist/
+
+# Node
+node_modules/

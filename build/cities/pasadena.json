@@ -1,0 +1,23 @@
+{
+  "cityName": "Pasadena",
+  "cityNameUpper": "PASADENA",
+  "citySlug": "pasadena",
+  "domain": "pasadenaroofingpro.com",
+  "phone": "818.252.9422",
+  "phoneRaw": "8182529422",
+  "region": "San Gabriel Valley",
+  "designTheme": "east-sgv",
+  "lat": 34.1478,
+  "lng": -118.1445,
+  "areaServed": ["Pasadena", "Altadena", "San Marino", "Arcadia", "Monrovia", "Sierra Madre", "Temple City", "East Pasadena"],
+  "neighborhoods": ["Old Town Pasadena", "Bungalow Heaven", "San Rafael Hills", "Caltech Area", "South Lake District", "Hastings Ranch"],
+  "heroImageRegional": "hero-sgv.jpg",
+  "cityIntro": "Pasadena homeowners trust us to protect their homes — from craftsman bungalows in Bungalow Heaven to modern builds in South Lake. We understand the unique roofing needs of Pasadena's historic neighborhoods and deliver quality that lasts.",
+  "cityFAQ": {
+    "question": "Do you work on older and historic homes in Pasadena?",
+    "answer": "Yes — we specialize in roofing for Pasadena's historic craftsman bungalows, Spanish-style homes, and other older properties. We work with materials that respect your home's character while meeting current California code requirements."
+  },
+  "formspreeId": "xeezrwvn",
+  "gscVerification": "",
+  "showHauling": false
+}
