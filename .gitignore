@@ -3,3 +3,6 @@ dist/
 
 # Node
 node_modules/
+
+# palmcrest is its own repository (palmcrestroofing.com); not tracked in this repo
+palmcrest/
