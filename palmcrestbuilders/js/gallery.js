@@ -28,6 +28,8 @@
   var filtersEl = document.getElementById("gallery-filters");
   if (!groupsEl) { return; }
 
+  setupLightbox();
+
   fetch("data/gallery.json", { cache: "no-store" })
     .then(function (r) { if (!r.ok) { throw new Error("no data"); } return r.json(); })
     .then(function (data) {
@@ -93,9 +95,10 @@
       var body;
       if (list.length) {
         var cards = list.map(function (p) {
+          var cap = p.caption || c.label;
           var alt = p.caption ? esc(p.caption) : (c.label + " project by Palm Crest Builders");
           var title = p.caption ? ' title="' + esc(p.caption) + '"' : "";
-          return '<div class="gallery-item"><img src="' + esc(p.image) + '" alt="' + alt + '"' + title + ' loading="lazy"></div>';
+          return '<div class="gallery-item" data-caption="' + esc(cap) + '"><img src="' + esc(p.image) + '" alt="' + alt + '"' + title + ' loading="lazy"></div>';
         }).join("");
         body = '<div class="gallery-grid">' + cards + '</div>';
       } else {
@@ -114,5 +117,46 @@
     }).join("");
 
     groupsEl.innerHTML = html;
+  }
+
+  // --- Lightbox: tap a photo to expand it and show its caption ---
+  function setupLightbox() {
+    var lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.hidden = true;
+    lb.innerHTML =
+      '<button class="lightbox-close" type="button" aria-label="Close">\u00d7</button>' +
+      '<figure class="lightbox-content">' +
+        '<img class="lightbox-img" alt="">' +
+        '<figcaption class="lightbox-caption"></figcaption>' +
+      '</figure>';
+    document.body.appendChild(lb);
+    var img = lb.querySelector(".lightbox-img");
+    var cap = lb.querySelector(".lightbox-caption");
+
+    function open(src, alt, caption) {
+      img.src = src; img.alt = alt || "";
+      cap.textContent = caption || "";
+      lb.hidden = false;
+      document.body.classList.add("lightbox-open");
+    }
+    function close() {
+      lb.hidden = true; img.src = "";
+      document.body.classList.remove("lightbox-open");
+    }
+
+    lb.addEventListener("click", function (e) {
+      if (e.target === lb || e.target.classList.contains("lightbox-close")) close();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !lb.hidden) close();
+    });
+    groupsEl.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t || t.tagName !== "IMG") return;
+      var item = t.closest(".gallery-item");
+      if (!item) return;
+      open(t.currentSrc || t.src, t.alt, item.getAttribute("data-caption") || "");
+    });
   }
 })();
