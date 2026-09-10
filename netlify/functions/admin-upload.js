@@ -23,7 +23,7 @@ const MAX_BASE64 = 5 * 1024 * 1024; // ~3.7MB image; well under Netlify's reques
 const VALID_SERVICES = new Set([
   "roofing", "whole-home", "kitchen", "bathroom", "room-additions", "adus",
   "new-construction", "garage-conversions", "foundation-structural",
-  "decks-patios", "commercial", "uncategorized",
+  "decks-patios", "landscaping", "commercial", "uncategorized",
 ]);
 
 function json(statusCode, obj) {

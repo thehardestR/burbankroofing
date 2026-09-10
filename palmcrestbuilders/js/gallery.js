@@ -16,6 +16,7 @@
     { slug: "garage-conversions", label: "Garage Conversions" },
     { slug: "foundation-structural", label: "Foundation & Structural" },
     { slug: "decks-patios", label: "Decks & Patios" },
+    { slug: "landscaping", label: "Landscaping" },
     { slug: "commercial", label: "Commercial Tenant Improvements" },
     { slug: "uncategorized", label: "Other Projects" }
   ];
