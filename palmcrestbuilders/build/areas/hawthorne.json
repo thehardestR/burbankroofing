@@ -1,0 +1,28 @@
+{
+  "slug": "hawthorne",
+  "city": "Hawthorne",
+  "cluster": "South Bay",
+  "short_blurb": "Licensed Class B builder serving Hawthorne — remodels, ADUs & more.",
+  "neighborhoods": [
+    "Hollyglen",
+    "North Hawthorne",
+    "Bodger Park",
+    "Moneta",
+    "Prairie Ave corridor"
+  ],
+  "local_note": "Whether you're modernizing a kitchen, adding a primary suite, converting a garage, or building an ADU, Palm Crest Builders brings licensed, code-compliant construction to Hawthorne. As a Class B general building contractor we coordinate every trade under one contract and keep your project on schedule and on budget. We build throughout Hawthorne, including Hollyglen, North Hawthorne, Bodger Park, and nearby neighborhoods.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Hawthorne?",
+      "a": "Yes — we handle plans, plan check, and permits through the Hawthorne building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Hawthorne?",
+      "a": "In most cases, yes. Under California and Hawthorne rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Hawthorne remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

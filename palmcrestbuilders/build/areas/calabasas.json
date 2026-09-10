@@ -1,0 +1,27 @@
+{
+  "slug": "calabasas",
+  "city": "Calabasas",
+  "cluster": "San Fernando Valley",
+  "short_blurb": "Kitchen & bath remodels, room additions, and new construction in Calabasas.",
+  "neighborhoods": [
+    "The Oaks",
+    "Mountain View Estates",
+    "Calabasas Hills",
+    "Hidden Hills (adjacent)"
+  ],
+  "local_note": "Calabasas homeowners choose Palm Crest Builders for kitchen and bath remodels, room additions, ADUs, and whole-home renovations. We know the local building department, design for Calabasas's mix of housing styles, and manage design, permits, and construction with our own licensed crews. We build throughout Calabasas, including The Oaks, Mountain View Estates, Calabasas Hills, and nearby neighborhoods. Every project is built to the California Building Code and backed by our workmanship warranty.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Calabasas?",
+      "a": "Yes — we handle plans, plan check, and permits through the Calabasas building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Calabasas?",
+      "a": "In most cases, yes. Under California and Calabasas rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Calabasas remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

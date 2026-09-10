@@ -1,0 +1,27 @@
+{
+  "slug": "lawndale",
+  "city": "Lawndale",
+  "cluster": "South Bay",
+  "short_blurb": "Kitchen & bath remodels, room additions, and new construction in Lawndale.",
+  "neighborhoods": [
+    "Lawndale proper",
+    "Hawthorne adjacent",
+    "Inglewood adjacent",
+    "Redondo Beach adjacent"
+  ],
+  "local_note": "Lawndale homeowners choose Palm Crest Builders for kitchen and bath remodels, room additions, ADUs, and whole-home renovations. We know the local building department, design for Lawndale's mix of housing styles, and manage design, permits, and construction with our own licensed crews. We build throughout Lawndale, including Lawndale proper, Hawthorne adjacent, Inglewood adjacent, and nearby neighborhoods. Every project is built to the California Building Code and backed by our workmanship warranty.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Lawndale?",
+      "a": "Yes — we handle plans, plan check, and permits through the Lawndale building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Lawndale?",
+      "a": "In most cases, yes. Under California and Lawndale rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Lawndale remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

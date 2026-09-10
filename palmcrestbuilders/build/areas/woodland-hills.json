@@ -1,0 +1,28 @@
+{
+  "slug": "woodland-hills",
+  "city": "Woodland Hills",
+  "cluster": "San Fernando Valley",
+  "short_blurb": "Kitchen & bath remodels, room additions, and new construction in Woodland Hills.",
+  "neighborhoods": [
+    "Woodland Hills proper",
+    "West Hills adjacent",
+    "Warner Center",
+    "Walnut Acres",
+    "Canoga Park adjacent"
+  ],
+  "local_note": "Whether you're modernizing a kitchen, adding a primary suite, converting a garage, or building an ADU, Palm Crest Builders brings licensed, code-compliant construction to Woodland Hills. As a Class B general building contractor we coordinate every trade under one contract and keep your project on schedule and on budget. We build throughout Woodland Hills, including Woodland Hills proper, West Hills adjacent, Warner Center, and nearby neighborhoods.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Woodland Hills?",
+      "a": "Yes — we handle plans, plan check, and permits through the Woodland Hills building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Woodland Hills?",
+      "a": "In most cases, yes. Under California and Woodland Hills rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Woodland Hills remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

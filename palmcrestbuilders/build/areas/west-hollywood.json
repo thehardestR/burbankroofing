@@ -1,0 +1,27 @@
+{
+  "slug": "west-hollywood",
+  "city": "West Hollywood",
+  "cluster": "Westside & Beaches",
+  "short_blurb": "From remodels to ground-up builds — your West Hollywood general contractor.",
+  "neighborhoods": [
+    "West Hollywood West",
+    "Norma Triangle",
+    "Sunset Strip",
+    "Boys' Town"
+  ],
+  "local_note": "West Hollywood homeowners choose Palm Crest Builders for kitchen and bath remodels, room additions, ADUs, and whole-home renovations. We know the local building department, design for West Hollywood's mix of housing styles, and manage design, permits, and construction with our own licensed crews. We build throughout West Hollywood, including West Hollywood West, Norma Triangle, Sunset Strip, and nearby neighborhoods. Every project is built to the California Building Code and backed by our workmanship warranty.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in West Hollywood?",
+      "a": "Yes — we handle plans, plan check, and permits through the West Hollywood building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in West Hollywood?",
+      "a": "In most cases, yes. Under California and West Hollywood rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my West Hollywood remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

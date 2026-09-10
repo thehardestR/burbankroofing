@@ -1,0 +1,32 @@
+{
+  "slug": "adus",
+  "h1": "ADUs (Accessory Dwelling Units)",
+  "tagline": "Detached, attached, and garage-conversion ADUs — added space, income, and value.",
+  "metaDescription": "Licensed ADU builder serving Los Angeles County. Detached, attached & garage-conversion accessory dwelling units — design, permits & construction. Free consultations. CA Class B general contractor.",
+  "intro_h2": "ADU Construction in Los Angeles County",
+  "intro": "Accessory Dwelling Units are the smartest way to add living space, rental income, or a place for family across Los Angeles County. Palm Crest Builders designs and builds ADUs of every type — detached new-construction units, attached additions, and garage conversions — under California's streamlined ADU laws. As a licensed general building contractor we manage feasibility, design, permits, and construction so your ADU is legal, efficient, and built to last.",
+  "benefits": [
+    "Detached, attached, and garage-conversion ADUs, plus Junior ADUs (JADUs)",
+    "Guidance on California and local ADU rules, size limits, and setbacks",
+    "Full design-build: plans, engineering, utilities, and construction",
+    "Rental-ready layouts that maximize livability in a compact footprint",
+    "Solar, Title 24 energy, and utility connections handled correctly",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation & Feasibility", "desc": "We review your lot, existing structures, and goals to determine what ADU type and size your property allows." },
+    { "title": "Design & Written Estimate", "desc": "We prepare ADU plans and deliver an itemized estimate, timeline, and financing-friendly payment schedule." },
+    { "title": "Permits & Utilities", "desc": "We submit for ADU plan check, pull permits, and coordinate water, sewer, gas, and electrical connections." },
+    { "title": "Construction", "desc": "Foundation, framing, mechanicals, and finishes — built efficiently to get you to occupancy quickly." },
+    { "title": "Final Inspection & Handover", "desc": "We complete final inspections, secure the certificate of occupancy, and walk the finished unit with you." }
+  ],
+  "body_extra": {
+    "heading": "Why Build an ADU?",
+    "text": "California has made ADUs dramatically easier to build — most single-family lots now qualify for at least one ADU and often a Junior ADU as well. Homeowners use them for rental income, multigenerational living, home offices, and long-term property value. Because ADU rules change and vary by city, we stay current on state law and local ordinances so your project is designed to approve the first time and built to code."
+  },
+  "faqs": [
+    { "q": "Can I build an ADU on my property?", "a": "Most single-family and many multifamily lots in LA County qualify. During your consultation we confirm the ADU type and maximum size your specific lot allows." },
+    { "q": "How long does an ADU take to build?", "a": "Garage conversions often take 3–4 months; detached new-construction ADUs typically run 5–8 months including permitting." },
+    { "q": "How big can my ADU be?", "a": "Detached ADUs are commonly allowed up to 1,200 sq ft, and conversions can match the existing structure. Local rules vary — we'll confirm your limits." }
+  ]
+}

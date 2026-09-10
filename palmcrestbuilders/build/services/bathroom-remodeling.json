@@ -1,0 +1,32 @@
+{
+  "slug": "bathroom-remodeling",
+  "h1": "Bathroom Remodeling",
+  "tagline": "Spa-worthy bathrooms — from clean refreshes to full gut-and-rebuild renovations.",
+  "metaDescription": "Licensed bathroom remodeling contractor serving Los Angeles County. Walk-in showers, freestanding tubs, tile, vanities & full gut renovations. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Bathroom Remodeling in Los Angeles County",
+  "intro": "A well-built bathroom adds comfort every single day and real value at resale. Palm Crest Builders remodels bathrooms across Los Angeles County — primary suites, guest baths, and powder rooms — with proper waterproofing, quality tile work, and code-compliant plumbing and electrical. Whether you want a curbless walk-in shower, a freestanding soaking tub, or a complete layout change, we manage every trade as a single licensed team and build it to last.",
+  "benefits": [
+    "Curbless and walk-in showers, freestanding tubs, and wet rooms",
+    "Professional waterproofing and tile — floors, walls, and niches",
+    "New vanities, countertops, lighting, and ventilation",
+    "Code-compliant plumbing and electrical, including GFCI protection",
+    "Aging-in-place options — grab bars, comfort-height fixtures, zero-threshold",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We assess your existing bathroom, discuss layout and finishes, and set a realistic budget." },
+    { "title": "Design & Written Estimate", "desc": "We confirm fixtures, tile, and layout, then deliver an itemized estimate and timeline." },
+    { "title": "Permits & Ordering", "desc": "We pull plumbing and electrical permits where required and stage materials before demo." },
+    { "title": "Construction", "desc": "Demo, waterproofing, rough-in, tile, fixtures, and finish — with dust control and daily cleanup." },
+    { "title": "Final Walk-Through & Warranty", "desc": "We leak-test, complete inspections, and hand over warranties and maintenance guidance." }
+  ],
+  "body_extra": {
+    "heading": "Waterproofing Is Everything",
+    "text": "The difference between a bathroom that lasts 20 years and one that fails in three is what happens behind the tile. We use modern waterproofing systems on shower pans, walls, and niches, slope pans correctly, and detail every transition. It's not the glamorous part of a remodel, but it's the part that protects your home from hidden water damage — and it's where we never cut corners."
+  },
+  "faqs": [
+    { "q": "How long does a bathroom remodel take?", "a": "A standard bathroom takes 3–5 weeks on site. Primary-suite baths with layout changes or custom tile can run 5–7 weeks." },
+    { "q": "Can you convert my tub into a walk-in shower?", "a": "Yes — tub-to-shower conversions are one of our most requested projects. We reframe, re-plumb, waterproof, and tile to create a modern walk-in shower." },
+    { "q": "Do you offer accessible, aging-in-place bathrooms?", "a": "Absolutely. We build zero-threshold showers, add blocking for grab bars, and install comfort-height, ADA-friendly fixtures on request." }
+  ]
+}

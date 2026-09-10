@@ -1,0 +1,32 @@
+{
+  "slug": "commercial-tenant-improvements",
+  "h1": "Commercial Tenant Improvements",
+  "tagline": "Build-outs and TIs for offices, retail, and restaurants — on schedule, to code.",
+  "metaDescription": "Licensed commercial tenant improvement contractor serving Los Angeles County. Office, retail & restaurant build-outs, remodels & ADA upgrades. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Commercial Tenant Improvements in Los Angeles County",
+  "intro": "Getting a commercial space open on time takes a contractor who understands leases, deadlines, and code. Palm Crest Builders delivers tenant improvements and commercial build-outs across Los Angeles County for offices, retail, restaurants, and medical and professional suites. As a licensed general building contractor we manage demolition, framing, MEP coordination, ADA compliance, and finishes — working around your schedule to get your space inspected, approved, and open for business.",
+  "benefits": [
+    "Office, retail, restaurant, and medical/professional build-outs",
+    "Demising walls, ceilings, flooring, storefronts, and finishes",
+    "Electrical, plumbing, HVAC, and fire-life-safety coordination",
+    "ADA accessibility upgrades and code compliance",
+    "Schedule-driven delivery to meet lease and opening deadlines",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We review your space, lease requirements, and target opening date, and discuss scope and budget." },
+    { "title": "Design & Written Estimate", "desc": "We coordinate plans with your architect, then deliver an itemized estimate and construction schedule." },
+    { "title": "Permits & Approvals", "desc": "We manage building department plan check, permits, and any landlord or HOA approvals." },
+    { "title": "Construction", "desc": "Demo, framing, MEP, finishes, and signage coordination — sequenced to hit your opening date." },
+    { "title": "Inspection & Turnover", "desc": "We complete inspections, secure sign-offs, and turn over a business-ready space." }
+  ],
+  "body_extra": {
+    "heading": "Built Around Your Opening Date",
+    "text": "In commercial work the schedule is the project. Every week of delay is a week of rent without revenue, so we plan procurement, inspections, and trade sequencing to protect your opening date. We coordinate closely with your architect, landlord, and local building and health departments so approvals don't become bottlenecks — and you open on time."
+  },
+  "faqs": [
+    { "q": "Do you work with our architect and landlord?", "a": "Yes. We coordinate directly with your design team, landlord, and property manager, and manage all required approvals and permits." },
+    { "q": "Can you handle ADA and code upgrades?", "a": "Yes. Tenant improvements often trigger ADA and code upgrades. We identify them early and build compliance into the scope and budget." },
+    { "q": "How fast can our build-out be completed?", "a": "Simple office TIs can finish in 4–8 weeks; restaurants and medical suites take longer due to MEP and health-department requirements. We give you a firm schedule up front." }
+  ]
+}

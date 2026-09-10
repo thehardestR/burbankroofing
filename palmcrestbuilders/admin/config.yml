@@ -1,0 +1,54 @@
+# Decap CMS configuration — Palm Crest Builders photo admin
+# Paths are relative to the REPOSITORY ROOT (the site is published from the
+# palmcrestbuilders/ subfolder), so they are prefixed with "palmcrestbuilders/".
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded photos are committed in the repo…
+media_folder: "palmcrestbuilders/images/gallery/uploads"
+# …and the URL they are served from on the live site.
+public_folder: "/images/gallery/uploads"
+
+site_url: https://palmcrestbuildersinc.com
+display_url: https://palmcrestbuildersinc.com
+logo_url: https://palmcrestbuildersinc.com/images/logo.svg
+
+collections:
+  - name: gallery
+    label: "Project Gallery"
+    description: "Add jobsite photos and tag each one with the service type."
+    files:
+      - name: photos
+        label: "Gallery Photos"
+        file: "palmcrestbuilders/data/gallery.json"
+        format: json
+        editor:
+          preview: false
+        fields:
+          - label: "Photos"
+            name: "photos"
+            label_singular: "Photo"
+            widget: "list"
+            summary: "{{fields.service}} — {{fields.image}}"
+            fields:
+              - { label: "Photo", name: "image", widget: "image", choose_url: false }
+              - label: "Service Type"
+                name: "service"
+                widget: "select"
+                default: "uncategorized"
+                options:
+                  - { label: "Roofing", value: "roofing" }
+                  - { label: "Whole-Home Remodeling", value: "whole-home" }
+                  - { label: "Kitchen Remodeling", value: "kitchen" }
+                  - { label: "Bathroom Remodeling", value: "bathroom" }
+                  - { label: "Room Additions", value: "room-additions" }
+                  - { label: "ADUs", value: "adus" }
+                  - { label: "New Home Construction", value: "new-construction" }
+                  - { label: "Garage Conversions", value: "garage-conversions" }
+                  - { label: "Foundation & Structural", value: "foundation-structural" }
+                  - { label: "Decks & Patios", value: "decks-patios" }
+                  - { label: "Commercial Tenant Improvements", value: "commercial" }
+                  - { label: "Other / Uncategorized", value: "uncategorized" }
+              - { label: "Caption (optional)", name: "caption", widget: "string", required: false }

@@ -1,0 +1,32 @@
+{
+  "slug": "foundation-structural",
+  "h1": "Foundation & Structural",
+  "tagline": "Foundations, framing, retrofits, and structural repair — the work your home stands on.",
+  "metaDescription": "Licensed foundation & structural contractor serving Los Angeles County. New foundations, seismic retrofit, framing, beams & structural repair. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Foundation & Structural Work in Los Angeles County",
+  "intro": "Everything above ground depends on what's below it. Palm Crest Builders performs foundation and structural work across Los Angeles County — new foundations for additions and ADUs, seismic retrofits, framing, beam installations, and repairs for settling or damaged structures. As a licensed general building contractor working with licensed structural engineers, we make sure your home is safe, level, and built to carry the loads California code requires.",
+  "benefits": [
+    "New foundations for additions, ADUs, and ground-up construction",
+    "Soft-story and cripple-wall seismic retrofits",
+    "Structural framing, beams, posts, and load-bearing wall removal",
+    "Foundation repair for settling, cracking, and drainage issues",
+    "Engineered solutions with permits and inspections handled",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation & Assessment", "desc": "We evaluate the structure or foundation, identify the issue, and discuss options honestly." },
+    { "title": "Engineering & Written Estimate", "desc": "We coordinate structural engineering where needed and deliver an itemized estimate and plan." },
+    { "title": "Permits", "desc": "We pull structural permits and submit engineered drawings for plan check." },
+    { "title": "Construction", "desc": "Shoring, excavation, forming, rebar, concrete, and framing — executed to engineered specifications." },
+    { "title": "Inspection & Warranty", "desc": "We complete structural inspections, restore the site, and provide documentation and warranty." }
+  ],
+  "body_extra": {
+    "heading": "Seismic Retrofitting in Southern California",
+    "text": "Older homes across Los Angeles — especially those built before modern codes — often have cripple walls or soft-story conditions that perform poorly in an earthquake. A seismic retrofit bolts your home to its foundation, braces cripple walls, and reinforces weak points. It's one of the highest-value structural upgrades a Southern California homeowner can make, and we handle the engineering, permits, and construction as one package."
+  },
+  "faqs": [
+    { "q": "How do I know if I have foundation problems?", "a": "Common signs include sloping floors, sticking doors and windows, stair-step cracks in stucco or drywall, and gaps at baseboards. We'll assess and give you an honest evaluation." },
+    { "q": "Do you do earthquake retrofitting?", "a": "Yes. We perform cripple-wall and soft-story seismic retrofits with engineered hardware, permits, and inspections." },
+    { "q": "Is structural work permitted and engineered?", "a": "Always. Structural and foundation work requires engineering and permits — we manage both so the work is safe, legal, and documented." }
+  ]
+}

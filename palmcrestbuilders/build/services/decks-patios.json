@@ -1,0 +1,32 @@
+{
+  "slug": "decks-patios",
+  "h1": "Decks & Patios",
+  "tagline": "Outdoor living built to last — decks, patio covers, pergolas, and hardscape.",
+  "metaDescription": "Licensed deck & patio contractor serving Los Angeles County. Custom decks, patio covers, pergolas, outdoor kitchens & hardscape. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Decks, Patios & Outdoor Living in Los Angeles County",
+  "intro": "Southern California's climate makes outdoor space some of the most valuable square footage you own. Palm Crest Builders designs and builds outdoor living areas across Los Angeles County — elevated and ground-level decks, covered patios, pergolas, outdoor kitchens, and hardscape. As a licensed general contractor we build on proper footings and structure so your outdoor space is safe, permitted where required, and ready for years of use.",
+  "benefits": [
+    "Custom wood and composite decks, including elevated and hillside decks",
+    "Patio covers, pergolas, and shade structures",
+    "Outdoor kitchens, BBQ islands, and built-in seating",
+    "Concrete, paver, and stone hardscape and walkways",
+    "Proper footings, structural connections, and drainage",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We walk your yard, discuss how you want to use the space, and review materials and budget." },
+    { "title": "Design & Written Estimate", "desc": "We lay out the design and deliver an itemized estimate and timeline." },
+    { "title": "Permits", "desc": "We pull permits for structures that require them — elevated decks, covers, and outdoor kitchens." },
+    { "title": "Construction", "desc": "Footings, framing, decking, covers, and finishes — built for durability and safety." },
+    { "title": "Final Walk-Through & Warranty", "desc": "We complete any inspections, clean up fully, and provide warranty and care guidance." }
+  ],
+  "body_extra": {
+    "heading": "Wood vs. Composite Decking",
+    "text": "Natural wood is beautiful and cost-effective up front but needs regular sealing and maintenance in the Southern California sun. Composite and PVC decking cost more initially but resist fading, splintering, and rot, and need almost no maintenance. During your consultation we'll compare materials, lifespan, and cost so you get the outdoor space that fits your budget and how much upkeep you want to do."
+  },
+  "faqs": [
+    { "q": "Do I need a permit for a deck or patio cover?", "a": "Ground-level patios often don't, but elevated decks, attached covers, and outdoor kitchens usually do. We handle any permits your project needs." },
+    { "q": "How long does a deck or patio take to build?", "a": "Most decks and patio covers take 1–3 weeks depending on size, elevation, and whether footings and permits are required." },
+    { "q": "Can you build on a hillside or sloped yard?", "a": "Yes. Elevated and hillside decks are a specialty — we engineer proper footings and structural connections for safety." }
+  ]
+}

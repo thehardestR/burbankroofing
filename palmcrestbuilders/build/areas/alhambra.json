@@ -1,0 +1,27 @@
+{
+  "slug": "alhambra",
+  "city": "Alhambra",
+  "cluster": "San Gabriel Valley",
+  "short_blurb": "Remodels, additions & ADUs — licensed general contractor in Alhambra.",
+  "neighborhoods": [
+    "Midwick Tract",
+    "Granada Park",
+    "Emery Park",
+    "downtown Alhambra"
+  ],
+  "local_note": "Alhambra homeowners choose Palm Crest Builders for kitchen and bath remodels, room additions, ADUs, and whole-home renovations. We know the local building department, design for Alhambra's mix of housing styles, and manage design, permits, and construction with our own licensed crews. We build throughout Alhambra, including Midwick Tract, Granada Park, Emery Park, and nearby neighborhoods. Every project is built to the California Building Code and backed by our workmanship warranty.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Alhambra?",
+      "a": "Yes — we handle plans, plan check, and permits through the Alhambra building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Alhambra?",
+      "a": "In most cases, yes. Under California and Alhambra rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Alhambra remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "slug": "azusa",
+  "city": "Azusa",
+  "cluster": "San Gabriel Valley",
+  "short_blurb": "Licensed Class B builder serving Azusa — remodels, ADUs & more.",
+  "neighborhoods": [
+    "Downtown Azusa",
+    "Azusa Foothills",
+    "Rosedale",
+    "North Azusa",
+    "APU area"
+  ],
+  "local_note": "Whether you're modernizing a kitchen, adding a primary suite, converting a garage, or building an ADU, Palm Crest Builders brings licensed, code-compliant construction to Azusa. As a Class B general building contractor we coordinate every trade under one contract and keep your project on schedule and on budget. We build throughout Azusa, including Downtown Azusa, Azusa Foothills, Rosedale, and nearby neighborhoods.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Azusa?",
+      "a": "Yes — we handle plans, plan check, and permits through the Azusa building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Azusa?",
+      "a": "In most cases, yes. Under California and Azusa rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Azusa remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

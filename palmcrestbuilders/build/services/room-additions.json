@@ -1,0 +1,32 @@
+{
+  "slug": "room-additions",
+  "h1": "Room Additions",
+  "tagline": "Add square footage that fits — bedrooms, suites, family rooms, and second stories.",
+  "metaDescription": "Licensed room addition contractor serving Los Angeles County. Bedroom & primary suite additions, family rooms, and second-story additions. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Home & Room Additions in Los Angeles County",
+  "intro": "When you love your neighborhood but need more space, a room addition is often smarter than moving. Palm Crest Builders designs and builds seamless additions across Los Angeles County — primary suites, extra bedrooms, expanded family rooms, and full second stories. As a licensed general building contractor we handle foundation, framing, roofing tie-ins, and interior finishes so the new space matches your existing home inside and out, and meets every structural and energy code.",
+  "benefits": [
+    "First-floor additions, bump-outs, and full second-story additions",
+    "Primary-suite additions with bathrooms and walk-in closets",
+    "Foundation, framing, roofing tie-in, and exterior matching",
+    "Structural engineering and Title 24 energy compliance handled for you",
+    "Seamless transitions so the addition looks original to the home",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We review your goals, walk the property, and discuss feasibility, setbacks, and budget." },
+    { "title": "Design & Written Estimate", "desc": "We prepare plans and structural engineering, then deliver an itemized estimate and schedule." },
+    { "title": "Permits & Planning", "desc": "We submit for plan check and pull all permits through your city or LA County building department." },
+    { "title": "Construction", "desc": "Foundation, framing, mechanicals, roofing tie-in, insulation, and finishes — built to match your home." },
+    { "title": "Final Walk-Through & Warranty", "desc": "We complete final inspections, walk the addition with you, and provide full warranty documentation." }
+  ],
+  "body_extra": {
+    "heading": "First-Floor vs. Second-Story Additions",
+    "text": "A ground-floor addition is usually simpler and less expensive, but it uses up yard space and requires available lot area within your setbacks. A second-story addition preserves your lot but adds cost for structural reinforcement, a new staircase, and temporary weather protection. During your consultation we'll evaluate your lot, foundation, and goals and recommend the approach that gives you the most usable space for your budget."
+  },
+  "faqs": [
+    { "q": "How long does a room addition take?", "a": "A single-room, first-floor addition typically takes 2–4 months. Larger suites and second-story additions run 4–7 months including permitting." },
+    { "q": "Will the addition match my existing home?", "a": "Yes — matching rooflines, stucco or siding, windows, and interior finishes is a core part of our work so the addition looks original." },
+    { "q": "Do additions require structural engineering?", "a": "Almost always. We include engineering and Title 24 energy calculations, and handle plan check and permits as part of the project." }
+  ]
+}

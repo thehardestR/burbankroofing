@@ -1,0 +1,32 @@
+{
+  "slug": "new-home-construction",
+  "h1": "New Home Construction",
+  "tagline": "Ground-up custom homes built to your vision — from raw lot to move-in ready.",
+  "metaDescription": "Licensed new home construction contractor serving Los Angeles County. Custom homes, ground-up builds & full rebuilds — design, permits & construction. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Custom New Home Construction in Los Angeles County",
+  "intro": "Building from the ground up is the ultimate way to get exactly the home you want — and it demands a licensed general contractor who can carry the entire project from raw lot to keys in hand. Palm Crest Builders builds custom homes across Los Angeles County, managing site work, foundations, framing, systems, and finishes as one accountable team. Whether it's a new home on a vacant lot or a full rebuild, we deliver quality construction, clear communication, and a fixed, transparent scope.",
+  "benefits": [
+    "Full ground-up custom homes and complete rebuilds",
+    "Site work, grading, foundations, and structural framing",
+    "Complete systems: electrical, plumbing, HVAC, and low-voltage",
+    "Energy-efficient, Title 24-compliant construction with solar-ready options",
+    "Interior and exterior finishes coordinated to your selections",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We discuss your vision, lot, budget, and timeline, and outline a realistic path to build." },
+    { "title": "Design & Written Estimate", "desc": "We coordinate architecture and engineering, then deliver a detailed estimate, allowances, and construction schedule." },
+    { "title": "Permits & Site Prep", "desc": "We manage plan check and permits, then handle grading, utilities, and foundation." },
+    { "title": "Construction", "desc": "Framing, dry-in, systems rough-in, insulation, drywall, and finishes — with a dedicated project lead throughout." },
+    { "title": "Final Inspection & Handover", "desc": "We complete final inspections, secure the certificate of occupancy, and walk your finished home with a full warranty package." }
+  ],
+  "body_extra": {
+    "heading": "Building on an LA County Lot",
+    "text": "Every lot has its own challenges — hillside grading, soils reports, utility connections, and neighborhood design requirements. As an experienced general building contractor we plan for these early, coordinate the right engineers and consultants, and sequence the work to keep your build on schedule. The result is a home that's structurally sound, energy-efficient, and finished to the standard you expect."
+  },
+  "faqs": [
+    { "q": "How long does it take to build a custom home?", "a": "Most custom homes take 10–18 months from permit to move-in, depending on size, site conditions, and finish level. We provide a milestone schedule up front." },
+    { "q": "Do you help with design and engineering?", "a": "Yes. We work with architects and engineers — or your chosen design team — and manage plan check and permits as part of a design-build delivery." },
+    { "q": "Can you build on a hillside or difficult lot?", "a": "Yes. We handle grading, retaining, caisson and grade-beam foundations, and the soils and structural engineering these lots require." }
+  ]
+}

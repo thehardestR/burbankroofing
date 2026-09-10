@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 115" role="img" aria-label="Palm Crest Builders">
+  <defs>
+    <linearGradient id="pg" x1="180" y1="88" x2="180" y2="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#6D1260"/>
+      <stop offset="40%"  stop-color="#C83040"/>
+      <stop offset="72%"  stop-color="#F07020"/>
+      <stop offset="100%" stop-color="#F8C018"/>
+    </linearGradient>
+  </defs>
+  <!-- Crest skyline silhouette -->
+  <polyline points="0,60 55,42 55,20 70,20 70,37 180,0 360,60"
+            fill="none" stroke="#3D1455" stroke-opacity="0.25" stroke-width="3" stroke-linejoin="miter"/>
+  <!-- Trunk — slight lean, mostly straight -->
+  <path d="M 177,88 C 180,72 179,58 178,45 L 183,45 C 184,58 185,72 184,88 Z"
+        fill="url(#pg)"/>
+  <path d="M 180,45 C 180,20 153,18 140,45  C 153,32 173,42 180,47 Z" fill="url(#pg)"/>
+  <path d="M 180,45 C 180,22 163,15 153,24  C 163,20 177,40 180,47 Z" fill="url(#pg)"/>
+  <path d="M 180,45 C 177,22 173,10 180, 8  C 187,10 183,22 180,45 Z" fill="url(#pg)"/>
+  <path d="M 180,45 C 180,22 197,15 207,24  C 197,20 183,40 180,47 Z" fill="url(#pg)"/>
+  <path d="M 180,45 C 180,20 207,18 220,45  C 207,32 187,42 180,47 Z" fill="url(#pg)"/>
+  <circle cx="180" cy="45" r="5" fill="url(#pg)"/>
+  <!-- PALM · tree · CREST inline -->
+  <text x="158" y="88" text-anchor="end"
+        font-family="Montserrat,sans-serif"
+        font-size="40" font-weight="400" fill="#3D1455">PALM</text>
+  <text x="202" y="88" text-anchor="start"
+        font-family="Montserrat,sans-serif"
+        font-size="40" font-weight="400" fill="#3D1455">CREST</text>
+  <text x="180" y="108" text-anchor="middle"
+        font-family="Montserrat,Arial,sans-serif"
+        font-size="20" font-weight="700" letter-spacing="5" fill="#E07018">BUILDERS</text>
+</svg>

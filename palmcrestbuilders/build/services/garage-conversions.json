@@ -1,0 +1,32 @@
+{
+  "slug": "garage-conversions",
+  "h1": "Garage Conversions",
+  "tagline": "Turn an unused garage into a living space, home office, or income-producing ADU.",
+  "metaDescription": "Licensed garage conversion contractor serving Los Angeles County. Convert garages into living space, suites, offices, or ADUs — permits & construction. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Garage Conversions in Los Angeles County",
+  "intro": "A garage is often the most underused space on the property — and one of the most cost-effective areas to convert into livable square footage. Palm Crest Builders converts attached and detached garages across Los Angeles County into bedrooms, home offices, gyms, guest suites, and fully permitted ADUs. As a licensed general contractor we insulate, re-wire, plumb, and finish the space to residential code so it lives like a real room, not a repurposed garage.",
+  "benefits": [
+    "Conversions to bedrooms, offices, suites, gyms, or ADUs",
+    "Proper insulation, drywall, flooring, and climate control",
+    "New electrical, plumbing, and egress windows to residential code",
+    "Foundation and slab upgrades where required",
+    "Optional kitchenette and bath for a full ADU conversion",
+    "Licensed, bonded, and insured — CA Class B general contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We assess the garage structure, slab, and utilities, and discuss how you want to use the new space." },
+    { "title": "Design & Written Estimate", "desc": "We plan the layout and finishes, then deliver an itemized estimate and timeline." },
+    { "title": "Permits", "desc": "We pull conversion or ADU permits and handle plan check with your city or LA County." },
+    { "title": "Construction", "desc": "Framing, insulation, mechanicals, drywall, flooring, and finishes — transforming the space fully." },
+    { "title": "Final Walk-Through & Warranty", "desc": "We complete inspections, walk the finished room with you, and provide warranty documentation." }
+  ],
+  "body_extra": {
+    "heading": "Garage Conversion or Detached ADU?",
+    "text": "Converting an existing garage is usually the fastest and most affordable path to extra space, and under California law a garage conversion often qualifies as an ADU. The tradeoffs are losing covered parking and working within the existing footprint. If you need more space than the garage offers, a detached ADU may be the better long-term move. We'll walk you through both options and the permitting differences during your consultation."
+  },
+  "faqs": [
+    { "q": "Do I need a permit to convert my garage?", "a": "Yes. A legal conversion requires permits for structural, electrical, plumbing, and egress work. We handle the full permit process for you." },
+    { "q": "Does a garage conversion count as an ADU?", "a": "It often can. If you add a kitchenette and bath and meet ADU requirements, a garage conversion can be permitted as a legal, rentable ADU." },
+    { "q": "How long does a garage conversion take?", "a": "Most conversions take 6–12 weeks depending on whether you're adding a bathroom, kitchen, or new utilities." }
+  ]
+}

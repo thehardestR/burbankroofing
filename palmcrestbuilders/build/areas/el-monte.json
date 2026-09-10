@@ -1,0 +1,27 @@
+{
+  "slug": "el-monte",
+  "city": "El Monte",
+  "cluster": "San Gabriel Valley",
+  "short_blurb": "Licensed Class B builder serving El Monte — remodels, ADUs & more.",
+  "neighborhoods": [
+    "North El Monte",
+    "South El Monte",
+    "Mountain View",
+    "Garvey Ave corridor"
+  ],
+  "local_note": "El Monte homeowners choose Palm Crest Builders for kitchen and bath remodels, room additions, ADUs, and whole-home renovations. We know the local building department, design for El Monte's mix of housing styles, and manage design, permits, and construction with our own licensed crews. We build throughout El Monte, including North El Monte, South El Monte, Mountain View, and nearby neighborhoods. Every project is built to the California Building Code and backed by our workmanship warranty.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in El Monte?",
+      "a": "Yes — we handle plans, plan check, and permits through the El Monte building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in El Monte?",
+      "a": "In most cases, yes. Under California and El Monte rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my El Monte remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

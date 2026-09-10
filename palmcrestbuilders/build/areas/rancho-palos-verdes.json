@@ -1,0 +1,28 @@
+{
+  "slug": "rancho-palos-verdes",
+  "city": "Rancho Palos Verdes",
+  "cluster": "South Bay",
+  "short_blurb": "Licensed Class B builder serving Rancho Palos Verdes — remodels, ADUs & more.",
+  "neighborhoods": [
+    "Miraleste",
+    "Eastview",
+    "Portuguese Bend",
+    "Ladera Linda",
+    "Crestridge"
+  ],
+  "local_note": "Rancho Palos Verdes homeowners choose Palm Crest Builders for kitchen and bath remodels, room additions, ADUs, and whole-home renovations. We know the local building department, design for Rancho Palos Verdes's mix of housing styles, and manage design, permits, and construction with our own licensed crews. We build throughout Rancho Palos Verdes, including Miraleste, Eastview, Portuguese Bend, and nearby neighborhoods. Every project is built to the California Building Code and backed by our workmanship warranty.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Rancho Palos Verdes?",
+      "a": "Yes — we handle plans, plan check, and permits through the Rancho Palos Verdes building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Rancho Palos Verdes?",
+      "a": "In most cases, yes. Under California and Rancho Palos Verdes rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Rancho Palos Verdes remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}

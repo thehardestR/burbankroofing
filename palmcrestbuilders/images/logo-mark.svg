@@ -1,0 +1,43 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-label="Palm Crest Builders">
+  <defs><clipPath id="ic"><circle cx="250" cy="250" r="188"/></clipPath></defs>
+  <circle cx="250" cy="250" r="246" fill="#F5F3EE"/>
+  <circle cx="250" cy="250" r="246" fill="none" stroke="#111111" stroke-width="8"/>
+  <circle cx="250" cy="250" r="236" fill="none" stroke="#111111" stroke-width="1" opacity="0.4"/>
+  <circle cx="250" cy="250" r="188" fill="#FFFFFF"/>
+  <circle cx="250" cy="250" r="188" fill="none" stroke="#111111" stroke-width="5"/>
+  <circle cx="33" cy="250" r="9" fill="#111111"/>
+  <circle cx="467" cy="250" r="9" fill="#111111"/>
+  <path id="ta" d="M 33,250 A 217,217 0 0,1 467,250" fill="none"/>
+  <path id="ba" d="M 33,250 A 217,217 0 0,0 467,250" fill="none"/>
+  <text font-family="Montserrat,'Helvetica Neue',Arial,sans-serif" font-size="29" font-weight="800" letter-spacing="4" fill="#111111">
+    <textPath href="#ta" startOffset="50%" text-anchor="middle">PALM CREST BUILDERS</textPath>
+  </text>
+  <text font-family="Montserrat,'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="7" fill="#555555">
+    <textPath href="#ba" startOffset="50%" text-anchor="middle">PALM CREST</textPath>
+  </text>
+  <g clip-path="url(#ic)">
+    <path d="M 268,263 L 281,305 L 319,284 L 299,322 L 340,335 L 299,348 L 319,386 L 281,366 L 268,407 L 255,366 L 217,386 L 238,348 L 196,335 L 238,322 L 217,284 L 255,305 Z" fill="#CCCCCC"/>
+    <path d="M 220,392 C 224,320 214,245 218,140" fill="none" stroke="#111111" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 218,140 C 190,128 108,180 100,192 C 110,200 192,154 218,140 Z" fill="#111111"/>
+    <path d="M 218,140 C 192,116 145,92 135,85 C 146,98 198,130 218,140 Z" fill="#111111"/>
+    <path d="M 218,140 C 207,110 174,62 168,52 C 180,70 218,126 220,140 Z" fill="#111111"/>
+    <path d="M 218,140 C 212,108 215,70 218,44 C 224,70 224,108 220,140 Z" fill="#111111"/>
+    <path d="M 218,140 C 230,108 256,65 264,55 C 266,70 228,124 220,140 Z" fill="#111111"/>
+    <path d="M 218,140 C 250,120 290,97 302,90 C 294,104 244,133 220,140 Z" fill="#111111"/>
+    <path d="M 218,140 C 255,134 308,145 322,162 C 308,172 250,150 218,140 Z" fill="#111111"/>
+    <circle cx="214" cy="147" r="7" fill="#333333"/>
+    <circle cx="223" cy="144" r="6.5" fill="#333333"/>
+    <circle cx="218" cy="153" r="6" fill="#333333"/>
+    <path d="M 315,392 C 315,358 314,322 312,278" fill="none" stroke="#111111" stroke-width="7" stroke-linecap="round"/>
+    <path d="M 312,278 C 290,272 260,278 255,286 C 261,293 291,284 312,278 Z" fill="#111111"/>
+    <path d="M 312,278 C 297,263 276,250 272,244 C 278,254 298,270 312,278 Z" fill="#111111"/>
+    <path d="M 312,278 C 308,258 310,242 312,234 C 316,242 316,260 312,278 Z" fill="#111111"/>
+    <path d="M 312,278 C 326,262 344,252 352,246 C 346,256 324,270 312,278 Z" fill="#111111"/>
+    <path d="M 312,278 C 334,273 362,278 368,285 C 362,292 332,283 312,278 Z" fill="#111111"/>
+    <circle cx="309" cy="282" r="5" fill="#333333"/>
+    <circle cx="317" cy="280" r="4.5" fill="#333333"/>
+    <rect x="75" y="388" width="350" height="5" rx="2.5" fill="#111111"/>
+    <path d="M 148,390 L 148,360 L 250,316 L 352,360 L 352,390 Z" fill="#111111"/>
+    <path d="M 148,360 L 250,316 L 352,360" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+</svg>

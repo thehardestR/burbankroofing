@@ -1,0 +1,13 @@
+# Netlify deploy config — publishes the Palm Crest Builders site, which lives
+# in the palmcrestbuilders/ subfolder of this repo. The site is static, so
+# there is no build step.
+[build]
+  publish = "palmcrestbuilders"
+  command = "echo 'Static site — nothing to build'"
+
+# Always revalidate the gallery data file so newly uploaded photos show up
+# immediately instead of being served from cache.
+[[headers]]
+  for = "/data/gallery.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

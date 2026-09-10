@@ -1,0 +1,32 @@
+{
+  "slug": "kitchen-remodeling",
+  "h1": "Kitchen Remodeling",
+  "tagline": "Custom kitchens — cabinets, counters, and layouts built to fit how you cook and gather.",
+  "metaDescription": "Licensed kitchen remodeling contractor serving Los Angeles County. Custom cabinets, countertops, islands, lighting & layout changes. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Custom Kitchen Remodeling in Los Angeles County",
+  "intro": "The kitchen is the hardest-working room in the house and the one that returns the most value when it's done right. Palm Crest Builders designs and builds custom kitchens across Los Angeles County — from cabinet-and-counter refreshes to full layout changes with removed walls and new islands. As a licensed general contractor we manage cabinetry, countertops, plumbing, electrical, lighting, flooring, and finish carpentry as one coordinated project, so your kitchen is beautiful, functional, and built to code.",
+  "benefits": [
+    "Custom and semi-custom cabinetry, islands, and pantry storage",
+    "Quartz, granite, and natural-stone countertops with expert fabrication",
+    "Layout changes — wall removals, relocated sinks, and added islands",
+    "Updated electrical, lighting, plumbing, and ventilation to current code",
+    "Durable flooring, tile backsplashes, and finish carpentry",
+    "One licensed team managing every trade — CA Class B contractor"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We measure your kitchen, talk through how you use it, and review styles, budget, and must-haves." },
+    { "title": "Design & Written Estimate", "desc": "We finalize the layout, selections, and allowances, then deliver an itemized estimate and schedule." },
+    { "title": "Permits & Ordering", "desc": "We pull permits for any electrical, plumbing, or structural work and order cabinets and stone up front to protect your timeline." },
+    { "title": "Construction", "desc": "Demo, rough-in, cabinetry, countertops, tile, and finishes — executed cleanly with daily site protection." },
+    { "title": "Final Walk-Through & Warranty", "desc": "We test every fixture, complete inspections, and hand over warranties and care instructions." }
+  ],
+  "body_extra": {
+    "heading": "How Much Does a Kitchen Remodel Cost in LA?",
+    "text": "In the Los Angeles market, a mid-range kitchen remodel typically runs from the mid-five figures for a cabinet-and-counter refresh to six figures for a full layout change with custom cabinetry, structural work, and high-end appliances. The biggest cost drivers are cabinetry, countertops, whether you move plumbing or walls, and appliance selection. Every estimate we provide is written and itemized so you can see exactly where your budget goes."
+  },
+  "faqs": [
+    { "q": "How long does a kitchen remodel take?", "a": "Most kitchens take 4–8 weeks of on-site work once materials arrive. Custom cabinetry and stone often have a 4–8 week lead time, which we order early." },
+    { "q": "Do I need a permit to remodel my kitchen?", "a": "Cosmetic swaps usually don't, but moving plumbing, gas, electrical, or walls does. We pull all required permits and schedule inspections for you." },
+    { "q": "Can you remove a wall to open up my kitchen?", "a": "Yes. We assess whether it's load-bearing, engineer a beam if needed, pull the permit, and build it properly — a common and popular upgrade." }
+  ]
+}

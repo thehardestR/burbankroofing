@@ -1,0 +1,32 @@
+{
+  "slug": "whole-home-remodeling",
+  "h1": "Whole-Home Remodeling",
+  "tagline": "Full-home renovations that transform how you live — design to finish, across LA County.",
+  "metaDescription": "Licensed whole-home remodeling contractor serving Los Angeles County. Open-concept redesigns, kitchens, baths, flooring & additions under one contract. Free consultations. CA Class B general contractor.",
+  "intro_h2": "Complete Home Renovations in Los Angeles County",
+  "intro": "A whole-home remodel is the biggest single upgrade you can make to how you live — and it deserves a builder who manages every trade under one roof. Palm Crest Builders is a licensed Class B general building contractor that renovates homes across Los Angeles County, from Santa Clarita to Long Beach. We handle design, permits, structural work, kitchens, baths, flooring, electrical, plumbing, and finishes as a single coordinated project — so you have one team, one schedule, and one point of accountability from demo to final walk-through.",
+  "benefits": [
+    "Design-build delivery — one contract for design, permits, and construction",
+    "Open-concept redesigns, wall removals, and structural reconfiguration",
+    "Full-scope trades: framing, electrical, plumbing, HVAC, drywall, and finish",
+    "Licensed, bonded, and insured — CA Class B general building contractor",
+    "Transparent, itemized estimates with a fixed scope and clear allowances",
+    "Workmanship warranty on all labor, plus manufacturer warranties on materials"
+  ],
+  "process": [
+    { "title": "Free Consultation", "desc": "We visit your home, listen to how you want to live in it, and talk through budget, scope, and priorities. No pressure, no obligation." },
+    { "title": "Design & Written Estimate", "desc": "We develop a plan and deliver a detailed, itemized estimate — scope, allowances, timeline, and payment schedule. No surprises." },
+    { "title": "Permits & Planning", "desc": "We prepare drawings, pull all required permits through your city or LA County, and order long-lead materials before we break ground." },
+    { "title": "Construction", "desc": "Our crews execute the build with a dedicated project lead, daily site protection, and regular progress updates. You always know what's next." },
+    { "title": "Final Walk-Through & Warranty", "desc": "We complete municipal inspections, walk the finished home with you, and hand over all warranty documentation and care guidance." }
+  ],
+  "body_extra": {
+    "heading": "Why a Design-Build General Contractor?",
+    "text": "When one licensed general contractor owns the whole project, you avoid the finger-pointing that happens when designers, subs, and suppliers work in silos. We coordinate every trade, keep the schedule tight, and catch conflicts on paper before they cost you on site. That is the advantage of hiring a Class B general building contractor for a whole-home remodel rather than piecing it together yourself."
+  },
+  "faqs": [
+    { "q": "How long does a whole-home remodel take?", "a": "Most whole-home projects run 3–8 months depending on square footage, structural scope, and permitting. We give you a firm schedule with milestones in your written estimate." },
+    { "q": "Can we live in the home during the remodel?", "a": "Sometimes, for phased projects. For extensive structural or full-gut work we usually recommend relocating for safety and speed. We'll advise honestly based on your scope." },
+    { "q": "Do you handle design and permits?", "a": "Yes. As a design-build general contractor we manage drawings, engineering, and all city or county permits, plus every required inspection." }
+  ]
+}

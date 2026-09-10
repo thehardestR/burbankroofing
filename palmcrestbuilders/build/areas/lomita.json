@@ -1,0 +1,27 @@
+{
+  "slug": "lomita",
+  "city": "Lomita",
+  "cluster": "South Bay",
+  "short_blurb": "Licensed Class B builder serving Lomita — remodels, ADUs & more.",
+  "neighborhoods": [
+    "Lomita proper",
+    "Torrance adjacent",
+    "San Pedro adjacent",
+    "Harbor City adjacent"
+  ],
+  "local_note": "From updated kitchens and spa-style bathrooms to new ADUs and second-story additions, Palm Crest Builders helps Lomita homeowners get more from their property. We handle plans, permits through the Lomita building department, and construction from start to finish — with transparent pricing and a workmanship warranty on every job. We build throughout Lomita, including Lomita proper, Torrance adjacent, San Pedro adjacent, and nearby neighborhoods.",
+  "faqs": [
+    {
+      "q": "Do you pull building permits in Lomita?",
+      "a": "Yes — we handle plans, plan check, and permits through the Lomita building and safety department for every remodel, addition, and ADU, and we schedule all required inspections."
+    },
+    {
+      "q": "Can I build an ADU in Lomita?",
+      "a": "In most cases, yes. Under California and Lomita rules, most single-family lots qualify for a detached, attached, or garage-conversion ADU. We handle feasibility, design, permits, and construction."
+    },
+    {
+      "q": "How long will my Lomita remodel or addition take?",
+      "a": "It depends on scope — bathrooms typically run 3–5 weeks, kitchens 4–8 weeks, and room additions 2–4 months. We give you a firm schedule with milestones in your written estimate."
+    }
+  ]
+}
