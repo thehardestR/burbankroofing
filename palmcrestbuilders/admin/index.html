@@ -4,13 +4,164 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
-  <title>Photo Admin · Palm Crest Builders</title>
+  <title>Photo Upload · Palm Crest Builders</title>
   <link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+  <style>
+    :root { --orange:#e8792b; --green:#3a7d3a; --ink:#222; --muted:#666; --line:#e2e2e2; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#f4f4f4; color:var(--ink); }
+    .wrap { max-width:520px; margin:0 auto; padding:24px 18px 64px; }
+    .brand { text-align:center; margin-bottom:16px; }
+    .brand img { height:56px; }
+    .card { background:#fff; border-radius:14px; box-shadow:0 6px 24px rgba(0,0,0,.08); padding:24px; }
+    h1 { font-size:1.3rem; margin:0 0 4px; }
+    .sub { color:var(--muted); margin:0 0 18px; font-size:.92rem; }
+    label { display:block; font-weight:600; margin:16px 0 6px; font-size:.9rem; }
+    input, select { width:100%; padding:12px; border:2px solid var(--line); border-radius:10px; font-size:1rem; font-family:inherit; background:#fff; }
+    input:focus, select:focus { outline:none; border-color:var(--orange); }
+    button { width:100%; padding:14px; border:none; border-radius:10px; background:var(--orange); color:#fff; font-size:1rem; font-weight:700; cursor:pointer; margin-top:22px; }
+    button:disabled { opacity:.6; cursor:default; }
+    .msg { margin-top:14px; padding:11px 12px; border-radius:8px; font-size:.9rem; display:none; }
+    .msg.err { background:#fde8e8; color:#a1211c; display:block; }
+    .msg.ok { background:#e7f6e7; color:#276627; display:block; }
+    .msg.info { background:#eef2f7; color:#33506e; display:block; }
+    .hide { display:none; }
+    .thumb { width:100%; border-radius:10px; margin-top:12px; display:none; }
+    .logout { text-align:center; margin-top:18px; }
+    .logout a { color:var(--muted); font-size:.85rem; cursor:pointer; text-decoration:underline; }
+  </style>
 </head>
 <body>
-  <!-- Netlify Identity (login) -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <!-- Decap CMS (upload UI) -->
-  <script src="https://unpkg.com/decap-cms@^3.5.0/dist/decap-cms.js"></script>
+  <div class="wrap">
+    <div class="brand"><img src="../images/logo-mark.svg" alt="Palm Crest Builders" /></div>
+
+    <!-- Login -->
+    <div class="card" id="login-card">
+      <h1>Photo Upload</h1>
+      <p class="sub">Enter the crew password to add job photos.</p>
+      <form id="login-form" autocomplete="on">
+        <label for="pw">Password</label>
+        <input id="pw" type="password" autocomplete="current-password" required />
+        <button type="submit" id="login-btn">Log in</button>
+        <div class="msg" id="login-msg"></div>
+      </form>
+    </div>
+
+    <!-- Uploader -->
+    <div class="card hide" id="upload-card">
+      <h1>Add a Photo</h1>
+      <p class="sub">Pick the service, choose a photo, and upload.</p>
+      <form id="upload-form">
+        <label for="service">Service type</label>
+        <select id="service" required>
+          <option value="roofing">Roofing</option>
+          <option value="whole-home">Whole-Home Remodeling</option>
+          <option value="kitchen">Kitchen Remodeling</option>
+          <option value="bathroom">Bathroom Remodeling</option>
+          <option value="room-additions">Room Additions</option>
+          <option value="adus">ADUs</option>
+          <option value="new-construction">New Home Construction</option>
+          <option value="garage-conversions">Garage Conversions</option>
+          <option value="foundation-structural">Foundation &amp; Structural</option>
+          <option value="decks-patios">Decks &amp; Patios</option>
+          <option value="commercial">Commercial Tenant Improvements</option>
+        </select>
+
+        <label for="file">Photo</label>
+        <input id="file" type="file" accept="image/*" capture="environment" required />
+        <img id="thumb" class="thumb" alt="preview" />
+
+        <label for="caption">Caption (optional)</label>
+        <input id="caption" type="text" maxlength="200" placeholder="e.g. Tile re-roof in Burbank" />
+
+        <button type="submit" id="upload-btn">Upload photo</button>
+        <div class="msg" id="upload-msg"></div>
+      </form>
+      <div class="logout"><a id="logout">Log out</a></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var FN = "/.netlify/functions/admin-upload";
+      var pw = "";
+      var el = function (id) { return document.getElementById(id); };
+      var loginCard = el("login-card"), uploadCard = el("upload-card");
+      var loginMsg = el("login-msg"), uploadMsg = el("upload-msg");
+
+      function msg(node, cls, text) { node.className = "msg " + cls; node.textContent = text; }
+
+      el("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var btn = el("login-btn");
+        pw = el("pw").value;
+        btn.disabled = true; msg(loginMsg, "info", "Checking…");
+        fetch(FN, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "verify", password: pw }) })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            btn.disabled = false;
+            if (res.ok) { loginMsg.style.display = "none"; loginCard.classList.add("hide"); uploadCard.classList.remove("hide"); }
+            else { msg(loginMsg, "err", res.j.error || "Incorrect password"); pw = ""; }
+          })
+          .catch(function () { btn.disabled = false; msg(loginMsg, "err", "Network error — try again."); });
+      });
+
+      el("logout").addEventListener("click", function () {
+        pw = ""; el("pw").value = ""; loginMsg.style.display = "none";
+        uploadCard.classList.add("hide"); loginCard.classList.remove("hide");
+      });
+
+      var fileInput = el("file"), thumb = el("thumb");
+      fileInput.addEventListener("change", function () {
+        var f = fileInput.files[0];
+        if (!f) { thumb.style.display = "none"; return; }
+        thumb.src = URL.createObjectURL(f); thumb.style.display = "block";
+      });
+
+      // Shrink big phone photos before upload (keeps payload small + gallery fast).
+      function resizeToBase64(file, maxDim, quality) {
+        return new Promise(function (resolve, reject) {
+          var img = new Image();
+          img.onload = function () {
+            var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+            var cw = Math.round(img.width * scale), ch = Math.round(img.height * scale);
+            var canvas = document.createElement("canvas");
+            canvas.width = cw; canvas.height = ch;
+            canvas.getContext("2d").drawImage(img, 0, 0, cw, ch);
+            resolve(canvas.toDataURL("image/jpeg", quality).split(",")[1]);
+            URL.revokeObjectURL(img.src);
+          };
+          img.onerror = function () { reject(new Error("Could not read image")); };
+          img.src = URL.createObjectURL(file);
+        });
+      }
+
+      el("upload-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var btn = el("upload-btn");
+        var f = fileInput.files[0];
+        if (!f) return;
+        btn.disabled = true; msg(uploadMsg, "info", "Uploading…");
+        resizeToBase64(f, 1800, 0.82).then(function (b64) {
+          return fetch(FN, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "upload", password: pw, imageBase64: b64, service: el("service").value, caption: el("caption").value })
+          });
+        }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+          .then(function (res) {
+            btn.disabled = false;
+            if (res.ok) {
+              msg(uploadMsg, "ok", "\u2713 Uploaded! It will appear in the gallery in about a minute.");
+              fileInput.value = ""; thumb.style.display = "none"; el("caption").value = "";
+            } else if (res.status === 401) {
+              msg(uploadMsg, "err", "Session expired — please log in again.");
+            } else {
+              msg(uploadMsg, "err", res.j.error || "Upload failed — try again.");
+            }
+          })
+          .catch(function () { btn.disabled = false; msg(uploadMsg, "err", "Network error — try again."); });
+      });
+    })();
+  </script>
 </body>
 </html>

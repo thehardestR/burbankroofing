@@ -5,6 +5,10 @@
   publish = "palmcrestbuilders"
   command = "echo 'Static site — nothing to build'"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Always revalidate the gallery data file so newly uploaded photos show up
 # immediately instead of being served from cache.
 [[headers]]

@@ -206,18 +206,5 @@
         </div>
     </footer>
     <script src="js/main.js"></script>
-    <!-- Netlify Identity: lets invited managers accept invites and open the photo admin -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", function (user) {
-          if (!user) {
-            window.netlifyIdentity.on("login", function () {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
 </body>
 </html>

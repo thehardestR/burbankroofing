@@ -6,7 +6,7 @@ Static website for **Palm Crest Builders**, a licensed Class B general building 
 
 - **Domain:** palmcrestbuildersinc.com
 - **Stack:** Static HTML / CSS / JS — no framework; a small Python builder generates the service and city pages
-- **Hosting:** Netlify (publishes this folder; `netlify.toml` at repo root). Netlify Identity + Git Gateway power the `/admin` photo uploader.
+- **Hosting:** Netlify (publishes this folder; `netlify.toml` at repo root). The `/admin` photo uploader is a password-gated page backed by the `admin-upload` Netlify Function (env vars `ADMIN_PASSWORD` + `GITHUB_TOKEN`), which commits photos to `images/gallery/uploads/` and appends to `data/gallery.json`.
 - **Font:** Montserrat (Google Fonts)
 - **License:** CA Lic. #[Pending] · Class B (replace the placeholder once the CSLB number is issued)
 - **Forms:** Formspree endpoint `xeezrwvn`. Leads are tagged by a `source_domain` hidden field in `js/main.js` so you can filter Palm Crest Builders leads.
