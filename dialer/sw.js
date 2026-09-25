@@ -1,7 +1,7 @@
 // Caches the app shell so the dialer opens instantly and survives brief drops.
 // Data calls (Supabase) always hit the network — they are cross-origin/POST and
 // are intentionally never cached.
-const CACHE = "dialer-shell-v1";
+const CACHE = "dialer-shell-v2";
 const SHELL = [
   "./",
   "./index.html",
@@ -31,16 +31,15 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return; // never cache Supabase writes
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // CDN libs + Supabase go to network
+  // Network-first so pushed updates always reach users when online; fall back to
+  // the cache (and the app shell) only when offline.
   e.respondWith(
-    caches.match(req).then((hit) =>
-      hit ||
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match("./index.html"))
-    )
+    fetch(req)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy));
+        return res;
+      })
+      .catch(() => caches.match(req).then((hit) => hit || caches.match("./index.html")))
   );
 });
