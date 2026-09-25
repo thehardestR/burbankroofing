@@ -29,6 +29,10 @@
     $("btn-noanswer").addEventListener("click", () => disposition("no_answer"));
     $("btn-badnum").addEventListener("click", () => disposition("bad_number"));
     $("btn-recheck").addEventListener("click", loadNext);
+    // Save the note as she types so it survives an accidental app close.
+    $("c-notes").addEventListener("input", () => {
+      if (contact) localStorage.setItem(noteKey(contact.id), $("c-notes").value);
+    });
   }
 
   async function loadCampaigns() {
@@ -85,8 +89,18 @@
 
   async function loadNext() {
     resetTimer();
-    $("c-notes").value = "";
-    msg("Loading next contact…");
+    msg("Loading…");
+
+    // Resume an in-progress claim first (e.g. the app was closed mid-call) so we
+    // never skip past the contact the rep is still working.
+    const existing = await getMyClaim();
+    if (existing) {
+      contact = existing;
+      renderContact();
+      updateProgress();
+      msg("Resumed your call — finish your note and pick an outcome.");
+      return;
+    }
 
     const { data, error } = await sb().rpc("claim_next_contact", { p_campaign: current });
     if (error) { msg(error.message, "error"); return; }
@@ -98,6 +112,22 @@
     renderContact();
     updateProgress();
     msg("");
+  }
+
+  // Returns this rep's still-open (claimed, not yet dispositioned) contact, if any.
+  async function getMyClaim() {
+    const uid = window.DialerApp.user && window.DialerApp.user.id;
+    if (!uid) return null;
+    const { data, error } = await sb()
+      .from("call_list")
+      .select("*")
+      .eq("campaign_id", current)
+      .eq("claimed_by", uid)
+      .eq("status", "claimed")
+      .order("claimed_at", { ascending: true })
+      .limit(1);
+    if (error) return null;
+    return (data && data[0]) || null;
   }
 
   function renderContact() {
@@ -113,6 +143,9 @@
     const a = $("c-phone");
     a.textContent = contact.phone || "—";
     a.href = tel ? "tel:" + tel : "#";
+
+    // Restore a saved draft (survives an app close), else any note already stored.
+    $("c-notes").value = localStorage.getItem(noteKey(contact.id)) || contact.notes || "";
 
     $("btn-end").classList.add("hidden");
     $("btn-call").classList.remove("hidden");
@@ -145,6 +178,7 @@
       p_seconds: elapsed || null,
     });
     if (error) { msg("Could not save — check your connection, then try again. " + error.message, "error"); return; }
+    localStorage.removeItem(noteKey(contact.id));
     loadNext();
   }
 
@@ -193,6 +227,7 @@
     $("btn-call").textContent = "📞 Call";
   }
 
+  function noteKey(id) { return "dialer:note:" + id; }
   function telDigits(phone) { return (phone || "").replace(/[^\d+]/g, ""); }
   function fmt(s) {
     const m = Math.floor(s / 60);
