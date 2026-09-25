@@ -31,6 +31,14 @@
     $("btn-assign").addEventListener("click", onAssign);
     $("assign-campaign").addEventListener("change", loadAssignments);
     $("btn-refresh-progress").addEventListener("click", loadProgress);
+    $("btn-download-leads").addEventListener("click", () =>
+      downloadCSV("leads",
+        ["created_at", "owner_name", "phone", "site_address", "city", "email", "call_seconds", "notes", "status"],
+        "leads"));
+    $("btn-download-calls").addEventListener("click", () =>
+      downloadCSV("call_list",
+        ["created_at", "owner_name", "phone", "site_address", "city", "email", "status", "call_seconds", "notes", "disposition_at"],
+        "call-log"));
   }
 
   function onFile(e) {
@@ -223,6 +231,61 @@
       })
     );
     return out;
+  }
+
+  async function downloadCSV(table, columns, prefix) {
+    const dl = $("download-msg");
+    window.DialerApp.toast(dl, "Preparing download…");
+    try {
+      const rows = await fetchAll(table, columns);
+      if (rows.length === 0) { window.DialerApp.toast(dl, "Nothing to export yet.", "error"); return; }
+      triggerDownload(toCSV(rows, columns), prefix + "-" + new Date().toISOString().slice(0, 10) + ".csv");
+      window.DialerApp.toast(dl, "Downloaded " + rows.length + " rows.", "ok");
+    } catch (e) {
+      window.DialerApp.toast(dl, "Download failed: " + e.message, "error");
+    }
+  }
+
+  async function fetchAll(table, columns) {
+    const pageSize = 1000;
+    let from = 0;
+    let all = [];
+    for (;;) {
+      const { data, error } = await sb()
+        .from(table)
+        .select(columns.join(","))
+        .order("created_at", { ascending: false })
+        .range(from, from + pageSize - 1);
+      if (error) throw error;
+      all = all.concat(data || []);
+      if (!data || data.length < pageSize) break;
+      from += pageSize;
+    }
+    return all;
+  }
+
+  function toCSV(rows, columns) {
+    const esc = (v) => {
+      if (v === null || v === undefined) return "";
+      const s = String(v);
+      return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    };
+    const header = columns.join(",");
+    const body = rows.map((r) => columns.map((c) => esc(r[c])).join(",")).join("\r\n");
+    return header + "\r\n" + body;
+  }
+
+  function triggerDownload(csv, filename) {
+    // BOM so Excel opens it as UTF-8 (keeps accents and special characters intact).
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   function escapeHtml(s) {
