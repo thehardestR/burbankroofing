@@ -1,0 +1,12 @@
+# Deploy the dialer as its OWN Netlify site.
+# In Netlify: Add new site -> Import this repo -> set "Base directory" to: dialer
+# (publish is relative to that base directory).
+[build]
+  publish = "."
+  command = "echo 'Static PWA — no build step'"
+
+# The service worker must not be cached by the CDN or updates won't roll out.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

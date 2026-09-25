@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Dialer">
+  <meta name="theme-color" content="#0f172a">
+  <title>Roofing Dialer</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="css/dialer.css">
+</head>
+<body>
+  <header id="appbar" class="appbar hidden">
+    <span id="appbar-title" class="appbar-title">Dialer</span>
+    <span class="appbar-spacer"></span>
+    <span id="appbar-user" class="appbar-user"></span>
+    <button id="btn-signout" class="btn-link">Sign out</button>
+  </header>
+
+  <main id="app">
+    <section id="screen-setup" class="screen hidden">
+      <div class="card">
+        <h1>Setup needed</h1>
+        <p>Add your Supabase Project URL and anon key to <code>js/config.js</code>, then reload this page.</p>
+      </div>
+    </section>
+
+    <section id="screen-login" class="screen hidden">
+      <form id="login-form" class="card">
+        <h1>Sign in</h1>
+        <label>Email
+          <input id="login-email" type="email" autocomplete="username" inputmode="email" required>
+        </label>
+        <label>Password
+          <input id="login-password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="screen-owner" class="screen hidden">
+      <div class="card">
+        <h1>Upload a campaign</h1>
+        <label>Campaign name
+          <input id="camp-name" type="text" placeholder="e.g. Burbank — March 2026">
+        </label>
+        <label>List file (CSV or Excel)
+          <input id="camp-file" type="file" accept=".csv,.xlsx,.xls">
+        </label>
+        <div id="map-area" class="hidden">
+          <p class="muted">Match your spreadsheet columns:</p>
+          <div class="map-grid">
+            <label>Name <select id="map-owner_name"></select></label>
+            <label>Address <select id="map-site_address"></select></label>
+            <label>Phone <select id="map-phone"></select></label>
+            <label>City <select id="map-city"></select></label>
+            <label>Email <select id="map-email"></select></label>
+          </div>
+          <p id="camp-count" class="muted"></p>
+          <button id="btn-upload" class="btn btn-primary">Upload campaign</button>
+        </div>
+        <p id="owner-msg" class="msg"></p>
+      </div>
+
+      <div class="card">
+        <h2>Assign reps</h2>
+        <label>Campaign <select id="assign-campaign"></select></label>
+        <label>Rep <select id="assign-agent"></select></label>
+        <button id="btn-assign" class="btn">Assign rep</button>
+        <p id="assign-msg" class="msg"></p>
+        <ul id="assign-list" class="list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Campaign progress</h2>
+        <button id="btn-refresh-progress" class="btn">Refresh</button>
+        <div id="progress-area" class="progress-area"></div>
+      </div>
+    </section>
+
+    <section id="screen-rep" class="screen hidden">
+      <div id="rep-pick" class="card hidden">
+        <h1>Your campaigns</h1>
+        <ul id="rep-campaigns" class="list list-buttons"></ul>
+      </div>
+
+      <div id="rep-card" class="card hidden">
+        <div class="rep-head">
+          <span id="rep-campaign-name" class="muted"></span>
+          <span id="rep-progress" class="pill"></span>
+        </div>
+
+        <div class="contact">
+          <div class="contact-name" id="c-name">—</div>
+          <div class="contact-addr" id="c-addr">—</div>
+          <a class="contact-phone" id="c-phone" href="#">—</a>
+        </div>
+
+        <div class="timer" id="timer">00:00</div>
+
+        <div class="call-actions">
+          <button id="btn-call" class="btn btn-call">📞 Call</button>
+          <button id="btn-end" class="btn btn-end hidden">■ End call</button>
+        </div>
+
+        <label class="notes-label">Notes
+          <textarea id="c-notes" rows="3" placeholder="Notes about this call…"></textarea>
+        </label>
+
+        <div class="disposition">
+          <button id="btn-good" class="btn btn-good">✓ Yes — Good Lead</button>
+          <button id="btn-no" class="btn btn-no">✕ No — Not Interested</button>
+          <div class="disposition-minor">
+            <button id="btn-noanswer" class="btn btn-muted">No Answer</button>
+            <button id="btn-badnum" class="btn btn-muted">Bad Number</button>
+          </div>
+        </div>
+        <p id="rep-msg" class="msg"></p>
+      </div>
+
+      <div id="rep-done" class="card hidden">
+        <h1>All done 🎉</h1>
+        <p>No more contacts in this campaign right now.</p>
+        <button id="btn-recheck" class="btn">Check again</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/owner.js"></script>
+  <script src="js/rep.js"></script>
+</body>
+</html>
