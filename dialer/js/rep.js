@@ -40,6 +40,10 @@
     $("btn-add-lead").addEventListener("click", openAddLead);
     $("al-save").addEventListener("click", submitAddLead);
     $("al-cancel").addEventListener("click", () => { $("rep-add").classList.add("hidden"); $("rep-leads").classList.remove("hidden"); });
+    // Appointment
+    $("btn-appt").addEventListener("click", () => $("appt-box").classList.toggle("hidden"));
+    $("appt-cancel").addEventListener("click", () => $("appt-box").classList.add("hidden"));
+    $("appt-save").addEventListener("click", scheduleAppt);
   }
 
   async function loadCampaigns() {
@@ -154,6 +158,9 @@
     // Restore a saved draft (survives an app close), else any note already stored.
     $("c-notes").value = localStorage.getItem(noteKey(contact.id)) || contact.notes || "";
 
+    $("appt-box").classList.add("hidden");
+    $("appt-when").value = "";
+
     $("btn-end").classList.add("hidden");
     $("btn-call").classList.remove("hidden");
   }
@@ -173,20 +180,28 @@
     $("btn-call").textContent = "📞 Redial";
   }
 
-  async function disposition(outcome) {
+  async function disposition(outcome, appointmentAt) {
     if (!contact) return;
     stopTimer();
     const notes = $("c-notes").value.trim();
     msg("Saving…");
-    const { error } = await sb().rpc("disposition_contact", {
+    const params = {
       p_contact: contact.id,
       p_outcome: outcome,
       p_notes: notes || null,
       p_seconds: elapsed || null,
-    });
+    };
+    if (appointmentAt) params.p_appointment_at = appointmentAt;
+    const { error } = await sb().rpc("disposition_contact", params);
     if (error) { msg("Could not save — check your connection, then try again. " + error.message, "error"); return; }
     localStorage.removeItem(noteKey(contact.id));
     loadNext();
+  }
+
+  function scheduleAppt() {
+    const v = $("appt-when").value;
+    if (!v) { msg("Pick a date and time.", "error"); return; }
+    disposition("good", new Date(v).toISOString());
   }
 
   async function updateProgress() {
@@ -253,7 +268,7 @@
     $("leads-count").textContent = "Loading…";
     const { data, error } = await sb()
       .from("leads")
-      .select("id, owner_name, phone, site_address, city, service_type, status, notes, created_at")
+      .select("*")
       .eq("rep_profile_id", uid)
       .order("created_at", { ascending: false });
     if (error) { $("leads-count").textContent = error.message; return; }
@@ -286,6 +301,7 @@
         '<div class="lead-name">' + esc(l.owner_name || "(no name)") + "</div>" +
         '<div class="lead-sub">' + esc(l.phone || "") + esc(type) + "</div>" +
         (addr ? '<div class="lead-sub muted">' + esc(addr) + "</div>" : "") +
+        (l.appointment_at ? '<div class="lead-appt">📅 ' + esc(new Date(l.appointment_at).toLocaleString()) + "</div>" : "") +
         (l.notes ? '<div class="lead-notes">' + esc(l.notes) + "</div>" : "") +
         '<div class="lead-meta">' + fmtDate(l.created_at) + " · " + esc(l.status) + "</div>";
       ul.appendChild(li);
@@ -293,7 +309,7 @@
   }
 
   function openAddLead() {
-    ["al-name", "al-phone", "al-address", "al-city", "al-email", "al-type", "al-notes"].forEach((id) => ($(id).value = ""));
+    ["al-name", "al-phone", "al-address", "al-city", "al-email", "al-type", "al-notes", "al-appt"].forEach((id) => ($(id).value = ""));
     window.DialerApp.toast($("al-msg"), "");
     $("rep-leads").classList.add("hidden");
     $("rep-add").classList.remove("hidden");
@@ -316,6 +332,7 @@
       email: $("al-email").value.trim() || null,
       service_type: $("al-type").value.trim() || null,
       notes: $("al-notes").value.trim() || null,
+      appointment_at: $("al-appt").value ? new Date($("al-appt").value).toISOString() : null,
     });
     if (error) { window.DialerApp.toast($("al-msg"), error.message, "error"); return; }
     $("rep-add").classList.add("hidden");

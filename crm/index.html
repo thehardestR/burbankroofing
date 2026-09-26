@@ -57,7 +57,7 @@
       <div class="table-wrap">
         <table class="leads-table">
           <thead>
-            <tr><th>Name</th><th>Phone</th><th>City</th><th>Type</th><th>Status</th><th>Source</th><th>Rep</th><th>Created</th></tr>
+            <tr><th>Name</th><th>Phone</th><th>City</th><th>Type</th><th>Status</th><th>Appt</th><th>Source</th><th>Rep</th><th>Created</th></tr>
           </thead>
           <tbody id="leads-rows"></tbody>
         </table>
@@ -75,6 +75,7 @@
       <div class="form-grid">
         <label>Status <select id="d-status"></select></label>
         <label>Type <input id="d-type" type="text" placeholder="roof, turf…"></label>
+        <label>Appointment <input id="d-appt" type="datetime-local"></label>
       </div>
       <label>Notes <textarea id="d-notes" rows="4"></textarea></label>
       <div class="row-btns">
@@ -105,6 +106,7 @@
         <label>Email <input id="a-email" type="email"></label>
         <label>Type <input id="a-type" type="text" placeholder="roof, turf…"></label>
         <label>Status <select id="a-status"></select></label>
+        <label>Appointment <input id="a-appt" type="datetime-local"></label>
       </div>
       <label>Notes <textarea id="a-notes" rows="3"></textarea></label>
       <button id="a-submit" class="btn btn-primary">Save lead</button>

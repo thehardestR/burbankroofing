@@ -21,6 +21,12 @@
     );
   }
   function fmtDate(iso) { return iso ? new Date(iso).toLocaleDateString() : ""; }
+  function toLocalInput(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    const p = (n) => String(n).padStart(2, "0");
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + "T" + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
 
   async function init() {
     if (!inited) { wire(); inited = true; }
@@ -126,6 +132,7 @@
         "<td>" + esc(l.city || "") + "</td>" +
         "<td>" + esc(l.service_type || "") + "</td>" +
         '<td><span class="tag">' + esc(l.status) + "</span></td>" +
+        "<td>" + (l.appointment_at ? esc(new Date(l.appointment_at).toLocaleString()) : "") + "</td>" +
         "<td>" + esc(l.source) + "</td>" +
         "<td>" + esc(l.rep_profile_id ? repName(l.rep_profile_id) : "—") + "</td>" +
         "<td>" + fmtDate(l.created_at) + "</td>";
@@ -141,6 +148,7 @@
     $("d-sub").textContent = [lead.phone, lead.site_address, lead.city].filter(Boolean).join(" · ");
     $("d-status").value = lead.status;
     $("d-type").value = lead.service_type || "";
+    $("d-appt").value = toLocalInput(lead.appointment_at);
     $("d-notes").value = lead.notes || "";
     $("d-meta").innerHTML =
       "Source: <b>" + esc(lead.source) + "</b> · Rep: <b>" +
@@ -158,6 +166,7 @@
     const patch = {
       status: $("d-status").value,
       service_type: $("d-type").value.trim() || null,
+      appointment_at: $("d-appt").value ? new Date($("d-appt").value).toISOString() : null,
       notes: $("d-notes").value.trim() || null,
     };
     const { error } = await sb().from("leads").update(patch).eq("id", selected.id);
@@ -243,7 +252,7 @@
 
   // ----- add -----
   function openAdd() {
-    ["a-name", "a-phone", "a-address", "a-city", "a-email", "a-type", "a-notes"].forEach((id) => ($(id).value = ""));
+    ["a-name", "a-phone", "a-address", "a-city", "a-email", "a-type", "a-notes", "a-appt"].forEach((id) => ($(id).value = ""));
     $("a-status").value = "new";
     toast($("a-msg"), "");
     openModal("add-modal");
@@ -263,6 +272,7 @@
       city: $("a-city").value.trim() || null,
       email: $("a-email").value.trim() || null,
       service_type: $("a-type").value.trim() || null,
+      appointment_at: $("a-appt").value ? new Date($("a-appt").value).toISOString() : null,
       notes: $("a-notes").value.trim() || null,
     });
     if (error) { toast($("a-msg"), error.message, "error"); return; }
@@ -272,7 +282,7 @@
 
   // ----- csv -----
   function downloadCSV() {
-    const cols = ["created_at", "owner_name", "phone", "site_address", "city", "email", "service_type", "status", "source", "notes", "call_seconds"];
+    const cols = ["created_at", "owner_name", "phone", "site_address", "city", "email", "service_type", "status", "appointment_at", "source", "notes", "call_seconds"];
     const q = (v) => { if (v == null) return ""; const s = String(v); return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
     const header = cols.concat(["rep"]).join(",");
     const body = leads.map((l) => cols.map((c) => q(l[c])).concat(q(repName(l.rep_profile_id))).join(",")).join("\r\n");

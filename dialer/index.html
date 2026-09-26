@@ -134,6 +134,12 @@
             <button id="btn-badnum" class="btn btn-muted">Bad Number</button>
           </div>
         </div>
+        <button id="btn-appt" class="btn btn-appt">📅 Schedule Appointment</button>
+        <div id="appt-box" class="appt-box hidden">
+          <label>Appointment date &amp; time <input id="appt-when" type="datetime-local"></label>
+          <button id="appt-save" class="btn btn-good">Save appointment (good lead)</button>
+          <button id="appt-cancel" class="btn btn-muted">Cancel</button>
+        </div>
         <p id="rep-msg" class="msg"></p>
       </div>
 
@@ -162,6 +168,7 @@
         <label>City <input id="al-city" type="text" autocomplete="off"></label>
         <label>Email <input id="al-email" type="email" inputmode="email" autocomplete="off"></label>
         <label>Type <input id="al-type" type="text" placeholder="roof, turf, solar…" autocomplete="off"></label>
+        <label>Appointment (optional) <input id="al-appt" type="datetime-local"></label>
         <label>Notes <textarea id="al-notes" rows="3"></textarea></label>
         <button id="al-save" class="btn btn-good">Save lead</button>
         <button id="al-cancel" class="btn btn-muted">Cancel</button>
