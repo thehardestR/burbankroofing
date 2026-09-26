@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0f172a">
+  <title>Palm Crest CRM</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="css/crm.css">
+</head>
+<body>
+  <header id="appbar" class="appbar hidden">
+    <span class="appbar-title">Palm Crest CRM</span>
+    <span class="appbar-spacer"></span>
+    <span id="appbar-user" class="appbar-user"></span>
+    <button id="btn-signout" class="btn-link">Sign out</button>
+  </header>
+
+  <main id="app">
+    <section id="screen-setup" class="screen hidden">
+      <div class="card"><h1>Setup needed</h1><p>Add your Supabase URL and anon key to <code>js/config.js</code>, then reload.</p></div>
+    </section>
+
+    <section id="screen-login" class="screen hidden">
+      <form id="login-form" class="card auth-card">
+        <h1>CRM sign in</h1>
+        <label>Email <input id="login-email" type="email" autocomplete="username" required></label>
+        <label>Password <input id="login-password" type="password" autocomplete="current-password" required></label>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        <p id="login-error" class="error"></p>
+      </form>
+    </section>
+
+    <section id="screen-denied" class="screen hidden">
+      <div class="card auth-card">
+        <h1>Owner only</h1>
+        <p>This CRM is for the owner account. If you're a caller, use the dialer instead.</p>
+        <button class="btn" onclick="document.getElementById('btn-signout').click()">Sign out</button>
+      </div>
+    </section>
+
+    <section id="screen-crm" class="screen hidden">
+      <div class="toolbar">
+        <button id="btn-add" class="btn btn-primary">+ Add Lead</button>
+        <input id="f-search" type="search" placeholder="Search name, phone, address…">
+        <select id="f-source"></select>
+        <select id="f-status"></select>
+        <select id="f-rep"></select>
+        <input id="f-type" type="search" placeholder="Type (roof, turf…)">
+        <button id="btn-refresh" class="btn">Refresh</button>
+        <button id="btn-download" class="btn">Download CSV</button>
+      </div>
+      <p id="crm-stats" class="muted"></p>
+      <div class="table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr><th>Name</th><th>Phone</th><th>City</th><th>Type</th><th>Status</th><th>Source</th><th>Rep</th><th>Created</th></tr>
+          </thead>
+          <tbody id="leads-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="detail-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><h2 id="d-title">Lead</h2><p id="d-sub" class="muted"></p></div>
+        <button id="d-close" class="btn-link">✕</button>
+      </div>
+      <p id="d-meta" class="meta"></p>
+      <div class="form-grid">
+        <label>Status <select id="d-status"></select></label>
+        <label>Type <input id="d-type" type="text" placeholder="roof, turf…"></label>
+      </div>
+      <label>Notes <textarea id="d-notes" rows="4"></textarea></label>
+      <div class="row-btns">
+        <button id="d-save" class="btn btn-primary">Save</button>
+        <button id="d-delete" class="btn btn-danger">Delete lead</button>
+      </div>
+      <p id="d-msg" class="msg"></p>
+
+      <h3>Documents (EagleView, permits…)</h3>
+      <div id="d-docs" class="docs"></div>
+      <div class="upload">
+        <select id="d-doctype"></select>
+        <input id="d-doctitle" type="text" placeholder="Title (optional)">
+        <input id="d-file" type="file">
+        <button id="d-upload" class="btn">Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="add-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head"><h2>Add a lead</h2><button id="a-close" class="btn-link">✕</button></div>
+      <div class="form-grid">
+        <label>Name <input id="a-name" type="text"></label>
+        <label>Phone <input id="a-phone" type="tel"></label>
+        <label>Address <input id="a-address" type="text"></label>
+        <label>City <input id="a-city" type="text"></label>
+        <label>Email <input id="a-email" type="email"></label>
+        <label>Type <input id="a-type" type="text" placeholder="roof, turf…"></label>
+        <label>Status <select id="a-status"></select></label>
+      </div>
+      <label>Notes <textarea id="a-notes" rows="3"></textarea></label>
+      <button id="a-submit" class="btn btn-primary">Save lead</button>
+      <p id="a-msg" class="msg"></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/crm.js"></script>
+</body>
+</html>

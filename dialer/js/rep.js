@@ -33,6 +33,13 @@
     $("c-notes").addEventListener("input", () => {
       if (contact) localStorage.setItem(noteKey(contact.id), $("c-notes").value);
     });
+    // Leads tab + manual entry
+    $("nav-call").addEventListener("click", () => showMode("call"));
+    $("nav-leads").addEventListener("click", () => showMode("leads"));
+    $("leads-search").addEventListener("input", renderMyLeads);
+    $("btn-add-lead").addEventListener("click", openAddLead);
+    $("al-save").addEventListener("click", submitAddLead);
+    $("al-cancel").addEventListener("click", () => { $("rep-add").classList.add("hidden"); $("rep-leads").classList.remove("hidden"); });
   }
 
   async function loadCampaigns() {
@@ -226,6 +233,102 @@
     $("timer").textContent = "00:00";
     $("btn-call").textContent = "📞 Call";
   }
+
+  // ----- My Leads (rep view of past leads + manual entry) -----
+  let myLeads = [];
+
+  function showMode(mode) {
+    const leadsMode = mode === "leads";
+    $("rep-call-views").classList.toggle("hidden", leadsMode);
+    $("rep-leads").classList.toggle("hidden", !leadsMode);
+    $("rep-add").classList.add("hidden");
+    $("nav-call").classList.toggle("active", !leadsMode);
+    $("nav-leads").classList.toggle("active", leadsMode);
+    if (leadsMode) loadMyLeads();
+  }
+
+  async function loadMyLeads() {
+    const uid = window.DialerApp.user && window.DialerApp.user.id;
+    if (!uid) return;
+    $("leads-count").textContent = "Loading…";
+    const { data, error } = await sb()
+      .from("leads")
+      .select("id, owner_name, phone, site_address, city, service_type, status, notes, created_at")
+      .eq("rep_profile_id", uid)
+      .order("created_at", { ascending: false });
+    if (error) { $("leads-count").textContent = error.message; return; }
+    myLeads = data || [];
+    renderMyLeads();
+  }
+
+  function renderMyLeads() {
+    const q = ($("leads-search").value || "").toLowerCase();
+    const rows = myLeads.filter((l) =>
+      !q || [l.owner_name, l.phone, l.site_address, l.city, l.service_type]
+        .some((v) => (v || "").toLowerCase().includes(q))
+    );
+    $("leads-count").textContent = rows.length + (rows.length === 1 ? " lead" : " leads");
+    const ul = $("leads-list");
+    ul.innerHTML = "";
+    if (rows.length === 0) {
+      const li = document.createElement("li");
+      li.className = "lead-empty";
+      li.textContent = myLeads.length === 0 ? "No leads yet. Tap + Add to enter one." : "No matches.";
+      ul.appendChild(li);
+      return;
+    }
+    rows.forEach((l) => {
+      const li = document.createElement("li");
+      li.className = "lead-item";
+      const type = l.service_type ? " · " + l.service_type : "";
+      const addr = [l.site_address, l.city].filter(Boolean).join(", ");
+      li.innerHTML =
+        '<div class="lead-name">' + esc(l.owner_name || "(no name)") + "</div>" +
+        '<div class="lead-sub">' + esc(l.phone || "") + esc(type) + "</div>" +
+        (addr ? '<div class="lead-sub muted">' + esc(addr) + "</div>" : "") +
+        (l.notes ? '<div class="lead-notes">' + esc(l.notes) + "</div>" : "") +
+        '<div class="lead-meta">' + fmtDate(l.created_at) + " · " + esc(l.status) + "</div>";
+      ul.appendChild(li);
+    });
+  }
+
+  function openAddLead() {
+    ["al-name", "al-phone", "al-address", "al-city", "al-email", "al-type", "al-notes"].forEach((id) => ($(id).value = ""));
+    window.DialerApp.toast($("al-msg"), "");
+    $("rep-leads").classList.add("hidden");
+    $("rep-add").classList.remove("hidden");
+  }
+
+  async function submitAddLead() {
+    const uid = window.DialerApp.user && window.DialerApp.user.id;
+    const owner_name = $("al-name").value.trim();
+    const phone = $("al-phone").value.trim();
+    if (!owner_name && !phone) { window.DialerApp.toast($("al-msg"), "Enter at least a name or phone.", "error"); return; }
+    window.DialerApp.toast($("al-msg"), "Saving…");
+    const { error } = await sb().from("leads").insert({
+      source: "manual",
+      status: "new",
+      rep_profile_id: uid,
+      owner_name: owner_name || null,
+      phone: phone || null,
+      site_address: $("al-address").value.trim() || null,
+      city: $("al-city").value.trim() || null,
+      email: $("al-email").value.trim() || null,
+      service_type: $("al-type").value.trim() || null,
+      notes: $("al-notes").value.trim() || null,
+    });
+    if (error) { window.DialerApp.toast($("al-msg"), error.message, "error"); return; }
+    $("rep-add").classList.add("hidden");
+    $("rep-leads").classList.remove("hidden");
+    loadMyLeads();
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+    );
+  }
+  function fmtDate(iso) { return iso ? new Date(iso).toLocaleDateString() : ""; }
 
   function noteKey(id) { return "dialer:note:" + id; }
   function telDigits(phone) { return (phone || "").replace(/[^\d+]/g, ""); }

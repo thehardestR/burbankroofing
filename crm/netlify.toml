@@ -1,0 +1,11 @@
+# Deploy the CRM as its OWN Netlify site.
+# In Netlify: Add new project -> Import from GitHub -> pick this repo -> set
+# "Base directory" to: crm
+[build]
+  publish = "."
+  command = "echo 'Static app — no build step'"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

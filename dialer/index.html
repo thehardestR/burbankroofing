@@ -92,6 +92,12 @@
     </section>
 
     <section id="screen-rep" class="screen hidden">
+      <div id="rep-nav" class="rep-nav">
+        <button id="nav-call" class="nav-btn active">📞 Call</button>
+        <button id="nav-leads" class="nav-btn">📋 My Leads</button>
+      </div>
+
+      <div id="rep-call-views">
       <div id="rep-pick" class="card hidden">
         <h1>Your campaigns</h1>
         <ul id="rep-campaigns" class="list list-buttons"></ul>
@@ -135,6 +141,31 @@
         <h1>All done 🎉</h1>
         <p>No more contacts in this campaign right now.</p>
         <button id="btn-recheck" class="btn">Check again</button>
+      </div>
+      </div>
+
+      <div id="rep-leads" class="card hidden">
+        <div class="rep-head">
+          <h1>My Leads</h1>
+          <button id="btn-add-lead" class="btn btn-primary btn-inline">+ Add</button>
+        </div>
+        <input id="leads-search" type="search" placeholder="Search name, phone, address…">
+        <p id="leads-count" class="muted"></p>
+        <ul id="leads-list" class="lead-list"></ul>
+      </div>
+
+      <div id="rep-add" class="card hidden">
+        <h1>Add a lead</h1>
+        <label>Name <input id="al-name" type="text" autocomplete="off"></label>
+        <label>Phone <input id="al-phone" type="tel" inputmode="tel" autocomplete="off"></label>
+        <label>Address <input id="al-address" type="text" autocomplete="off"></label>
+        <label>City <input id="al-city" type="text" autocomplete="off"></label>
+        <label>Email <input id="al-email" type="email" inputmode="email" autocomplete="off"></label>
+        <label>Type <input id="al-type" type="text" placeholder="roof, turf, solar…" autocomplete="off"></label>
+        <label>Notes <textarea id="al-notes" rows="3"></textarea></label>
+        <button id="al-save" class="btn btn-good">Save lead</button>
+        <button id="al-cancel" class="btn btn-muted">Cancel</button>
+        <p id="al-msg" class="msg"></p>
       </div>
     </section>
   </main>

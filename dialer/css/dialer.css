@@ -136,3 +136,18 @@ textarea { resize: vertical; }
 .disposition { display: grid; gap: 10px; margin-top: 8px; }
 .disposition-minor { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .disposition-minor .btn { margin-top: 0; }
+
+/* Rep leads tab */
+.rep-nav { display: flex; gap: 8px; margin-bottom: 14px; }
+.nav-btn { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 15px; font-weight: 600; cursor: pointer; }
+.nav-btn.active { background: var(--accent); color: #08131f; border-color: var(--accent); }
+.rep-head h1 { margin: 0; font-size: 22px; }
+.btn-inline { width: auto; padding: 10px 14px; margin-top: 0; }
+.lead-list { list-style: none; padding: 0; margin: 10px 0 0; }
+.lead-item { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
+.lead-name { font-weight: 700; font-size: 17px; }
+.lead-sub { font-size: 14px; margin-top: 2px; }
+.lead-sub.muted { color: var(--muted); }
+.lead-notes { font-size: 13px; color: var(--muted); margin-top: 6px; white-space: pre-wrap; }
+.lead-meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.lead-empty { color: var(--muted); padding: 12px 0; list-style: none; }
