@@ -301,9 +301,13 @@
         '<div class="lead-name">' + esc(l.owner_name || "(no name)") + "</div>" +
         '<div class="lead-sub">' + esc(l.phone || "") + esc(type) + "</div>" +
         (addr ? '<div class="lead-sub muted">' + esc(addr) + "</div>" : "") +
-        (l.appointment_at ? '<div class="lead-appt">📅 ' + esc(new Date(l.appointment_at).toLocaleString()) + "</div>" : "") +
+        (l.appointment_at ? '<button type="button" class="lead-appt">📅 ' + esc(new Date(l.appointment_at).toLocaleString()) + '<span class="lead-appt-cta">Add to calendar</span></button>' : "") +
         (l.notes ? '<div class="lead-notes">' + esc(l.notes) + "</div>" : "") +
         '<div class="lead-meta">' + fmtDate(l.created_at) + " · " + esc(l.status) + "</div>";
+      if (l.appointment_at) {
+        const apptBtn = li.querySelector(".lead-appt");
+        if (apptBtn) apptBtn.addEventListener("click", () => addToCalendar(l));
+      }
       ul.appendChild(li);
     });
   }
@@ -346,6 +350,51 @@
     );
   }
   function fmtDate(iso) { return iso ? new Date(iso).toLocaleDateString() : ""; }
+
+  // Build an .ics file for a lead's appointment so the phone can add it to its calendar.
+  function addToCalendar(lead) {
+    if (!lead || !lead.appointment_at) return;
+    const blob = new Blob([buildIcs(lead)], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const slug = (lead.owner_name || "lead").replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase() || "lead";
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "appointment-" + slug + ".ics";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  function buildIcs(lead) {
+    const start = new Date(lead.appointment_at);
+    const end = new Date(start.getTime() + 60 * 60 * 1000); // default 1-hour block
+    const stamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    const title = "Roofing appointment" + (lead.owner_name ? " — " + lead.owner_name : "");
+    const loc = [lead.site_address, lead.city].filter(Boolean).join(", ");
+    const desc = [lead.phone ? "Phone: " + lead.phone : "", lead.notes || ""].filter(Boolean).join("\n");
+    const lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Palm Crest//Dialer//EN",
+      "CALSCALE:GREGORIAN",
+      "BEGIN:VEVENT",
+      "UID:" + (lead.id || Date.now()) + "@palmcrest-dialer",
+      "DTSTAMP:" + stamp(new Date()),
+      "DTSTART:" + stamp(start),
+      "DTEND:" + stamp(end),
+      "SUMMARY:" + icsEscape(title),
+    ];
+    if (loc) lines.push("LOCATION:" + icsEscape(loc));
+    if (desc) lines.push("DESCRIPTION:" + icsEscape(desc));
+    lines.push("END:VEVENT", "END:VCALENDAR");
+    return lines.join("\r\n");
+  }
+
+  function icsEscape(s) {
+    return String(s == null ? "" : s)
+      .replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  }
 
   function noteKey(id) { return "dialer:note:" + id; }
   function telDigits(phone) { return (phone || "").replace(/[^\d+]/g, ""); }
