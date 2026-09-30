@@ -155,4 +155,12 @@ textarea { resize: vertical; }
 .lead-appt:hover { background: rgba(245, 158, 11, 0.16); }
 .lead-appt-cta { margin-left: auto; font-size: 12px; color: var(--muted); font-weight: 600; }
 .btn-appt { background: #f59e0b; color: #1a1206; border-color: #f59e0b; margin-top: 10px; }
+
+/* Add-to-calendar chooser (Google vs Apple/.ics) */
+.cal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: flex; align-items: flex-end; justify-content: center; padding: 16px; z-index: 1000; }
+.cal-sheet { width: 100%; max-width: 420px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: grid; gap: 10px; }
+.cal-sheet .btn { margin-top: 0; }
+.cal-title { text-align: center; font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+.cal-google { background: #4285f4; color: #fff; border-color: #4285f4; }
+.cal-ics { background: var(--panel-2); color: var(--text); border-color: var(--line); }
 .appt-box { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; }

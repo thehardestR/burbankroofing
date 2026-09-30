@@ -352,9 +352,51 @@
   function fmtDate(iso) { return iso ? new Date(iso).toLocaleDateString() : ""; }
 
   // Build an .ics file for a lead's appointment so the phone can add it to its calendar.
+  // Tapping an appointment offers a choice: Google Calendar (opens an add-event
+  // page, no download) or Apple/other (.ics, opens the native calendar sheet).
   function addToCalendar(lead) {
     if (!lead || !lead.appointment_at) return;
-    const blob = new Blob([buildIcs(lead)], { type: "text/calendar;charset=utf-8" });
+    const overlay = document.createElement("div");
+    overlay.className = "cal-overlay";
+    overlay.innerHTML =
+      '<div class="cal-sheet">' +
+        '<div class="cal-title">Add to calendar</div>' +
+        '<button type="button" class="btn cal-google">📅 Google Calendar</button>' +
+        '<button type="button" class="btn cal-ics">🇴 Apple / other calendar</button>' +
+        '<button type="button" class="btn btn-muted cal-cancel">Cancel</button>' +
+      "</div>";
+    const close = () => overlay.remove();
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+    overlay.querySelector(".cal-cancel").addEventListener("click", close);
+    overlay.querySelector(".cal-google").addEventListener("click", () => { close(); openGoogleCalendar(lead); });
+    overlay.querySelector(".cal-ics").addEventListener("click", () => { close(); openIcs(lead); });
+    document.body.appendChild(overlay);
+  }
+
+  function openGoogleCalendar(lead) {
+    const start = new Date(lead.appointment_at);
+    const end = new Date(start.getTime() + 60 * 60 * 1000); // default 1-hour block
+    const stamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: "Roofing appointment" + (lead.owner_name ? " — " + lead.owner_name : ""),
+      dates: stamp(start) + "/" + stamp(end),
+      location: [lead.site_address, lead.city].filter(Boolean).join(", "),
+      details: [lead.phone ? "Phone: " + lead.phone : "", lead.notes || ""].filter(Boolean).join("\n"),
+    });
+    window.open("https://calendar.google.com/calendar/render?" + params.toString(), "_blank", "noopener");
+  }
+
+  function openIcs(lead) {
+    const ics = buildIcs(lead);
+    const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (isIOS) {
+      // iOS shows the native Add-to-Calendar sheet when the .ics opens inline.
+      window.location.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+      return;
+    }
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const slug = (lead.owner_name || "lead").replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase() || "lead";
     const a = document.createElement("a");
