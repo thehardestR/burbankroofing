@@ -44,6 +44,8 @@
     $("btn-appt").addEventListener("click", () => $("appt-box").classList.toggle("hidden"));
     $("appt-cancel").addEventListener("click", () => $("appt-box").classList.add("hidden"));
     $("appt-save").addEventListener("click", scheduleAppt);
+    // Skip (testing): jump to the next contact without dispositioning or tallying.
+    $("btn-skip").addEventListener("click", skipContact);
   }
 
   async function loadCampaigns() {
@@ -231,6 +233,27 @@
     const v = $("appt-when").value;
     if (!v) { msg("Pick a date and time.", "error"); return; }
     disposition("good", new Date(v).toISOString());
+  }
+
+  // Skip (testing only): claim the next contact first (so the current one is skipped
+  // over), then release the current back to the pool. No disposition, no tally, and the
+  // skipped contact stays assigned to no one.
+  async function skipContact() {
+    if (!contact) return;
+    const skippedId = contact.id;
+    stopTimer();
+    msg("Skipping…");
+    const { data, error } = await sb().rpc("claim_next_contact", { p_campaign: current });
+    if (error) { msg(error.message, "error"); return; }
+    await sb().rpc("release_contact", { p_contact: skippedId });
+    localStorage.removeItem(noteKey(skippedId));
+    const row = Array.isArray(data) ? data[0] : data;
+    if (!row) { contact = null; resetTimer(); updateProgress(); showDone("All done 🎉", "No other contacts to skip to."); return; }
+    contact = row;
+    resetTimer();
+    renderContact();
+    updateProgress();
+    msg("Skipped.");
   }
 
   async function updateProgress() {
