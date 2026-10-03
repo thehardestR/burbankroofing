@@ -46,6 +46,11 @@ html, body {
   cursor: pointer;
 }
 
+.auth-links { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; }
+.pending-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.pending-item .who { flex: 1; font-size: 15px; word-break: break-all; }
+.pending-item .btn { width: auto; margin-top: 0; padding: 8px 12px; font-size: 14px; }
+
 #app { padding: 18px; max-width: 620px; margin: 0 auto; }
 
 .screen { display: block; }

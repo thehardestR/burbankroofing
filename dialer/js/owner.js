@@ -22,6 +22,7 @@
   async function init() {
     if (!inited) { wire(); inited = true; }
     await loadAgents();
+    await loadPending();
     await loadCampaignsDropdown();
   }
 
@@ -159,12 +160,67 @@
   }
 
   async function loadAgents() {
-    const { data, error } = await sb().from("profiles").select("id,email,full_name").order("email");
+    // Only approved telemarketers are assignable.
+    const { data, error } = await sb()
+      .from("telemarketers")
+      .select("profile_id, profiles(email, full_name)")
+      .eq("status", "approved");
     if (error) return;
-    agents = data || [];
+    agents = (data || []).map((r) => ({
+      id: r.profile_id,
+      email: r.profiles && r.profiles.email,
+      full_name: r.profiles && r.profiles.full_name,
+    }));
+    agents.sort((a, b) => (a.email || "").localeCompare(b.email || ""));
     const sel = $("assign-agent");
     sel.innerHTML = "";
     agents.forEach((a) => sel.add(new Option(a.email || a.full_name || a.id, a.id)));
+  }
+
+  async function loadPending() {
+    const ul = $("pending-list");
+    if (!ul) return;
+    const { data, error } = await sb()
+      .from("telemarketers")
+      .select("profile_id, status, created_at, profiles(email, full_name)")
+      .eq("status", "pending")
+      .order("created_at");
+    ul.innerHTML = "";
+    if (error) { window.DialerApp.toast($("pending-msg"), error.message, "error"); return; }
+    if (!data || data.length === 0) {
+      const li = document.createElement("li");
+      li.className = "muted";
+      li.textContent = "No reps waiting for approval.";
+      ul.appendChild(li);
+      return;
+    }
+    data.forEach((r) => {
+      const who = (r.profiles && (r.profiles.email || r.profiles.full_name)) || r.profile_id;
+      const li = document.createElement("li");
+      li.className = "pending-item";
+      const span = document.createElement("span");
+      span.className = "who";
+      span.textContent = who;
+      const ok = document.createElement("button");
+      ok.className = "btn btn-good";
+      ok.textContent = "Approve";
+      ok.addEventListener("click", () => setRepStatus(r.profile_id, "approved"));
+      const no = document.createElement("button");
+      no.className = "btn btn-muted";
+      no.textContent = "Reject";
+      no.addEventListener("click", () => setRepStatus(r.profile_id, "rejected"));
+      li.append(span, ok, no);
+      ul.appendChild(li);
+    });
+  }
+
+  async function setRepStatus(profileId, status) {
+    const { error } = await sb().rpc("set_rep_status", { p_profile: profileId, p_status: status });
+    const m = $("pending-msg");
+    if (error) { window.DialerApp.toast(m, error.message, "error"); return; }
+    window.DialerApp.toast(m, status === "approved" ? "Rep approved." : "Rep rejected.", "ok");
+    await loadPending();
+    await loadAgents();
   }
 
   async function onAssign() {
