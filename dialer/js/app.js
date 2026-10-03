@@ -155,10 +155,17 @@
     // not-yet-approved reps wait on the pending screen (the approval flag lives in
     // the telemarketers table, which reps cannot modify).
     $("appbar-title").textContent = "Dialer";
-    const { data: rep } = await App.supabase
+    let { data: rep } = await App.supabase
       .from("telemarketers").select("status").eq("profile_id", user.id).maybeSingle();
-    if (!rep || rep.status !== "approved") {
-      renderPending(rep && rep.status);
+    if (!rep) {
+      // First authenticated load (e.g. right after email confirmation): record the
+      // signup so the owner gets an approval request even when email confirmation is on.
+      await App.supabase.from("telemarketers")
+        .upsert({ profile_id: user.id, status: "pending" }, { onConflict: "profile_id", ignoreDuplicates: true });
+      rep = { status: "pending" };
+    }
+    if (rep.status !== "approved") {
+      renderPending(rep.status);
       show("screen-pending");
       return;
     }
