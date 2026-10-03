@@ -90,6 +90,16 @@
 
     <section id="screen-owner" class="screen hidden">
       <div class="card">
+        <h2>Prep: explode phone numbers</h2>
+        <p class="muted">Upload your raw Titan Skip / PropWire file. This pulls every phone column into one list you can send to the DNC scrubber.</p>
+        <label>Raw list (CSV or Excel)
+          <input id="explode-file" type="file" accept=".csv,.xlsx,.xls">
+        </label>
+        <button id="btn-explode" class="btn" disabled>Download numbers to scrub</button>
+        <p id="explode-info" class="muted"></p>
+      </div>
+
+      <div class="card">
         <h1>Upload a campaign</h1>
         <label>Campaign name
           <input id="camp-name" type="text" placeholder="e.g. Burbank — March 2026">
@@ -97,6 +107,10 @@
         <label>List file (CSV or Excel)
           <input id="camp-file" type="file" accept=".csv,.xlsx,.xls">
         </label>
+        <label>Clean / DNC results (optional)
+          <input id="scrub-file" type="file" accept=".csv,.xlsx,.xls">
+        </label>
+        <p id="scrub-info" class="muted"></p>
         <div id="map-area" class="hidden">
           <p class="muted">Match your spreadsheet columns:</p>
           <div class="map-grid">
@@ -165,6 +179,7 @@
           <div class="contact-name" id="c-name">—</div>
           <div class="contact-addr" id="c-addr">—</div>
           <a class="contact-phone" id="c-phone" href="#">—</a>
+          <div class="phone-pos muted" id="c-phone-pos"></div>
         </div>
 
         <div class="timer" id="timer">00:00</div>

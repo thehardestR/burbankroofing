@@ -26,8 +26,8 @@
     $("btn-end").addEventListener("click", onEnd);
     $("btn-good").addEventListener("click", () => disposition("good"));
     $("btn-no").addEventListener("click", () => disposition("not_interested"));
-    $("btn-noanswer").addEventListener("click", () => disposition("no_answer"));
-    $("btn-badnum").addEventListener("click", () => disposition("bad_number"));
+    $("btn-noanswer").addEventListener("click", () => advanceNumber("no_answer"));
+    $("btn-badnum").addEventListener("click", () => advanceNumber("bad_number"));
     $("btn-recheck").addEventListener("click", loadNext);
     // Save the note as she types so it survives an accidental app close.
     $("c-notes").addEventListener("input", () => {
@@ -155,6 +155,12 @@
     a.textContent = contact.phone || "—";
     a.href = tel ? "tel:" + tel : "#";
 
+    const pos = $("c-phone-pos");
+    if (pos) {
+      const n = (contact.phones && contact.phones.length) || 0;
+      pos.textContent = n > 1 ? "Number " + ((contact.phone_idx || 0) + 1) + " of " + n : "";
+    }
+
     // Restore a saved draft (survives an app close), else any note already stored.
     $("c-notes").value = localStorage.getItem(noteKey(contact.id)) || contact.notes || "";
 
@@ -163,6 +169,7 @@
 
     $("btn-end").classList.add("hidden");
     $("btn-call").classList.remove("hidden");
+    $("btn-call").textContent = "📞 Call";
   }
 
   function onCall() {
@@ -194,6 +201,28 @@
     if (appointmentAt) params.p_appointment_at = appointmentAt;
     const { error } = await sb().rpc("disposition_contact", params);
     if (error) { msg("Could not save — check your connection, then try again. " + error.message, "error"); return; }
+    localStorage.removeItem(noteKey(contact.id));
+    loadNext();
+  }
+
+  // Bad Number / No Answer: move to this contact's next number; only when the list is
+  // exhausted does the outcome get filed and the next contact load.
+  async function advanceNumber(outcome) {
+    if (!contact) return;
+    stopTimer();
+    msg("Saving…");
+    const { data, error } = await sb().rpc("advance_phone", { p_contact: contact.id, p_exhausted_outcome: outcome });
+    if (error) { msg("Could not save — check your connection, then try again. " + error.message, "error"); return; }
+    const row = Array.isArray(data) ? data[0] : data;
+    if (row && row.status === "claimed") {
+      contact = row;
+      resetTimer();
+      renderContact();
+      const label = outcome === "bad_number" ? "Bad number" : "No answer";
+      const n = (row.phones && row.phones.length) || 1;
+      msg(label + " — trying next number (" + ((row.phone_idx || 0) + 1) + " of " + n + ").");
+      return;
+    }
     localStorage.removeItem(noteKey(contact.id));
     loadNext();
   }

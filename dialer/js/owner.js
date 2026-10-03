@@ -3,6 +3,9 @@
   window.DialerOwner = { init };
 
   let parsed = null;   // { headers, rows }
+  let scrub = null;    // { headers, rows } optional clean/DNC results file
+  let cleanSet = new Set(); // normalized numbers explicitly marked clean (allowlist)
+  let explodeData = null;   // { headers, rows } raw file for the explode tool
   let agents = [];
   let inited = false;
 
@@ -28,6 +31,9 @@
 
   function wire() {
     $("camp-file").addEventListener("change", onFile);
+    $("scrub-file").addEventListener("change", onScrubFile);
+    $("explode-file").addEventListener("change", onExplodeFile);
+    $("btn-explode").addEventListener("click", downloadExplode);
     $("btn-upload").addEventListener("click", onUpload);
     $("btn-assign").addEventListener("click", onAssign);
     $("assign-campaign").addEventListener("change", loadAssignments);
@@ -42,17 +48,14 @@
         "call-log"));
   }
 
-  function onFile(e) {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-    msg("Reading file…");
+  function readSheet(file, done, onErr) {
     const name = file.name.toLowerCase();
     if (name.endsWith(".csv")) {
       window.Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
-        complete: (res) => setParsed(res.meta.fields || [], res.data),
-        error: (err) => msg("Could not read CSV: " + err.message, "error"),
+        complete: (res) => done(res.meta.fields || [], res.data),
+        error: (err) => onErr("Could not read CSV: " + err.message),
       });
     } else {
       const reader = new FileReader();
@@ -62,13 +65,74 @@
           const ws = wb.Sheets[wb.SheetNames[0]];
           const rows = window.XLSX.utils.sheet_to_json(ws, { defval: "" });
           const headers = rows.length ? Object.keys(rows[0]) : [];
-          setParsed(headers, rows);
+          done(headers, rows);
         } catch (err) {
-          msg("Could not read Excel: " + err.message, "error");
+          onErr("Could not read Excel: " + err.message);
         }
       };
       reader.readAsArrayBuffer(file);
     }
+  }
+
+  function onFile(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    msg("Reading file…");
+    readSheet(file, (h, r) => setParsed(h, r), (m) => msg(m, "error"));
+  }
+
+  function onScrubFile(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) { scrub = null; cleanSet = new Set(); $("scrub-info").textContent = ""; return; }
+    readSheet(file, (h, r) => {
+      scrub = { headers: h, rows: r };
+      cleanSet = buildCleanSet();
+      $("scrub-info").textContent =
+        "Clean results: " + r.length + " numbers checked · " + cleanSet.size + " clean (only these will be dialed)." +
+        (cleanSet.size === 0 ? " ⚠ none marked clean — check the file's columns." : "");
+    }, (m) => { $("scrub-info").textContent = m; });
+  }
+
+  // ---- Explode tool: flatten all phone columns into one list for the DNC scrubber ----
+  function phoneColumns(headers) {
+    return headers.filter((c) => PHONE_RE.test(c) && !/type/i.test(c));
+  }
+
+  function onExplodeFile(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) { explodeData = null; $("btn-explode").disabled = true; $("explode-info").textContent = ""; return; }
+    $("explode-info").textContent = "Reading…";
+    readSheet(file, (h, r) => {
+      explodeData = { headers: h, rows: r };
+      const cols = phoneColumns(h);
+      $("btn-explode").disabled = cols.length === 0;
+      $("explode-info").textContent = cols.length
+        ? (r.length + " rows · " + cols.length + " phone columns found. Click to download.")
+        : "No phone columns found in this file.";
+    }, (m) => { $("explode-info").textContent = m; });
+  }
+
+  function downloadExplode() {
+    if (!explodeData) return;
+    const idCol = explodeData.headers.find((h) => /^id$/i.test(h)) ||
+                  explodeData.headers.find((h) => /\bid\b/i.test(h)) || null;
+    const cols = phoneColumns(explodeData.headers);
+    const seen = new Set();
+    const out = [["Id", "phone"]];
+    explodeData.rows.forEach((r, i) => {
+      const id = idCol ? String(r[idCol] == null ? "" : r[idCol]).trim() : String(i + 1);
+      cols.forEach((c) => {
+        const n = normPhone(r[c]);
+        if (!n) return;
+        const key = id + "|" + n;
+        if (seen.has(key)) return;
+        seen.add(key);
+        out.push([id, n]);
+      });
+    });
+    const csv = out.map((row) => row.map(csvCell).join(",")).join("\r\n");
+    triggerDownload(csv, "to_scrub.csv");
+    $("explode-info").textContent = "Downloaded " + (out.length - 1) + " numbers → upload to_scrub.csv to the scrubber.";
   }
 
   function setParsed(headers, rows) {
@@ -110,17 +174,41 @@
       .single();
     if (cErr) { msg("Upload failed: " + cErr.message, "error"); return; }
 
-    const rows = parsed.rows
-      .map((r) => ({
+    // Collect each contact's numbers (mapped column first, then other phone columns).
+    // When a clean/DNC results file is loaded, keep ONLY numbers on the clean allowlist;
+    // otherwise keep them all. phones[] drives the rep's "try the next number" cycling.
+    const phoneCols = [map.phone].concat(parsed.headers.filter((h) => h !== map.phone && PHONE_RE.test(h) && !/type/i.test(h)));
+    const filtering = cleanSet.size > 0;
+    let droppedNumbers = 0, skippedContacts = 0;
+    const rows = [];
+    parsed.rows.forEach((r) => {
+      const seen = new Set();
+      const nums = [];
+      phoneCols.forEach((c) => {
+        const v = pick(r, c);
+        if (!v) return;
+        const n = normPhone(v);
+        if (!n || seen.has(n)) return;
+        seen.add(n);
+        nums.push({ display: v, norm: n });
+      });
+      const before = nums.length;
+      const keep = filtering ? nums.filter((x) => cleanSet.has(x.norm)) : nums;
+      droppedNumbers += before - keep.length;
+      if (keep.length === 0) { if (before > 0) skippedContacts++; return; }
+      rows.push({
         campaign_id: camp.id,
         owner_name: pick(r, map.owner_name),
         site_address: pick(r, map.site_address),
-        phone: pick(r, map.phone),
+        phone: keep[0].display,
+        phones: keep.map((x) => x.display),
         city: pick(r, map.city),
         email: pick(r, map.email),
         raw: r,
-      }))
-      .filter((r) => r.phone);
+      });
+    });
+
+    if (rows.length === 0) { msg("No contacts with a usable phone number to upload.", "error"); return; }
 
     const BATCH = 500;
     for (let i = 0; i < rows.length; i += BATCH) {
@@ -130,11 +218,15 @@
       msg("Uploading… " + Math.min(i + BATCH, rows.length) + "/" + rows.length);
     }
 
-    msg('Campaign "' + name + '" uploaded with ' + rows.length + " contacts.", "ok");
+    let summary = 'Campaign "' + name + '" uploaded with ' + rows.length + " contacts.";
+    if (filtering) summary += " Clean numbers only — removed " + droppedNumbers + " non-clean, skipped " + skippedContacts + " with no clean number.";
+    msg(summary, "ok");
     $("camp-name").value = "";
     $("camp-file").value = "";
+    $("scrub-file").value = "";
+    $("scrub-info").textContent = "";
     $("map-area").classList.add("hidden");
-    parsed = null;
+    parsed = null; scrub = null; cleanSet = new Set();
     await loadCampaignsDropdown();
   }
 
@@ -142,6 +234,56 @@
     if (!col) return null;
     const v = row[col];
     return v === undefined || v === null || v === "" ? null : String(v).trim();
+  }
+
+  const PHONE_RE = /(phone|tel|mobile|cell)/i;
+
+  // Numbers are compared by their last 10 digits so formatting never matters.
+  function normPhone(v) {
+    const d = String(v == null ? "" : v).replace(/\D/g, "");
+    if (d.length === 11 && d[0] === "1") return d.slice(1);
+    if (d.length >= 10) return d.slice(-10);
+    return null;
+  }
+
+  function csvCell(v) {
+    const s = v == null ? "" : String(v);
+    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function detectScrubPhoneCol(headers, rows) {
+    const llr = headers.find((h) => /llr.*(phone|number)/i.test(h));
+    if (llr) return llr;
+    const byName = headers.find((h) => /phone|number|tel|mobile|cell/i.test(h));
+    if (byName) return byName;
+    let best = headers[0], bestScore = -1;
+    headers.forEach((h) => {
+      let score = 0;
+      rows.slice(0, 25).forEach((r) => { if (normPhone(r[h])) score++; });
+      if (score > bestScore) { bestScore = score; best = h; }
+    });
+    return best;
+  }
+
+  // Allowlist: a number is dialable only if the results file marks it clean (and not an
+  // invalid line type). Anything not explicitly clean is withheld.
+  function buildCleanSet() {
+    const set = new Set();
+    if (!scrub || !scrub.rows.length) return set;
+    const H = scrub.headers;
+    const phoneCol = detectScrubPhoneCol(H, scrub.rows);
+    const dncCol = H.find((h) => /dnc/i.test(h));
+    const ltCol = H.find((h) => /line.?type/i.test(h));
+    scrub.rows.forEach((r) => {
+      const n = normPhone(r[phoneCol]);
+      if (!n) return;
+      const dnc = String((dncCol ? r[dncCol] : "") || "").trim().toLowerCase();
+      const lt = String((ltCol ? r[ltCol] : "") || "").trim().toLowerCase();
+      const okDnc = dncCol ? dnc === "clean" : true;
+      const okLt = lt !== "invalid";
+      if (okDnc && okLt) set.add(n);
+    });
+    return set;
   }
 
   async function loadCampaignsDropdown() {
