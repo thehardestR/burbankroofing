@@ -34,7 +34,7 @@
     .then(function (r) { if (!r.ok) { throw new Error("no data"); } return r.json(); })
     .then(function (data) {
       var photos = (data && data.photos) || [];
-      if (photos.length) { render(photos); }
+      if (photos.length) { render(photos); injectImageSchema(photos); }
     })
     .catch(function () { /* keep the static fallback grid */ });
 
@@ -117,6 +117,29 @@
     }).join("");
 
     groupsEl.innerHTML = html;
+  }
+
+  // Emit schema.org ImageObject data for every photo so captions are machine-readable
+  // for search engines (image search + page context), not just shown in the lightbox.
+  function injectImageSchema(photos) {
+    try {
+      var origin = location.origin;
+      var graph = [];
+      photos.forEach(function (p) {
+        if (!p || !p.image) { return; }
+        var url = p.image.charAt(0) === "/" ? origin + p.image : origin + "/" + p.image;
+        var label = labelBySlug[p.service] || "Construction";
+        var obj = { "@type": "ImageObject", "contentUrl": url, "url": url };
+        if (p.caption) { obj.name = p.caption; obj.caption = p.caption; obj.description = p.caption; }
+        else { obj.name = label + " project by Palm Crest Builders"; }
+        graph.push(obj);
+      });
+      if (!graph.length) { return; }
+      var tag = document.createElement("script");
+      tag.type = "application/ld+json";
+      tag.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
+      document.head.appendChild(tag);
+    } catch (e) { /* structured data is best-effort */ }
   }
 
   // --- Lightbox: tap a photo to expand it and show its caption ---
