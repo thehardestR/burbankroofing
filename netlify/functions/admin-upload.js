@@ -18,6 +18,7 @@ const REPO = process.env.GH_REPO || "burbankroofing";
 const BRANCH = process.env.GH_BRANCH || "main";
 const IMAGES_DIR = "palmcrestbuilders/images/gallery/uploads";
 const DATA_PATH = "palmcrestbuilders/data/gallery.json";
+const GALLERY_HTML = "palmcrestbuilders/gallery.html";
 const MAX_BASE64 = 5 * 1024 * 1024; // ~3.7MB image; well under Netlify's request limit
 
 const VALID_SERVICES = new Set([
@@ -68,6 +69,76 @@ exports.handler = async (event) => {
   }
 
   if (body.action === "verify") return json(200, { ok: true });
+
+  // ---- delete ----
+  if (body.action === "delete") {
+    const rel = (typeof body.image === "string" ? body.image : "").replace(/^\/+/, "");
+    // Only gallery images may be removed — blocks path traversal / arbitrary repo writes.
+    if (rel.includes("..") || !/^images\/gallery\/[\w./-]+\.(jpe?g|png|webp|gif)$/i.test(rel)) {
+      return json(400, { error: "Invalid image path" });
+    }
+    const filePath = `palmcrestbuilders/${rel}`;
+
+    // 1) Drop the entry from gallery.json (read-modify-write, retry on write conflict).
+    let removed = false;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const getRes = await gh(`/repos/${OWNER}/${REPO}/contents/${DATA_PATH}?ref=${BRANCH}`);
+      if (!getRes.ok) return json(502, { error: "Could not read the gallery list." });
+      const meta = await getRes.json();
+
+      let data;
+      try { data = JSON.parse(Buffer.from(meta.content, "base64").toString("utf8")); }
+      catch { data = { photos: [] }; }
+      if (!Array.isArray(data.photos)) data.photos = [];
+
+      const before = data.photos.length;
+      data.photos = data.photos.filter((p) => String((p && p.image) || "").replace(/^\/+/, "") !== rel);
+      removed = data.photos.length < before;
+      if (!removed) break; // nothing matched — leave gallery.json untouched
+
+      const newContent = Buffer.from(JSON.stringify(data, null, 2) + "\n", "utf8").toString("base64");
+      const putRes = await gh(`/repos/${OWNER}/${REPO}/contents/${DATA_PATH}`, {
+        method: "PUT",
+        body: JSON.stringify({ message: "Remove gallery photo", content: newContent, branch: BRANCH, sha: meta.sha }),
+      });
+      if (putRes.ok) break;
+      if (putRes.status !== 409) {
+        const detail = (await putRes.text()).slice(0, 200);
+        return json(502, { error: "Photo list update failed.", detail });
+      }
+      if (attempt === 2) return json(409, { error: "Busy — please try that again." });
+      await wait(300); // someone else just wrote; refetch and retry
+    }
+
+    // 2) Delete the image file itself (ignore if it was already gone).
+    const fileRes = await gh(`/repos/${OWNER}/${REPO}/contents/${filePath}?ref=${BRANCH}`);
+    if (fileRes.ok) {
+      const fileMeta = await fileRes.json();
+      await gh(`/repos/${OWNER}/${REPO}/contents/${filePath}`, {
+        method: "DELETE",
+        body: JSON.stringify({ message: "Delete gallery image", sha: fileMeta.sha, branch: BRANCH }),
+      });
+    }
+
+    // 3) Best-effort: drop the matching tile from the legacy static grid in gallery.html.
+    const htmlRes = await gh(`/repos/${OWNER}/${REPO}/contents/${GALLERY_HTML}?ref=${BRANCH}`);
+    if (htmlRes.ok) {
+      const htmlMeta = await htmlRes.json();
+      const html = Buffer.from(htmlMeta.content, "base64").toString("utf8");
+      const esc = rel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const tileRe = new RegExp(`[ \\t]*<div class="gallery-item">\\s*<img src="/?${esc}"[^>]*>\\s*</div>[ \\t]*\\r?\\n?`, "g");
+      const newHtml = html.replace(tileRe, "");
+      if (newHtml !== html) {
+        await gh(`/repos/${OWNER}/${REPO}/contents/${GALLERY_HTML}`, {
+          method: "PUT",
+          body: JSON.stringify({ message: "Remove gallery photo from static grid", content: Buffer.from(newHtml, "utf8").toString("base64"), branch: BRANCH, sha: htmlMeta.sha }),
+        });
+      }
+    }
+
+    if (!removed) return json(404, { error: "That photo was not found in the gallery." });
+    return json(200, { ok: true, image: body.image });
+  }
 
   // ---- upload ----
   const { imageBase64, service, caption } = body;

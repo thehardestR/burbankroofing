@@ -29,6 +29,12 @@
     .thumb { width:100%; border-radius:10px; margin-top:12px; display:none; }
     .logout { text-align:center; margin-top:18px; }
     .logout a { color:var(--muted); font-size:.85rem; cursor:pointer; text-decoration:underline; }
+    .secondary { background:#fff; color:var(--ink); border:2px solid var(--line); }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px; }
+    .tile { position:relative; border-radius:10px; overflow:hidden; aspect-ratio:1/1; background:#eee; }
+    .tile img { width:100%; height:100%; object-fit:cover; display:block; }
+    .tile .del { position:absolute; top:4px; right:4px; width:28px; height:28px; margin:0; padding:0; border-radius:50%; background:rgba(0,0,0,.6); color:#fff; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; }
+    .tile .tag { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,.55); color:#fff; font-size:.65rem; padding:2px 4px; text-align:center; text-transform:capitalize; }
   </style>
 </head>
 <body>
@@ -80,6 +86,15 @@
       </form>
       <div class="logout"><a id="logout">Log out</a></div>
     </div>
+
+    <!-- Manage / remove photos -->
+    <div class="card hide" id="manage-card" style="margin-top:16px;">
+      <h1>Remove Photos</h1>
+      <p class="sub">Tap the × on a photo to remove it from the website.</p>
+      <button type="button" id="manage-refresh" class="secondary">Refresh list</button>
+      <div class="msg" id="manage-msg"></div>
+      <div class="grid" id="manage-grid"></div>
+    </div>
   </div>
 
   <script>
@@ -89,6 +104,7 @@
       var el = function (id) { return document.getElementById(id); };
       var loginCard = el("login-card"), uploadCard = el("upload-card");
       var loginMsg = el("login-msg"), uploadMsg = el("upload-msg");
+      var manageCard = el("manage-card"), manageGrid = el("manage-grid"), manageMsg = el("manage-msg");
 
       function msg(node, cls, text) { node.className = "msg " + cls; node.textContent = text; }
 
@@ -101,7 +117,7 @@
           .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
           .then(function (res) {
             btn.disabled = false;
-            if (res.ok) { loginMsg.style.display = "none"; loginCard.classList.add("hide"); uploadCard.classList.remove("hide"); }
+            if (res.ok) { loginMsg.style.display = "none"; loginCard.classList.add("hide"); uploadCard.classList.remove("hide"); manageCard.classList.remove("hide"); loadPhotos(); }
             else { msg(loginMsg, "err", res.j.error || "Incorrect password"); pw = ""; }
           })
           .catch(function () { btn.disabled = false; msg(loginMsg, "err", "Network error — try again."); });
@@ -109,7 +125,7 @@
 
       el("logout").addEventListener("click", function () {
         pw = ""; el("pw").value = ""; loginMsg.style.display = "none";
-        uploadCard.classList.add("hide"); loginCard.classList.remove("hide");
+        uploadCard.classList.add("hide"); manageCard.classList.add("hide"); manageGrid.innerHTML = ""; loginCard.classList.remove("hide");
       });
 
       var fileInput = el("file"), thumb = el("thumb");
@@ -162,6 +178,57 @@
           })
           .catch(function () { btn.disabled = false; msg(uploadMsg, "err", "Network error — try again."); });
       });
+
+      el("manage-refresh").addEventListener("click", loadPhotos);
+
+      function absImg(src) { return src.charAt(0) === "/" ? src : "/" + src; }
+
+      function loadPhotos() {
+        msg(manageMsg, "info", "Loading photos…");
+        fetch("/data/gallery.json", { cache: "no-store" })
+          .then(function (r) { if (!r.ok) { throw new Error("no data"); } return r.json(); })
+          .then(function (data) {
+            renderTiles(((data && data.photos) || []).slice().reverse());
+            manageMsg.style.display = "none";
+          })
+          .catch(function () { msg(manageMsg, "err", "Could not load the photo list."); });
+      }
+
+      function renderTiles(photos) {
+        manageGrid.innerHTML = "";
+        if (!photos.length) { msg(manageMsg, "info", "No photos in the gallery yet."); return; }
+        photos.forEach(function (p) {
+          var src = p && p.image; if (!src) { return; }
+          var tile = document.createElement("div"); tile.className = "tile";
+          var img = document.createElement("img"); img.src = absImg(src); img.loading = "lazy"; img.alt = "";
+          var del = document.createElement("button"); del.type = "button"; del.className = "del"; del.textContent = "\u00d7"; del.title = "Remove photo";
+          del.addEventListener("click", function () { deletePhoto(src, tile); });
+          tile.appendChild(img); tile.appendChild(del);
+          if (p.service) { var tag = document.createElement("div"); tag.className = "tag"; tag.textContent = p.service; tile.appendChild(tag); }
+          manageGrid.appendChild(tile);
+        });
+      }
+
+      function deletePhoto(image, tile) {
+        if (!pw) { msg(manageMsg, "err", "Session expired — please log in again."); return; }
+        if (!window.confirm("Remove this photo from the website?")) { return; }
+        tile.style.opacity = ".4";
+        fetch(FN, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "delete", password: pw, image: image })
+        }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+          .then(function (res) {
+            if (res.ok) {
+              if (tile.parentNode) { tile.parentNode.removeChild(tile); }
+              msg(manageMsg, "ok", "\u2713 Removed. The website updates in about a minute.");
+            } else if (res.status === 401) {
+              msg(manageMsg, "err", "Session expired — please log in again."); tile.style.opacity = "1";
+            } else {
+              msg(manageMsg, "err", res.j.error || "Could not remove that photo."); tile.style.opacity = "1";
+            }
+          })
+          .catch(function () { msg(manageMsg, "err", "Network error — try again."); tile.style.opacity = "1"; });
+      }
     })();
   </script>
 </body>
