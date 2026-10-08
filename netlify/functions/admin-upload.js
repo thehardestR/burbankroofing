@@ -53,6 +53,33 @@ async function gh(path, options = {}) {
   });
 }
 
+function htmlEscape(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+// Mirror a newly uploaded photo into the static grid in gallery.html with its caption
+// as alt text, so the SEO caption is present in the raw HTML (indexed even without JS).
+// Best-effort: never blocks the upload if gallery.html can't be updated.
+async function addToStaticGrid(relPath, caption) {
+  try {
+    const res = await gh(`/repos/${OWNER}/${REPO}/contents/${GALLERY_HTML}?ref=${BRANCH}`);
+    if (!res.ok) return;
+    const meta = await res.json();
+    const html = Buffer.from(meta.content, "base64").toString("utf8");
+    const marker = '<div class="gallery-grid">';
+    const at = html.indexOf(marker);
+    if (at === -1) return;
+    const alt = htmlEscape(caption ? String(caption).slice(0, 200) : "Palm Crest Builders project");
+    const tile = `\n                <div class="gallery-item"><img src="${relPath}" alt="${alt}" loading="lazy"></div>`;
+    const cut = at + marker.length;
+    const newHtml = html.slice(0, cut) + tile + html.slice(cut);
+    await gh(`/repos/${OWNER}/${REPO}/contents/${GALLERY_HTML}`, {
+      method: "PUT",
+      body: JSON.stringify({ message: "Add gallery photo to static grid", content: Buffer.from(newHtml, "utf8").toString("base64"), branch: BRANCH, sha: meta.sha }),
+    });
+  } catch (e) { /* best-effort */ }
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { error: "Method not allowed" });
 
@@ -181,7 +208,11 @@ exports.handler = async (event) => {
       method: "PUT",
       body: JSON.stringify({ message: `Tag gallery photo (${svc})`, content: newContent, branch: BRANCH, sha: meta.sha }),
     });
-    if (putRes.ok) return json(200, { ok: true, image: `/images/gallery/uploads/${finalName}`, service: svc });
+    if (putRes.ok) {
+      // Mirror into the static grid so the caption lands in raw HTML for SEO.
+      await addToStaticGrid(`images/gallery/uploads/${finalName}`, caption);
+      return json(200, { ok: true, image: `/images/gallery/uploads/${finalName}`, service: svc });
+    }
     if (putRes.status !== 409) {
       const detail = (await putRes.text()).slice(0, 200);
       return json(502, { error: "Photo saved, but tagging it failed.", detail });
