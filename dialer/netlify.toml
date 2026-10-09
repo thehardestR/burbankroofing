@@ -4,6 +4,8 @@
 [build]
   publish = "."
   command = "echo 'Static PWA — no build step'"
+  # Skip this site's deploy when nothing in its base directory changed (saves build credits).
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
 
 # The service worker must not be cached by the CDN or updates won't roll out.
 [[headers]]

@@ -57,27 +57,78 @@ function htmlEscape(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
-// Mirror a newly uploaded photo into the static grid in gallery.html with its caption
-// as alt text, so the SEO caption is present in the raw HTML (indexed even without JS).
-// Best-effort: never blocks the upload if gallery.html can't be updated.
-async function addToStaticGrid(relPath, caption) {
-  try {
-    const res = await gh(`/repos/${OWNER}/${REPO}/contents/${GALLERY_HTML}?ref=${BRANCH}`);
-    if (!res.ok) return;
-    const meta = await res.json();
-    const html = Buffer.from(meta.content, "base64").toString("utf8");
+// Read a repo text file's decoded contents at a given ref (commit sha or branch).
+async function ghContent(path, ref) {
+  const res = await gh(`/repos/${OWNER}/${REPO}/contents/${path}?ref=${ref}`);
+  if (res.status === 404) return path.endsWith(".json") ? '{"photos":[]}' : "";
+  if (!res.ok) throw new Error(`Could not read ${path}`);
+  const meta = await res.json();
+  return Buffer.from(meta.content, "base64").toString("utf8");
+}
+
+// Write all new images + the updated gallery.json + gallery.html in ONE commit (via the
+// Git Data API) so each upload — of one photo or many — triggers only a single deploy.
+// Retries if another writer moves the branch between read and update.
+async function commitPhotos(items) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const refRes = await gh(`/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`);
+    if (!refRes.ok) throw new Error("Could not read branch ref");
+    const headSha = (await refRes.json()).object.sha;
+    const baseCommitRes = await gh(`/repos/${OWNER}/${REPO}/git/commits/${headSha}`);
+    if (!baseCommitRes.ok) throw new Error("Could not read base commit");
+    const baseTree = (await baseCommitRes.json()).tree.sha;
+
+    let data;
+    try { data = JSON.parse(await ghContent(DATA_PATH, headSha)); } catch { data = { photos: [] }; }
+    if (!Array.isArray(data.photos)) data.photos = [];
+    let html = await ghContent(GALLERY_HTML, headSha);
     const marker = '<div class="gallery-grid">';
-    const at = html.indexOf(marker);
-    if (at === -1) return;
-    const alt = htmlEscape(caption ? String(caption).slice(0, 200) : "Palm Crest Builders project");
-    const tile = `\n                <div class="gallery-item"><img src="${relPath}" alt="${alt}" loading="lazy"></div>`;
-    const cut = at + marker.length;
-    const newHtml = html.slice(0, cut) + tile + html.slice(cut);
-    await gh(`/repos/${OWNER}/${REPO}/contents/${GALLERY_HTML}`, {
-      method: "PUT",
-      body: JSON.stringify({ message: "Add gallery photo to static grid", content: Buffer.from(newHtml, "utf8").toString("base64"), branch: BRANCH, sha: meta.sha }),
+
+    const tree = [];
+    for (const it of items) {
+      const blobRes = await gh(`/repos/${OWNER}/${REPO}/git/blobs`, {
+        method: "POST",
+        body: JSON.stringify({ content: it.b64, encoding: "base64" }),
+      });
+      if (!blobRes.ok) throw new Error("Could not upload a photo");
+      tree.push({ path: it.repoPath, mode: "100644", type: "blob", sha: (await blobRes.json()).sha });
+
+      data.photos.push({ image: it.webPath, service: it.svc, caption: it.caption });
+      const at = html.indexOf(marker);
+      if (at !== -1) {
+        const alt = htmlEscape(it.caption || "Palm Crest Builders project");
+        const tile = `\n                <div class="gallery-item"><img src="${it.gridPath}" alt="${alt}" loading="lazy"></div>`;
+        const cut = at + marker.length;
+        html = html.slice(0, cut) + tile + html.slice(cut);
+      }
+    }
+    tree.push({ path: DATA_PATH, mode: "100644", type: "blob", content: JSON.stringify(data, null, 2) + "\n" });
+    tree.push({ path: GALLERY_HTML, mode: "100644", type: "blob", content: html });
+
+    const treeRes = await gh(`/repos/${OWNER}/${REPO}/git/trees`, {
+      method: "POST",
+      body: JSON.stringify({ base_tree: baseTree, tree }),
     });
-  } catch (e) { /* best-effort */ }
+    if (!treeRes.ok) throw new Error("Could not build commit tree");
+    const newTree = (await treeRes.json()).sha;
+
+    const message = items.length === 1 ? `Add gallery photo (${items[0].svc})` : `Add ${items.length} gallery photos`;
+    const commitRes = await gh(`/repos/${OWNER}/${REPO}/git/commits`, {
+      method: "POST",
+      body: JSON.stringify({ message, tree: newTree, parents: [headSha] }),
+    });
+    if (!commitRes.ok) throw new Error("Could not create commit");
+    const newCommit = (await commitRes.json()).sha;
+
+    const patchRes = await gh(`/repos/${OWNER}/${REPO}/git/refs/heads/${BRANCH}`, {
+      method: "PATCH",
+      body: JSON.stringify({ sha: newCommit }),
+    });
+    if (patchRes.ok) return { ok: true, count: items.length, images: items.map((i) => i.webPath) };
+    if (patchRes.status === 422) { await wait(400); continue; } // branch moved — rebuild on the new head
+    throw new Error("Could not update branch");
+  }
+  throw new Error("Busy — please try that upload again.");
 }
 
 exports.handler = async (event) => {
@@ -167,57 +218,35 @@ exports.handler = async (event) => {
     return json(200, { ok: true, image: body.image });
   }
 
-  // ---- upload ----
-  const { imageBase64, service, caption } = body;
-  if (!imageBase64 || typeof imageBase64 !== "string") return json(400, { error: "No photo received" });
-  if (imageBase64.length > MAX_BASE64) return json(413, { error: "Photo is too large — try again." });
-  const svc = VALID_SERVICES.has(service) ? service : "uncategorized";
+  // ---- upload (one commit → one deploy, for a single photo or a batch) ----
+  const incoming = Array.isArray(body.photos)
+    ? body.photos
+    : (body.imageBase64 ? [{ imageBase64: body.imageBase64, service: body.service, caption: body.caption }] : []);
+  if (!incoming.length) return json(400, { error: "No photo received" });
+  if (incoming.length > 12) return json(413, { error: "Too many photos at once — send up to 12 per upload." });
 
-  const stamp = Date.now().toString(36) + crypto.randomBytes(3).toString("hex");
-  const finalName = `pcb-${stamp}.jpg`;
-  const imagePath = `${IMAGES_DIR}/${finalName}`;
-
-  // 1) commit the image file
-  const imgRes = await gh(`/repos/${OWNER}/${REPO}/contents/${imagePath}`, {
-    method: "PUT",
-    body: JSON.stringify({ message: `Add gallery photo (${svc})`, content: imageBase64, branch: BRANCH }),
-  });
-  if (!imgRes.ok) {
-    const detail = (await imgRes.text()).slice(0, 200);
-    return json(502, { error: "Could not save the photo.", detail });
-  }
-
-  // 2) append the entry to gallery.json (read-modify-write with one retry on conflict)
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const getRes = await gh(`/repos/${OWNER}/${REPO}/contents/${DATA_PATH}?ref=${BRANCH}`);
-    if (!getRes.ok) return json(502, { error: "Could not read the gallery list." });
-    const meta = await getRes.json();
-
-    let data;
-    try { data = JSON.parse(Buffer.from(meta.content, "base64").toString("utf8")); }
-    catch { data = { photos: [] }; }
-    if (!Array.isArray(data.photos)) data.photos = [];
-    data.photos.push({
-      image: `/images/gallery/uploads/${finalName}`,
-      service: svc,
-      caption: caption ? String(caption).slice(0, 200) : "",
+  let totalBytes = 0;
+  const items = [];
+  for (const p of incoming) {
+    const b64 = p && typeof p.imageBase64 === "string" ? p.imageBase64 : "";
+    if (!b64) return json(400, { error: "No photo received" });
+    if (b64.length > MAX_BASE64) return json(413, { error: "A photo is too large — try again." });
+    totalBytes += b64.length;
+    const name = `pcb-${Date.now().toString(36)}${crypto.randomBytes(4).toString("hex")}.jpg`;
+    items.push({
+      b64,
+      svc: VALID_SERVICES.has(p.service) ? p.service : "uncategorized",
+      caption: p.caption ? String(p.caption).slice(0, 200) : "",
+      repoPath: `${IMAGES_DIR}/${name}`,
+      webPath: `/images/gallery/uploads/${name}`,
+      gridPath: `images/gallery/uploads/${name}`,
     });
-
-    const newContent = Buffer.from(JSON.stringify(data, null, 2) + "\n", "utf8").toString("base64");
-    const putRes = await gh(`/repos/${OWNER}/${REPO}/contents/${DATA_PATH}`, {
-      method: "PUT",
-      body: JSON.stringify({ message: `Tag gallery photo (${svc})`, content: newContent, branch: BRANCH, sha: meta.sha }),
-    });
-    if (putRes.ok) {
-      // Mirror into the static grid so the caption lands in raw HTML for SEO.
-      await addToStaticGrid(`images/gallery/uploads/${finalName}`, caption);
-      return json(200, { ok: true, image: `/images/gallery/uploads/${finalName}`, service: svc });
-    }
-    if (putRes.status !== 409) {
-      const detail = (await putRes.text()).slice(0, 200);
-      return json(502, { error: "Photo saved, but tagging it failed.", detail });
-    }
-    await wait(300); // conflict — someone else just wrote; retry
   }
-  return json(409, { error: "Busy — please try that upload again." });
+  if (totalBytes > MAX_BASE64 * 1.1) return json(413, { error: "Those photos are too large together — send fewer at once." });
+
+  try {
+    return json(200, await commitPhotos(items));
+  } catch (e) {
+    return json(502, { error: String((e && e.message) || "Upload failed.").slice(0, 200) });
+  }
 };

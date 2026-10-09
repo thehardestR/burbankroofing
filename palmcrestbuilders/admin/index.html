@@ -35,6 +35,9 @@
     .tile img { width:100%; height:100%; object-fit:cover; display:block; }
     .tile .del { position:absolute; top:4px; right:4px; width:28px; height:28px; margin:0; padding:0; border-radius:50%; background:rgba(0,0,0,.6); color:#fff; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; }
     .tile .tag { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,.55); color:#fff; font-size:.65rem; padding:2px 4px; text-align:center; text-transform:capitalize; }
+    .q-row { display:flex; gap:10px; align-items:center; margin-top:10px; }
+    .q-thumb { width:56px; height:56px; object-fit:cover; border-radius:8px; flex:0 0 auto; }
+    .q-cap { flex:1 1 auto; margin:0; padding:9px 10px; }
   </style>
 </head>
 <body>
@@ -55,10 +58,10 @@
 
     <!-- Uploader -->
     <div class="card hide" id="upload-card">
-      <h1>Add a Photo</h1>
-      <p class="sub">Pick the service, choose a photo, and upload.</p>
+      <h1>Add Photos</h1>
+      <p class="sub">Pick the service, choose one or more photos, write an SEO caption for each, and upload — they all publish in a single deploy.</p>
       <form id="upload-form">
-        <label for="service">Service type</label>
+        <label for="service">Service type (applies to all photos in this batch)</label>
         <select id="service" required>
           <option value="roofing">Roofing</option>
           <option value="whole-home">Whole-Home Remodeling</option>
@@ -74,14 +77,11 @@
           <option value="commercial">Commercial Tenant Improvements</option>
         </select>
 
-        <label for="file">Photo</label>
-        <input id="file" type="file" accept="image/*" required />
-        <img id="thumb" class="thumb" alt="preview" />
+        <label for="file">Photos (you can select several at once)</label>
+        <input id="file" type="file" accept="image/*" multiple required />
+        <div id="queue"></div>
 
-        <label for="caption">Caption (optional)</label>
-        <input id="caption" type="text" maxlength="200" placeholder="e.g. Tile re-roof in Burbank" />
-
-        <button type="submit" id="upload-btn">Upload photo</button>
+        <button type="submit" id="upload-btn">Upload photos</button>
         <div class="msg" id="upload-msg"></div>
       </form>
       <div class="logout"><a id="logout">Log out</a></div>
@@ -128,11 +128,18 @@
         uploadCard.classList.add("hide"); manageCard.classList.add("hide"); manageGrid.innerHTML = ""; loginCard.classList.remove("hide");
       });
 
-      var fileInput = el("file"), thumb = el("thumb");
+      var fileInput = el("file"), queueEl = el("queue");
+      // Render a caption box + thumbnail per selected file (per-photo SEO captions).
       fileInput.addEventListener("change", function () {
-        var f = fileInput.files[0];
-        if (!f) { thumb.style.display = "none"; return; }
-        thumb.src = URL.createObjectURL(f); thumb.style.display = "block";
+        queueEl.innerHTML = "";
+        var files = fileInput.files ? Array.prototype.slice.call(fileInput.files) : [];
+        files.forEach(function (f) {
+          var row = document.createElement("div"); row.className = "q-row";
+          var img = document.createElement("img"); img.className = "q-thumb"; img.alt = ""; img.src = URL.createObjectURL(f);
+          var cap = document.createElement("input"); cap.type = "text"; cap.maxLength = 200;
+          cap.className = "q-cap"; cap.placeholder = "Caption e.g. Tile re-roof in Burbank, CA";
+          row.appendChild(img); row.appendChild(cap); queueEl.appendChild(row);
+        });
       });
 
       // Shrink big phone photos before upload (keeps payload small + gallery fast).
@@ -156,27 +163,39 @@
       el("upload-form").addEventListener("submit", function (e) {
         e.preventDefault();
         var btn = el("upload-btn");
-        var f = fileInput.files[0];
-        if (!f) return;
-        btn.disabled = true; msg(uploadMsg, "info", "Uploading…");
-        resizeToBase64(f, 1800, 0.82).then(function (b64) {
-          return fetch(FN, {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "upload", password: pw, imageBase64: b64, service: el("service").value, caption: el("caption").value })
-          });
-        }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+        var files = fileInput.files ? Array.prototype.slice.call(fileInput.files) : [];
+        if (!files.length) return;
+        if (files.length > 12) { msg(uploadMsg, "err", "Up to 12 photos per upload — please select fewer."); return; }
+        var service = el("service").value;
+        var caps = queueEl.querySelectorAll(".q-cap");
+        btn.disabled = true; msg(uploadMsg, "info", "Preparing photos…");
+        Promise.all(files.map(function (f) { return resizeToBase64(f, 1800, 0.82); }))
+          .then(function (b64s) {
+            var total = b64s.reduce(function (n, s) { return n + s.length; }, 0);
+            if (total > 5.2 * 1024 * 1024) { throw new Error("Those photos are too large together — upload a few at a time."); }
+            var photos = b64s.map(function (b64, i) {
+              return { imageBase64: b64, service: service, caption: (caps[i] && caps[i].value) || "" };
+            });
+            msg(uploadMsg, "info", "Uploading " + photos.length + (photos.length === 1 ? " photo…" : " photos…"));
+            return fetch(FN, {
+              method: "POST", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ action: "upload", password: pw, photos: photos })
+            });
+          })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
           .then(function (res) {
             btn.disabled = false;
             if (res.ok) {
-              msg(uploadMsg, "ok", "\u2713 Uploaded! It will appear in the gallery in about a minute.");
-              fileInput.value = ""; thumb.style.display = "none"; el("caption").value = "";
+              var n = res.j.count || 0;
+              msg(uploadMsg, "ok", "\u2713 Uploaded " + n + (n === 1 ? " photo" : " photos") + " in one publish — live in about a minute.");
+              fileInput.value = ""; queueEl.innerHTML = "";
             } else if (res.status === 401) {
               msg(uploadMsg, "err", "Session expired — please log in again.");
             } else {
               msg(uploadMsg, "err", res.j.error || "Upload failed — try again.");
             }
           })
-          .catch(function () { btn.disabled = false; msg(uploadMsg, "err", "Network error — try again."); });
+          .catch(function (err) { btn.disabled = false; msg(uploadMsg, "err", err.message || "Network error — try again."); });
       });
 
       el("manage-refresh").addEventListener("click", loadPhotos);
