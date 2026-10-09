@@ -31,7 +31,7 @@ SITE = {
     "tel": "8182529422",
     "email": "info@palmcrestbuildersinc.com",
     "domain": "https://palmcrestbuildersinc.com",
-    "license": "CA Lic. #[Pending]",
+    "license": "License Application Pending with CSLB",
     "street": "1812 W. Burbank Blvd #5996",
     "city_locality": "Burbank",
     "region": "CA",
@@ -44,7 +44,7 @@ def header(prefix=""):
     return f"""    <header class="header">
         <div class="header-top"><div class="container">
             <div class="header-promo">⚡ Free Project Consultations — LA County-Wide</div>
-            <div class="header-trust"><span>🛡️ Licensed &amp; Insured</span><span>⭐ 5-Star Rated</span></div>
+            <div class="header-trust"><span>🛡️ Insured &amp; Bonded</span><span>📋 Free Consultations</span></div>
             <a href="tel:{SITE['tel']}" class="phone-link">📞 {SITE['phone']}</a>
         </div></div>
         <nav class="navbar"><div class="container">
@@ -68,7 +68,7 @@ def footer(prefix=""):
     return f"""    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-brand"><img src="{prefix}images/logo-white.svg" alt="{SITE['name']}"><p>Licensed Southern California general building contractor. {SITE['license']} · Class B.</p></div>
+                <div class="footer-brand"><img src="{prefix}images/logo-white.svg" alt="{SITE['name']}"><p>Southern California design-build & construction project management. {SITE['license']}.</p></div>
                 <div class="footer-links"><h4>Services</h4><ul>
                     <li><a href="{prefix}services/whole-home-remodeling.html">Whole-Home Remodeling</a></li>
                     <li><a href="{prefix}services/kitchen-remodeling.html">Kitchen Remodeling</a></li>
@@ -90,7 +90,7 @@ def footer(prefix=""):
                     <p>📧 <a href="mailto:{SITE['email']}">{SITE['email']}</a></p>
                     <p>📍 {SITE['street']}, {SITE['city_locality']}, {SITE['region']} {SITE['postal']}</p>
                     <p>Serving all of Los Angeles County</p>
-                    <p>{SITE['license']} · Class B</p>
+                    <p>{SITE['license']}</p>
                 </div>
             </div>
             <div class="footer-bottom"><p>&copy; 2025 {SITE['name']}. All rights reserved.</p></div>
@@ -165,7 +165,6 @@ def build_service_page(data):
             "name": SITE["name"],
             "telephone": "+1-818-252-9422",
             "url": SITE["domain"] + "/",
-            "hasCredential": "CSLB Class B License (pending)",
             "address": {
                 "@type": "PostalAddress",
                 "streetAddress": SITE["street"],
@@ -271,9 +270,9 @@ def build_area_page(data):
         </div>
     </section>"""
 
-    title = f"{data['city']} General Contractor | {SITE['name']} | Remodels, Additions & ADUs"
+    title = f"{data['city']} Remodeling & Construction | {SITE['name']} | Remodels, Additions & ADUs"
     description = (
-        f"Licensed general building contractor serving {data['city']}, CA. Kitchen & bath remodels, "
+        f"Design-build remodeling & construction serving {data['city']}, CA. Kitchen & bath remodels, "
         f"room additions, ADUs, garage conversions & new construction. Free consultations. Call {SITE['phone']}."
     )
 
@@ -282,8 +281,8 @@ def build_area_page(data):
 
     <section class="city-hero">
         <div class="container">
-            <h1>{data['city']} General Contractor</h1>
-            <p class="city-subtitle">Licensed Remodeling &amp; Construction in {data['city']}, CA &nbsp;·&nbsp; {SITE['license']}</p>
+            <h1>{data['city']} Remodeling &amp; Construction</h1>
+            <p class="city-subtitle">Remodeling &amp; Construction in {data['city']}, CA</p>
             <div class="hero-buttons">
                 <a href="tel:{SITE['tel']}" class="btn btn-primary btn-lg">📞 {SITE['phone']}</a>
                 <a href="{prefix}free-consultation.html" class="btn btn-outline btn-lg">Free Consultation</a>
@@ -294,7 +293,7 @@ def build_area_page(data):
     <section class="section">
         <div class="container">
             <div class="city-intro">
-                <p><strong>{SITE['name']} serves {data['city']} and the surrounding communities</strong> as a licensed Class B general building contractor — whole-home remodels, kitchen and bathroom renovations, room additions, ADUs, garage conversions, foundations, and ground-up new construction. Every project is built by our own crews, permitted through the local building department, and backed by our workmanship warranty.</p>
+                <p><strong>{SITE['name']} serves {data['city']} and the surrounding communities</strong> as a Southern California design-build & project management firm — whole-home remodels, kitchen and bathroom renovations, room additions, ADUs, garage conversions, foundations, and ground-up new construction. Every project is built by our own crews, permitted through the local building department, and backed by our workmanship warranty.</p>
                 {local_note}
             </div>
 
@@ -343,7 +342,7 @@ def build_areas_index(areas):
         if not clusters[c]:
             continue
         cards = "\n".join(
-            f'                <a href="{a["slug"]}/" class="area-card"><h3>{a["city"]}</h3><p>{a.get("short_blurb", "Licensed remodeling & construction — free consultations.")}</p></a>'
+            f'                <a href="{a["slug"]}/" class="area-card"><h3>{a["city"]}</h3><p>{a.get("short_blurb", "Design-build remodeling & construction — free consultations.")}</p></a>'
             for a in clusters[c]
         )
         sections.append(
@@ -353,7 +352,7 @@ def build_areas_index(areas):
 
     title = f"Service Areas | {SITE['name']} | Los Angeles County"
     description = (
-        f"{SITE['name']} service areas across Los Angeles County — licensed general building contractor "
+        f"{SITE['name']} service areas across Los Angeles County — design-build remodeling team "
         f"serving 75+ cities with remodels, additions, ADUs & new construction."
     )
 
@@ -363,7 +362,7 @@ def build_areas_index(areas):
     <section class="areas-hero">
         <div class="container">
             <h1>Service Areas</h1>
-            <p>Licensed remodeling and construction across Los Angeles County — pick your city for local info and recent projects.</p>
+            <p>Design-build remodeling and construction across Los Angeles County — pick your city for local info and recent projects.</p>
         </div>
     </section>
 
@@ -421,7 +420,7 @@ def build_gallery():
     <section class="section">
         <div class="container">
             <p style="text-align:center;color:var(--text-light);max-width:820px;margin:0 auto 40px;">
-                Remodels, room additions, ADUs, and ground-up builds completed across Los Angeles County. Every project is built to the California Building Code by our own licensed crews.
+                Remodels, room additions, ADUs, and ground-up builds completed across Los Angeles County. Every project is built to the California Building Code by our own vetted crews.
             </p>
             <div class="gallery-filters" id="gallery-filters" hidden></div>
             <div id="gallery-groups">

@@ -1,6 +1,6 @@
 # Palm Crest Builders — Website
 
-Static website for **Palm Crest Builders**, a licensed Class B general building contractor serving Los Angeles County and Southern California.
+Static website for **Palm Crest Builders**, a Southern California design-build & project management firm (remodels, additions, ADUs & new construction) serving Los Angeles County.
 
 ## Quick facts
 
@@ -8,7 +8,7 @@ Static website for **Palm Crest Builders**, a licensed Class B general building 
 - **Stack:** Static HTML / CSS / JS — no framework; a small Python builder generates the service and city pages
 - **Hosting:** Netlify (publishes this folder; `netlify.toml` at repo root). The `/admin` photo uploader is a password-gated page backed by the `admin-upload` Netlify Function (env vars `ADMIN_PASSWORD` + `GITHUB_TOKEN`), which commits photos to `images/gallery/uploads/` and appends to `data/gallery.json`.
 - **Font:** Montserrat (Google Fonts)
-- **License:** CA Lic. #[Pending] · Class B (replace the placeholder once the CSLB number is issued)
+- **License:** CSLB Class B application in progress. Until the number is issued the site advertises "insured & bonded" and "license application in progress with the CSLB" (no "licensed" / rating claims). Replace sitewide once issued.
 - **Forms:** Formspree endpoint `xeezrwvn`. Leads are tagged by a `source_domain` hidden field in `js/main.js` so you can filter Palm Crest Builders leads.
 
 ## Directory layout
