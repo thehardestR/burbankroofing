@@ -1,40 +1,19 @@
-// Network-first so pushed updates always reach you; cache is only a fallback.
-const CACHE = "crm-shell-v1";
-const SHELL = [
-  "./",
-  "./index.html",
-  "./css/crm.css",
-  "./js/config.js",
-  "./js/app.js",
-  "./js/crm.js",
-  "./manifest.webmanifest",
-  "./icon.svg",
-];
-
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
-});
-
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener("fetch", (e) => {
-  const req = e.request;
-  if (req.method !== "GET") return;
-  const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return; // Supabase + CDN go to network
-  e.respondWith(
-    fetch(req)
-      .then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((c) => c.put(req, copy));
-        return res;
-      })
-      .catch(() => caches.match(req).then((hit) => hit || caches.match("./index.html")))
-  );
-});
+// Self-destroying service worker. The old /crm PWA registered a service worker here; this version
+// unregisters it and clears its caches so browsers always load the new React CRM instead of a
+// stale cached page. Safe no-op for visitors who never had the old app.
+self.addEventListener('install', () => self.skipWaiting())
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    (async () => {
+      try {
+        const keys = await caches.keys()
+        await Promise.all(keys.map((k) => caches.delete(k)))
+        await self.registration.unregister()
+        const clients = await self.clients.matchAll({ type: 'window' })
+        clients.forEach((c) => c.navigate(c.url))
+      } catch {
+        /* ignore */
+      }
+    })(),
+  )
+})
