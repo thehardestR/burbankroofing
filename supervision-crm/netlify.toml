@@ -5,10 +5,8 @@
 [build]
   command = "npm ci && npm run build"
   publish = "dist"
-  # Skip this site's deploy when nothing in its base directory changed (saves build credits).
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+  # No `ignore` rule: it reported skipped builds as "Canceled" and blocked redeploys of the same
+  # commit (git diff of a commit against itself is empty), so the site never updated.
 
 [build.environment]
   NODE_VERSION = "20"
-
-# Redeploy trigger: previous build was canceled when Netlify credits ran out (2026-10-15).
