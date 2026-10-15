@@ -10,3 +10,5 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Redeploy trigger: previous build was canceled when Netlify credits ran out (2026-10-15).
