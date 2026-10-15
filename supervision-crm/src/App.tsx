@@ -8,6 +8,9 @@ import Projects from './pages/Projects'
 import ProjectDetail from './pages/ProjectDetail'
 import Contacts from './pages/Contacts'
 import Campaigns from './pages/Campaigns'
+import Appointments from './pages/Appointments'
+import Automations from './pages/Automations'
+import Funnel from './pages/Funnel'
 
 export default function App() {
   return (
@@ -27,6 +30,9 @@ export default function App() {
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/campaigns" element={<Campaigns />} />
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/automations" element={<Automations />} />
+            <Route path="/funnel" element={<Funnel />} />
           </Route>
         </Routes>
       </BrowserRouter>

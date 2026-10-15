@@ -131,3 +131,34 @@ export interface Campaign {
   status: string
   created_at: string
 }
+
+export interface Appointment {
+  id: string
+  lead_id: string | null
+  contact_id: string | null
+  scheduled_at: string
+  status: string
+  reminder_sent_at: string | null
+  notes: string | null
+  created_at: string
+}
+
+export interface Automation {
+  id: string
+  key: string
+  name: string
+  enabled: boolean
+  params: Record<string, unknown>
+}
+
+export interface MessageTemplate {
+  id: string
+  kind: 'email' | 'sms'
+  key: string
+  name: string
+  subject: string | null
+  body: string
+  active: boolean
+}
+
+export const APPOINTMENT_STATUSES = ['scheduled', 'confirmed', 'completed', 'no_show', 'canceled'] as const

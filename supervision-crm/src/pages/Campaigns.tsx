@@ -1,7 +1,7 @@
 import { type ChangeEvent, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/auth'
-import type { Campaign } from '../lib/types'
+import type { Campaign, MessageTemplate } from '../lib/types'
 import {
   type Mapping,
   type Sheet,
@@ -38,6 +38,11 @@ export default function Campaigns() {
   const [scrubInfo, setScrubInfo] = useState('')
   const [busy, setBusy] = useState(false)
   const [msg, setMsg] = useState<Msg | null>(null)
+  const [templates, setTemplates] = useState<MessageTemplate[]>([])
+  const [blastTemplate, setBlastTemplate] = useState('')
+  const [blastCampaign, setBlastCampaign] = useState('')
+  const [blastBusy, setBlastBusy] = useState(false)
+  const [blastMsg, setBlastMsg] = useState<Msg | null>(null)
 
   async function loadCampaigns() {
     const { data, error } = await supabase
@@ -62,7 +67,14 @@ export default function Campaigns() {
   }
 
   useEffect(() => {
-    if (isPlatformOwner) void loadCampaigns()
+    if (!isPlatformOwner) return
+    void loadCampaigns()
+    void supabase
+      .from('message_templates')
+      .select('*')
+      .eq('kind', 'email')
+      .eq('active', true)
+      .then(({ data }) => setTemplates((data ?? []) as MessageTemplate[]))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlatformOwner])
 
@@ -157,6 +169,21 @@ export default function Campaigns() {
     void loadCampaigns()
   }
 
+  async function sendBlast() {
+    if (!blastTemplate) return
+    setBlastBusy(true)
+    setBlastMsg(null)
+    const { data, error } = await supabase.functions.invoke('send-campaign-email', {
+      body: { template_key: blastTemplate, campaign_id: blastCampaign || undefined },
+    })
+    setBlastBusy(false)
+    if (error) {
+      setBlastMsg({ text: `Send failed: ${error.message}. Is the send-campaign-email function deployed with Telnyx keys?`, kind: 'error' })
+      return
+    }
+    setBlastMsg({ text: `Sent ${data?.sent ?? 0} of ${data?.total ?? 0} emails.`, kind: 'ok' })
+  }
+
   if (!isPlatformOwner) {
     return (
       <div>
@@ -225,6 +252,48 @@ export default function Campaigns() {
           </>
         )}
       </div>
+
+      {templates.length > 0 && (
+        <div className="card">
+          <h2>Email blast</h2>
+          <p style={{ opacity: 0.7, fontSize: 13, marginTop: 0 }}>
+            Send a templated email to a campaign’s contacts (or everyone with an email). Opens, clicks and replies are
+            tracked and raise calling priority. Requires the Telnyx email function + sending domain to be live.
+          </p>
+          {blastMsg && (
+            <p className={blastMsg.kind === 'error' ? 'error' : blastMsg.kind === 'ok' ? 'ok' : undefined}>{blastMsg.text}</p>
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
+            <div>
+              <label htmlFor="blast-template">Template</label>
+              <select id="blast-template" value={blastTemplate} onChange={(e) => setBlastTemplate(e.target.value)}>
+                <option value="">— choose —</option>
+                {templates.map((t) => (
+                  <option key={t.key} value={t.key}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="blast-campaign">Audience</label>
+              <select id="blast-campaign" value={blastCampaign} onChange={(e) => setBlastCampaign(e.target.value)}>
+                <option value="">All emailable contacts</option>
+                {campaigns.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <button onClick={() => void sendBlast()} disabled={blastBusy || !blastTemplate}>
+              {blastBusy ? 'Sending…' : 'Send email blast'}
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="card">
         <h2>Campaigns</h2>
