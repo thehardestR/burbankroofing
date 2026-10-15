@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+
+# env & secrets (NEVER commit)
+.env
+.env.local
+.env.*.local
+
+# supabase local
+supabase/.temp/
+supabase/.branches/
+
+# logs
+*.log
+npm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
