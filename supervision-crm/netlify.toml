@@ -1,0 +1,12 @@
+# Deploy the Supervision CRM as its OWN Netlify site (it's a Vite build, not a static folder).
+# In Netlify: Add new site -> Import this repo -> set "Base directory" to: supervision-crm
+# Netlify then reads this file; command + publish below are relative to that base directory.
+# Supabase env is baked in via .env.production, so no dashboard environment setup is required.
+[build]
+  command = "npm ci && npm run build"
+  publish = "dist"
+  # Skip this site's deploy when nothing in its base directory changed (saves build credits).
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+
+[build.environment]
+  NODE_VERSION = "20"
