@@ -1,6 +1,5 @@
-// Self-destroying service worker. The old /crm PWA registered a service worker here; this version
-// unregisters it and clears its caches so browsers always load the new React CRM instead of a
-// stale cached page. Safe no-op for visitors who never had the old app.
+// Self-destroying service worker (kept in the build so every deploy ships it). Unregisters the old
+// /crm PWA and clears its caches so the new CRM always loads instead of a stale cached page.
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', (event) => {
   event.waitUntil(

@@ -28,6 +28,12 @@ export default function Contacts() {
     else setContacts((data ?? []) as Contact[])
   }
 
+  async function updateStage(id: string, next: LifecycleStage) {
+    const { error } = await supabase.rpc('set_lifecycle_stage', { p_contact: id, p_stage: next })
+    if (error) setError(error.message)
+    else setContacts((prev) => prev.map((c) => (c.id === id ? { ...c, lifecycle_stage: next } : c)))
+  }
+
   useEffect(() => {
     void load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +117,19 @@ export default function Contacts() {
                   <td>{c.phones?.[0] ?? '—'}</td>
                   <td>{c.city ?? '—'}</td>
                   <td>
-                    <span className={`stage ${c.lifecycle_stage}`}>{LIFECYCLE_LABELS[c.lifecycle_stage]}</span>
+                    <select
+                      className={`stage ${c.lifecycle_stage}`}
+                      value={c.lifecycle_stage}
+                      onChange={(e) => void updateStage(c.id, e.target.value as LifecycleStage)}
+                      style={{ width: 'auto', padding: '2px 6px' }}
+                      title="Set lifecycle stage"
+                    >
+                      {LIFECYCLE_STAGES.map((s) => (
+                        <option key={s.stage} value={s.stage}>
+                          {s.label}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td>{c.projects_count}</td>
                   <td>{c.projects_count > 0 ? money(c.lifetime_value) : '—'}</td>
