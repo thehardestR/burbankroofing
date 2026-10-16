@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data, error } = await supabase
       .from('memberships')
       .select(
-        'id, contractor_id, role, status, contractor:contractors(id, legal_name, dba, cslb_license_no, classification, license_status, license_expiry)',
+        '*, contractor:contractors(id, legal_name, dba, cslb_license_no, classification, license_status, license_expiry)',
       )
       .eq('status', 'active')
     if (!error && data) {

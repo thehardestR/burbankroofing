@@ -32,7 +32,7 @@ export default function Layout() {
             ))}
           </select>
         )}
-        {active && <span className="role-badge">{active.role}</span>}
+        {active && <span className="role-badge">{active.title ?? active.role}</span>}
         <button className="secondary" onClick={() => void signOut()}>
           Sign out
         </button>

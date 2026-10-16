@@ -29,6 +29,7 @@ export interface Membership {
   contractor_id: string
   role: UserRole
   status: string
+  title: string | null
   contractor: Contractor | null
 }
 
