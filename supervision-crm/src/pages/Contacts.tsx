@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/auth'
 import { LIFECYCLE_LABELS, LIFECYCLE_STAGES, type Contact, type LifecycleStage } from '../lib/types'
@@ -13,19 +13,36 @@ export default function Contacts() {
   const [error, setError] = useState<string | null>(null)
   const [stage, setStage] = useState<LifecycleStage | 'all'>('all')
   const [search, setSearch] = useState('')
+  const [appliedSearch, setAppliedSearch] = useState('')
+  const [page, setPage] = useState(0)
+  const [total, setTotal] = useState(0)
+  const PAGE_SIZE = 200
 
   async function load() {
     setLoading(true)
     setError(null)
-    let query = supabase.from('contacts').select('*').order('updated_at', { ascending: false }).limit(200)
+    const from = page * PAGE_SIZE
+    let query = supabase
+      .from('contacts')
+      .select('*', { count: 'exact' })
+      .order('updated_at', { ascending: false })
+      .range(from, from + PAGE_SIZE - 1)
     if (stage !== 'all') query = query.eq('lifecycle_stage', stage)
     // Strip characters that have meaning inside a PostgREST or()/ilike filter before interpolating.
-    const q = search.trim().replace(/[%,()*]/g, '')
+    const q = appliedSearch.trim().replace(/[%,()*]/g, '')
     if (q) query = query.or(`owner_name.ilike.%${q}%,email.ilike.%${q}%,site_address.ilike.%${q}%,city.ilike.%${q}%`)
-    const { data, error } = await query
+    const { data, error, count } = await query
     setLoading(false)
     if (error) setError(error.message)
-    else setContacts((data ?? []) as Contact[])
+    else {
+      setContacts((data ?? []) as Contact[])
+      setTotal(count ?? 0)
+    }
+  }
+
+  function applySearch() {
+    setPage(0)
+    setAppliedSearch(search)
   }
 
   async function updateStage(id: string, next: LifecycleStage) {
@@ -37,13 +54,7 @@ export default function Contacts() {
   useEffect(() => {
     void load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage])
-
-  const counts = useMemo(() => {
-    const by: Record<string, number> = {}
-    for (const c of contacts) by[c.lifecycle_stage] = (by[c.lifecycle_stage] ?? 0) + 1
-    return by
-  }, [contacts])
+  }, [stage, page, appliedSearch])
 
   if (!isPlatformOwner) {
     return (
@@ -63,7 +74,14 @@ export default function Contacts() {
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div>
             <label htmlFor="stage">Lifecycle stage</label>
-            <select id="stage" value={stage} onChange={(e) => setStage(e.target.value as LifecycleStage | 'all')}>
+            <select
+              id="stage"
+              value={stage}
+              onChange={(e) => {
+                setPage(0)
+                setStage(e.target.value as LifecycleStage | 'all')
+              }}
+            >
               <option value="all">All stages</option>
               {LIFECYCLE_STAGES.map((s) => (
                 <option key={s.stage} value={s.stage}>
@@ -78,11 +96,11 @@ export default function Contacts() {
               id="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && void load()}
+              onKeyDown={(e) => e.key === 'Enter' && applySearch()}
               placeholder="Name, email, address, city…"
             />
           </div>
-          <button onClick={() => void load()} disabled={loading}>
+          <button onClick={applySearch} disabled={loading}>
             {loading ? 'Loading…' : 'Search'}
           </button>
         </div>
@@ -90,8 +108,13 @@ export default function Contacts() {
 
       <div className="card">
         <h2>
-          {contacts.length} contact{contacts.length === 1 ? '' : 's'}
+          {total.toLocaleString()} contact{total === 1 ? '' : 's'}
           {stage !== 'all' ? ` · ${LIFECYCLE_LABELS[stage]}` : ''}
+          {total > PAGE_SIZE && (
+            <span style={{ fontWeight: 400, fontSize: 13, opacity: 0.7 }}>
+              {' '}· showing {page * PAGE_SIZE + 1}–{page * PAGE_SIZE + contacts.length}
+            </span>
+          )}
         </h2>
         {loading ? (
           <p>Loading…</p>
@@ -144,10 +167,22 @@ export default function Contacts() {
             </tbody>
           </table>
         )}
-        {Object.keys(counts).length > 1 && (
-          <p style={{ marginTop: 12, opacity: 0.7, fontSize: 13 }}>
-            {LIFECYCLE_STAGES.filter((s) => counts[s.stage]).map((s) => `${s.label}: ${counts[s.stage]}`).join(' · ')}
-          </p>
+        {total > PAGE_SIZE && (
+          <div className="row" style={{ marginTop: 12, gap: 8 }}>
+            <button className="secondary" onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0 || loading}>
+              ← Prev
+            </button>
+            <span style={{ fontSize: 13 }}>
+              Page {page + 1} of {Math.max(1, Math.ceil(total / PAGE_SIZE))}
+            </span>
+            <button
+              className="secondary"
+              onClick={() => setPage((p) => p + 1)}
+              disabled={(page + 1) * PAGE_SIZE >= total || loading}
+            >
+              Next →
+            </button>
+          </div>
         )}
       </div>
     </div>
