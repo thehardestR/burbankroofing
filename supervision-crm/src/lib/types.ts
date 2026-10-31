@@ -180,3 +180,14 @@ export interface Lead {
   appointment_at: string | null
   created_at: string
 }
+
+export const LEAD_STATUSES = [
+  'new',
+  'contacted',
+  'qualified',
+  'assigned',
+  'converted',
+  'dead',
+  'duplicate',
+  'spam',
+] as const
