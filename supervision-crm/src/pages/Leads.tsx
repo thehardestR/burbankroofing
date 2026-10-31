@@ -22,6 +22,10 @@ export default function Leads() {
     setLoading(true)
     setError(null)
     const { data, error } = await supabase.from('leads').select('*').order('created_at', { ascending: false })
+    // Temporary diagnostics: raw payload + whether the server treats this account as platform owner.
+    const ownerCheck = await supabase.rpc('is_platform_owner')
+    // eslint-disable-next-line no-console
+    console.log('[Leads] is_platform_owner =', ownerCheck.data, '| rows =', data?.length, '| error =', error, '| data =', data)
     if (error) {
       setLoading(false)
       setError(error.message)
