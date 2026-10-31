@@ -163,3 +163,20 @@ export interface MessageTemplate {
 }
 
 export const APPOINTMENT_STATUSES = ['scheduled', 'confirmed', 'completed', 'no_show', 'canceled'] as const
+
+export interface Lead {
+  id: string
+  source: string
+  status: string
+  owner_name: string | null
+  site_address: string | null
+  phone: string | null
+  email: string | null
+  city: string | null
+  notes: string | null
+  call_seconds: number | null
+  rep_profile_id: string | null
+  service_type: string | null
+  appointment_at: string | null
+  created_at: string
+}

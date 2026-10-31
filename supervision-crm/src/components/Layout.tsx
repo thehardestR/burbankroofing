@@ -13,6 +13,7 @@ export default function Layout() {
           <Link to="/">Dashboard</Link>
           <Link to="/projects">Projects</Link>
           {isPlatformOwner && <Link to="/contacts">Contacts</Link>}
+          {isPlatformOwner && <Link to="/leads">Leads</Link>}
           {isPlatformOwner && <Link to="/campaigns">Campaigns</Link>}
           {isPlatformOwner && <Link to="/funnel">Funnel</Link>}
           {isPlatformOwner && <Link to="/automations">Automations</Link>}

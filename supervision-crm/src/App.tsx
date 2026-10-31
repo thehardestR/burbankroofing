@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
 import ProjectDetail from './pages/ProjectDetail'
 import Contacts from './pages/Contacts'
+import Leads from './pages/Leads'
 import Campaigns from './pages/Campaigns'
 import Appointments from './pages/Appointments'
 import Automations from './pages/Automations'
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/contacts" element={<Contacts />} />
+            <Route path="/leads" element={<Leads />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/automations" element={<Automations />} />
